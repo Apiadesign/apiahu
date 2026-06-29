@@ -850,3 +850,47 @@ width: 95%;
 .item:hover img {
     transform: scale(1.05);
 }
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#0f0f0f;
+    color:white;
+    overflow:hidden;
+    font-family:"Inter",sans-serif;
+}
+
+.intro{
+    position:fixed;
+    inset:0;
+    background:#0f0f0f;
+    z-index:9999;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.intro-content{
+    width:80%;
+}
+
+.line{
+    overflow:hidden;
+    height:120px;
+}
+
+.word{
+    display:block;
+    font-size:6vw;
+    font-weight:700;
+    transform:translateY(120%);
+}
+
+#main-content{
+    opacity:0;
+}
