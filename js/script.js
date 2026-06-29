@@ -154,3 +154,34 @@
 
 
 })(jQuery);
+
+window.addEventListener("load", () => {
+
+    document.body.classList.add("loading");
+
+    const tl = gsap.timeline({
+        onComplete: () => {
+            document.getElementById("intro").remove();
+            document.body.classList.remove("loading");
+        }
+    });
+
+    tl.to(".intro-name", {
+        opacity: 1,
+        y: 0,
+        duration: 1.2,
+        ease: "power4.out"
+    })
+
+    .to(".intro-name", {
+        opacity: 0,
+        duration: 0.8,
+        delay: 1.2
+    })
+
+    .to("#intro", {
+        y: "-100%",
+        duration: 1.2,
+        ease: "power4.inOut"
+    });
+});
