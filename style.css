@@ -851,46 +851,31 @@ width: 95%;
     transform: scale(1.05);
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+/* ===== INTRO ===== */
 
-body{
-    background:#0f0f0f;
-    color:white;
+body.loading{
     overflow:hidden;
-    font-family:"Inter",sans-serif;
 }
 
-.intro{
+#intro{
     position:fixed;
-    inset:0;
-    background:#0f0f0f;
-    z-index:9999;
-
+    top:0;
+    left:0;
+    width:100%;
+    height:100vh;
+    background:#111;
     display:flex;
     justify-content:center;
     align-items:center;
+    z-index:99999;
 }
 
-.intro-content{
-    width:80%;
-}
-
-.line{
-    overflow:hidden;
-    height:120px;
-}
-
-.word{
-    display:block;
-    font-size:6vw;
+.intro-name{
+    color:#fff;
+    font-size:6rem;
     font-weight:700;
-    transform:translateY(120%);
+    letter-spacing:12px;
+    opacity:0;
+    transform:translateY(80px);
 }
 
-#main-content{
-    opacity:0;
-}
