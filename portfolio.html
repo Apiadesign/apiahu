@@ -3,6 +3,17 @@
 
 <head>
   <title>ApiaHu Design Portfolio</title>
+  <script>
+    // Runs before the overlay is even parsed, so repeat visits within this
+    // browser tab skip straight to the page with no animation flash.
+    (function () {
+      try {
+        if (sessionStorage.getItem('introPlayed') === '1') {
+          document.documentElement.classList.add('intro-seen');
+        }
+      } catch (e) { /* private mode / storage blocked: intro will just play again */ }
+    })();
+  </script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,13 +26,30 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="css/intro.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+  <noscript>
+    <style>.intro-overlay { display: none !important; }</style>
+  </noscript>
 </head>
 
 <body class="bg-body homepage post-template" data-bs-spy="scroll" data-bs-target="#header-nav" tabindex="0">
+  <div class="intro-overlay" id="introOverlay" aria-hidden="true">
+    <div class="intro-inner">
+      <h1 class="intro-name">
+        <span class="intro-letter" style="--i:1">A</span><span class="intro-letter" style="--i:2">P</span><span class="intro-letter" style="--i:3">I</span><span class="intro-letter" style="--i:4">A</span><span class="intro-gap"></span><span class="intro-letter" style="--i:5">H</span><span class="intro-letter" style="--i:6">U</span>
+      </h1>
+      <div class="intro-subtitle">
+        <span class="intro-phrase intro-phrase-1">Industrial Designer</span>
+        <span class="intro-phrase intro-phrase-2">Product Designer</span>
+      </div>
+    </div>
+    <button type="button" class="intro-skip" id="introSkip">Skip intro</button>
+  </div>
+
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <defs>
       <symbol xmlns="http://www.w3.org/2000/svg" id="calendar" viewBox="0 0 24 24">
@@ -287,6 +315,7 @@
     crossorigin="anonymous"></script>
   <script src="js/plugins.js"></script>
   <script src="js/script.js"></script>
+  <script src="js/intro.js"></script>
 </body>
 
 </html>
