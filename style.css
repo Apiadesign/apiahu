@@ -257,6 +257,22 @@ a {
   }
 }
 
+/* Projects submenu "HOT" / "NEW" tags */
+#pages-collapse .badge {
+    background: #FF534A;
+    color: #fff;
+    font-family: "Roboto", Verdana, sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 8px 2px;
+    margin-left: 8px;
+    border-radius: 100px;
+    vertical-align: middle;
+    box-shadow: 0 2px 6px rgba(255, 83, 74, 0.35);
+}
+
 /* one page menu */
 #one-page-menu .nav-link {
   position: relative;
@@ -950,8 +966,8 @@ body.project-page {
     right: 0;
     bottom: 0;
     z-index: 40;
-    background: #000;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: #d50d0b;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
     padding: 22px 32px;
 }
 
@@ -994,7 +1010,8 @@ body.project-page {
 }
 
 .project-info-bar a.project-visit:hover {
-    color: var(--bs-primary);
+    color: #fff;
+    opacity: 0.7;
 }
 
 /* Full-detail sections beneath the hero: overview, gallery, specs */
