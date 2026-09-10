@@ -824,18 +824,31 @@ width: 95%;
 /* Text */
 .description {
     position: absolute;
-    left: 50%;
-    bottom: 20px;
-    transform: translateX(-50%);
+    left: 24px;
+    right: 24px;
+    bottom: 24px;
+    text-align: left;
     color: #222;
     opacity: 0;
-    transition: opacity .4s ease;
+    transform: translateY(14px);
+    transition: opacity .4s ease, transform .4s ease;
     z-index: 2;
 }
 
-.description h4{
-    margin:0;
-    font-weight:700;
+.description .eyebrow {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(34, 34, 34, 0.6);
+}
+
+.description h4 {
+    margin: 0;
+    font-weight: 700;
+    text-align: left;
 }
 
 /* Hover */
@@ -845,8 +858,219 @@ width: 95%;
 
 .item:hover .description {
     opacity: 1;
+    transform: translateY(0);
 }
 
 .item:hover img {
     transform: scale(1.05);
+}
+
+/* cursor hint that the project image is clickable */
+.item a.project-link {
+    cursor: pointer;
+}
+
+/*------------------------------------------------------------------
+  Project click-through "zoom" transition
+  A clone of the clicked thumbnail animates to fill the viewport
+  while the rest of the page fades out, then the browser navigates
+  to the single project page. See js/project-zoom.js.
+--------------------------------------------------------------------*/
+.zoom-clone {
+    position: fixed;
+    z-index: 2000;
+    object-fit: cover;
+    pointer-events: none;
+    will-change: top, left, width, height, border-radius;
+    box-shadow: 0 40px 90px rgba(0, 0, 0, 0.35);
+}
+
+body.is-zooming > .container-fluid,
+body.is-zooming .intro-overlay {
+    transition: opacity .35s ease;
+    opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zoom-clone {
+        transition: none !important;
+    }
+}
+
+/*------------------------------------------------------------------
+  Single project page (single-project.html)
+  A dark, full-bleed template for showing one project's full detail.
+  Scoped to body.project-page so it never leaks into the rest of the site.
+--------------------------------------------------------------------*/
+body.project-page {
+    background: var(--bs-black);
+    color: #f1f1f0;
+    opacity: 0;
+    animation: project-page-in .5s ease forwards;
+}
+
+@keyframes project-page-in {
+    to { opacity: 1; }
+}
+
+.project-back {
+    position: fixed;
+    top: 28px;
+    left: 32px;
+    z-index: 50;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.project-back:hover {
+    color: #fff;
+}
+
+.project-hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 120px 6vw 220px;
+}
+
+.project-hero img {
+    max-width: 100%;
+    max-height: 78vh;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 60px 120px rgba(0, 0, 0, 0.5);
+}
+
+.project-info-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    background: #000;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 22px 32px;
+}
+
+.project-info-bar .row > div {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.project-info-bar .project-name {
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 0;
+    color: #fff;
+}
+
+.project-info-bar .project-summary {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.65);
+    margin: 0;
+}
+
+.project-info-bar .project-meta-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.65);
+    margin: 0;
+}
+
+.project-info-bar .project-meta-value {
+    font-size: 0.85rem;
+    color: #fff;
+    margin: 0;
+}
+
+.project-info-bar a.project-visit {
+    font-size: 0.85rem;
+    color: #fff;
+    text-decoration: underline;
+    white-space: nowrap;
+}
+
+.project-info-bar a.project-visit:hover {
+    color: var(--bs-primary);
+}
+
+/* Full-detail sections beneath the hero: overview, gallery, specs */
+.project-details {
+    background: #0d0d0d;
+    padding: 100px 6vw 160px;
+}
+
+.project-details .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    margin-bottom: 12px;
+    display: block;
+}
+
+.project-details h2 {
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.project-details p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.project-details .project-meta-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px 60px;
+}
+
+.project-details .project-meta-list h5 {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+}
+
+.project-details .project-meta-list p {
+    color: #fff;
+    margin: 0;
+}
+
+.project-gallery {
+    margin-top: 80px;
+}
+
+.project-gallery figure {
+    margin: 0 0 60px;
+}
+
+.project-gallery img {
+    width: 100%;
+    display: block;
+}
+
+.project-gallery figcaption {
+    margin-top: 16px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 991px) {
+    .project-info-bar {
+        position: static;
+        margin-top: -1px;
+    }
+    .project-hero {
+        padding-bottom: 60px;
+    }
 }
