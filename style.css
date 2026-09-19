@@ -1394,3 +1394,54 @@ body.project-page {
 @media (max-width: 520px) {
     .more-track .item { flex: 0 0 58%; }
 }
+
+/*------------------------------------------------------------------
+  Custom cursor: a small dark-gray dot that expands into a circle
+  labelled "Open" over anything clickable. Only on devices with a
+  real mouse (hover + fine pointer) — touchscreens keep native
+  behaviour, since there's no hover state to drive it there.
+--------------------------------------------------------------------*/
+@media (hover: hover) and (pointer: fine) {
+    html.custom-cursor-enabled,
+    html.custom-cursor-enabled * {
+        cursor: none !important;
+    }
+
+    .cursor-dot {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #4a4a4a;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: width .22s ease, height .22s ease, background-color .22s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .cursor-dot .cursor-label {
+        opacity: 0;
+        color: #fff;
+        font-size: 0.62rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        transition: opacity .15s ease;
+        white-space: nowrap;
+    }
+
+    .cursor-dot.is-hover {
+        width: 62px;
+        height: 62px;
+        background: rgba(20, 20, 20, 0.88);
+    }
+
+    .cursor-dot.is-hover .cursor-label {
+        opacity: 1;
+    }
+}
