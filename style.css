@@ -1477,3 +1477,9 @@ a.btn.btn-dark:hover {
     border-color: #d50d0b !important;
     color: #fff !important;
 }
+
+/* Sidebar nav label that periodically swaps "Get PRO" / "Service" */
+#navProLabel {
+    display: inline-block;
+    transition: opacity .25s ease;
+}
