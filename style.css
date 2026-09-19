@@ -1481,5 +1481,6 @@ a.btn.btn-dark:hover {
 /* Sidebar nav label that periodically swaps "Get PRO" / "Service" */
 #navProLabel {
     display: inline-block;
+    color: #d50d0b;
     transition: opacity .25s ease;
 }
