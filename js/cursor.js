@@ -14,7 +14,7 @@
   }
 
   var OPEN_CIRCLE_SELECTOR = 'a, label[for], .menu-btn';
-  var BUTTON_SELECTOR = 'button, [role="button"], input[type="submit"], input[type="button"]';
+  var BUTTON_SELECTOR = 'button, [role="button"], input[type="submit"], input[type="button"], .btn';
   var CLICKABLE_SELECTOR = OPEN_CIRCLE_SELECTOR + ', ' + BUTTON_SELECTOR;
 
   function closest(el, selector) {

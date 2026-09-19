@@ -1466,3 +1466,14 @@ input[type="button"]:hover,
     border-color: var(--bs-primary) !important;
     color: #fff !important;
 }
+
+/* "Explore My Work" / "View All" — link styled as a button */
+a.btn.btn-dark {
+    transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+
+a.btn.btn-dark:hover {
+    background-color: #d50d0b !important;
+    border-color: #d50d0b !important;
+    color: #fff !important;
+}
