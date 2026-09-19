@@ -1445,3 +1445,24 @@ body.project-page {
         opacity: 1;
     }
 }
+
+/*------------------------------------------------------------------
+  Buttons skip the cursor's "Open" circle (see js/cursor.js) — the
+  button itself turns red on hover instead, since the pointer is
+  already sitting right on it.
+--------------------------------------------------------------------*/
+button,
+input[type="submit"],
+input[type="button"],
+[role="button"] {
+    transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+[role="button"]:hover {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+    color: #fff !important;
+}

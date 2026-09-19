@@ -1,7 +1,10 @@
 /*--------------------------------------------------------------
   Custom cursor: a dark-gray dot that grows into a circle labelled
-  "Open" while hovering any clickable element. Skips itself entirely
-  on touch/coarse-pointer devices, which have no real hover state.
+  "Open" while hovering a link. Real buttons skip the circle — they
+  get their own red hover style instead (see style.css) — since a
+  button already sits under the pointer and doesn't need "opening".
+  Skips itself entirely on touch/coarse-pointer devices, which have
+  no real hover state.
 ----------------------------------------------------------------*/
 (function () {
   "use strict";
@@ -10,10 +13,16 @@
     return;
   }
 
-  var CLICKABLE_SELECTOR = 'a, button, [role="button"], input[type="submit"], input[type="button"], label[for], .menu-btn';
+  var OPEN_CIRCLE_SELECTOR = 'a, label[for], .menu-btn';
+  var BUTTON_SELECTOR = 'button, [role="button"], input[type="submit"], input[type="button"]';
+  var CLICKABLE_SELECTOR = OPEN_CIRCLE_SELECTOR + ', ' + BUTTON_SELECTOR;
+
+  function closest(el, selector) {
+    return el && el.closest ? el.closest(selector) : null;
+  }
 
   function closestClickable(el) {
-    return el && el.closest ? el.closest(CLICKABLE_SELECTOR) : null;
+    return closest(el, CLICKABLE_SELECTOR);
   }
 
   function init() {
@@ -45,7 +54,8 @@
     });
 
     document.addEventListener('mouseover', function (e) {
-      if (closestClickable(e.target)) dot.classList.add('is-hover');
+      if (closest(e.target, BUTTON_SELECTOR)) return; // stays a plain dot
+      if (closest(e.target, OPEN_CIRCLE_SELECTOR)) dot.classList.add('is-hover');
     });
 
     document.addEventListener('mouseout', function (e) {
