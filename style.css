@@ -1350,7 +1350,7 @@ body.project-page {
 }
 
 .more-track .item {
-    flex: 0 0 calc((100% - 32px) / 3);
+    flex: 0 0 calc((100% - 64px) / 5);
     border-radius: 2px;
     overflow: hidden;
 }
@@ -1361,18 +1361,18 @@ body.project-page {
 }
 
 .more-track .description {
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
 }
 
 .more-track .description .eyebrow {
-    font-size: 0.58rem;
-    margin-bottom: 3px;
+    font-size: 0.5rem;
+    margin-bottom: 2px;
 }
 
 .more-track .description h4 {
-    font-size: 0.8rem;
+    font-size: 0.68rem;
 }
 
 .swipe-hint {
@@ -1387,10 +1387,10 @@ body.project-page {
 }
 
 @media (max-width: 820px) {
-    .more-track .item { flex: 0 0 62%; }
+    .more-track .item { flex: 0 0 42%; }
     .swipe-hint { display: flex; }
 }
 
 @media (max-width: 520px) {
-    .more-track .item { flex: 0 0 78%; }
+    .more-track .item { flex: 0 0 58%; }
 }
