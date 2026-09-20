@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Services — ApiaHu Design Portfolio</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="Product design, UI/UX design, and packaging & branding services from Apia Hu.">
+  <link rel="stylesheet" type="text/css" href="css/vendor.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --primary:#d50d0b;
+      --primary-dark:#a80a09;
+      --secondary:#FBE4E3;
+      --black:#111111;
+      --white:#FFFFFF;
+      --dark:#212529;
+      --gray:#949494;
+      --gray-dark:#51565b;
+      --body:#333333;
+      --line:#e6e6e5;
+      --light:#f4f3f2;
+      --radius:0;
+    }
+    :root:not([data-theme="light"]){
+      @media (prefers-color-scheme: dark){
+        --white:#111111; --black:#f1f1f0; --dark:#f1f1f0; --body:#cfcfcd;
+        --line:#2a2a29; --secondary:#3a1f1e; --light:#232322;
+      }
+    }
+    :root[data-theme="dark"]{
+      --white:#111111; --black:#f1f1f0; --dark:#f1f1f0; --body:#cfcfcd;
+      --line:#2a2a29; --secondary:#3a1f1e; --light:#232322;
+    }
+
+    #service-page{box-sizing:border-box;}
+    #service-page *{box-sizing:border-box;}
+    #service-page{
+      background:var(--white);
+      color:var(--body);
+      font-family:'Roboto',Verdana,sans-serif;
+      font-size:0.9rem;
+      line-height:1.7;
+      -webkit-font-smoothing:antialiased;
+    }
+    #service-page h1,
+    #service-page h2,
+    #service-page h3,
+    #service-page h4{
+      font-family:'Roboto',sans-serif;
+      font-weight:700;
+      line-height:1.2;
+      color:var(--black);
+      margin:0;
+    }
+    #service-page .wrap{max-width:1320px;margin:0 auto;padding:0 6vw;}
+
+    /* ===== hero ===== */
+    #service-page .hero{padding:32px 0 76px;overflow:hidden;}
+    #service-page .ghost{
+      font-weight:900;
+      font-size:clamp(70px,12.5vw,168px);
+      line-height:1;
+      letter-spacing:-0.04em;
+      color:var(--dark);
+      opacity:0.11;
+      margin:0 0 -0.2em -0.02em;
+      white-space:nowrap;
+    }
+    #service-page .headline{
+      font-size:calc(3rem + 8.5vw);
+      font-weight:700;
+      line-height:1;
+      letter-spacing:-0.06em;
+      margin:0 0 18px;
+      max-width:14ch;
+      position:relative;
+      z-index:1;
+      opacity:0;
+      transform:translateY(16px);
+      animation:heroFadeIn .9s ease forwards;
+      animation-delay:.15s;
+    }
+    @keyframes heroFadeIn{
+      to{opacity:1;transform:translateY(0);}
+    }
+    @media (prefers-reduced-motion: reduce){
+      #service-page .headline{animation:none;opacity:1;transform:none;}
+    }
+
+    #service-page .word-swap{
+      position:relative;
+      display:inline-block;
+      cursor:pointer;
+    }
+    #service-page .word-swap .w-design{
+      display:inline-block;
+      transition:opacity .55s cubic-bezier(.22,.61,.36,1), transform .55s cubic-bezier(.22,.61,.36,1);
+    }
+    #service-page .word-swap .w-sense{
+      position:absolute;
+      left:0;
+      bottom:0;
+      opacity:0;
+      transform:translateY(10px) scale(0.94);
+      transform-origin:left bottom;
+      font-size:1.12em;
+      line-height:1;
+      color:var(--primary);
+      transition:opacity .55s cubic-bezier(.22,.61,.36,1), transform .55s cubic-bezier(.22,.61,.36,1);
+      white-space:nowrap;
+    }
+    #service-page .word-swap:hover .w-design,
+    #service-page .word-swap:focus-visible .w-design{opacity:0;transform:translateY(-10px);}
+    #service-page .word-swap:hover .w-sense,
+    #service-page .word-swap:focus-visible .w-sense{opacity:1;transform:translateY(0) scale(1);}
+    @media (prefers-reduced-motion: reduce){
+      #service-page .word-swap .w-design,#service-page .word-swap .w-sense{transition:none;}
+    }
+
+    #service-page .hero-subtitle{
+      font-size:16px;
+      color:var(--body);
+      margin:0 0 56px;
+      max-width:none;
+    }
+    #service-page .hero-subtitle .subtitle-cta{display:inline;}
+    #service-page .hero-grid{
+      display:grid;
+      grid-template-columns:1fr 1.4fr 1.4fr;
+      gap:40px;
+    }
+    @media (max-width:860px){#service-page .hero-grid{grid-template-columns:1fr;gap:24px;}}
+    #service-page .hero-grid .label{font-size:15px;color:var(--body);padding-top:2px;}
+    #service-page .hero-grid .col p{margin:0 0 22px;font-size:15px;color:var(--body);max-width:42ch;}
+    #service-page .hero-grid .col p:last-child{margin-bottom:0;}
+    #service-page .hero-grid .accent{color:var(--primary);font-weight:500;}
+
+    /* ===== services — one big sticky box, images switch as you scroll ===== */
+    #service-page .services{
+      padding:20px 0 0;
+      border-top:1px solid var(--line);
+      display:grid;
+      grid-template-columns:1fr 1.15fr;
+      gap:64px;
+      align-items:start;
+    }
+    @media (max-width:560px){
+      #service-page .services{grid-template-columns:1fr;gap:0;}
+      #service-page .sticky-col{order:-1;}
+    }
+
+    #service-page .service-list{min-width:0;}
+    #service-page .service-block{
+      padding:240px 0;
+      border-bottom:1px solid var(--line);
+      position:relative;
+    }
+    #service-page .service-block:first-child{padding-top:240px;}
+    #service-page .service-block:last-child{border-bottom:none;}
+
+    #service-page .service-block[data-text]::after{
+      content:attr(data-text);
+      position:absolute;
+      right:-4%;
+      bottom:20px;
+      font-weight:400;
+      font-size:clamp(7rem,20vw,24rem);
+      line-height:0.7;
+      letter-spacing:-0.1em;
+      color:#F1F1F1;
+      z-index:-1;
+      pointer-events:none;
+    }
+    #service-page .service-block .service-text{position:relative;z-index:1;}
+    @media (max-width:768px){
+      #service-page .service-block[data-text]::after{right:0;}
+    }
+
+    #service-page .service-text h2{font-size:clamp(38px,7vw,92px);line-height:1.04;letter-spacing:-0.02em;margin:0 0 20px;}
+    #service-page .service-text p.desc{font-size:15px;color:var(--body);margin:0 0 20px;max-width:42ch;}
+
+    #service-page .tags{display:flex;flex-wrap:wrap;gap:8px;}
+    #service-page .tag{
+      font-size:12px;
+      font-weight:500;
+      padding:7px 13px;
+      border:1px solid var(--line);
+      color:var(--gray-dark);
+      border-radius:var(--radius);
+      display:inline-block;
+    }
+    #service-page .tag[data-project]{
+      cursor:default;
+      position:relative;
+      transition:border-color .2s ease, color .2s ease, box-shadow .2s ease;
+    }
+    #service-page .tag[data-project]:hover,
+    #service-page .tag[data-project]:focus-visible,
+    #service-page .tag[data-project].is-active-tag{
+      border-color:var(--primary);
+      color:var(--primary);
+      box-shadow:inset 0 0 0 1px var(--primary);
+    }
+    #service-page .tag[data-project]:focus-visible{outline:2px solid var(--primary);outline-offset:2px;}
+
+    #service-page .sticky-col{
+      position:sticky;
+      top:80px;
+    }
+    @media (max-width:560px){
+      #service-page .sticky-col{position:static;top:auto;margin-bottom:24px;}
+    }
+    #service-page .service-visual{
+      position:relative;
+      height:min(72vh,660px);
+      width:100%;
+      border:1px solid var(--line);
+      background:var(--secondary);
+      overflow:hidden;
+    }
+
+    #service-page .img-layer{
+      position:absolute;inset:0;
+      opacity:0;
+      transform:translateY(18px) scale(1.02);
+      transition:opacity .7s cubic-bezier(.22,.61,.36,1), transform .7s cubic-bezier(.22,.61,.36,1);
+    }
+    #service-page .img-layer.active{
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+    #service-page .img-layer img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    #service-page .service-visual .overlay{
+      position:absolute;inset:0;
+      background:rgba(255,255,255,.85);
+      opacity:0;
+      transition:opacity .4s ease;
+      z-index:3;
+    }
+    #service-page .service-visual.previewing .overlay{opacity:1;}
+    #service-page .service-visual .description{
+      position:absolute;
+      left:24px;right:24px;bottom:24px;
+      text-align:left;
+      opacity:0;
+      transform:translateY(14px);
+      transition:opacity .4s ease, transform .4s ease;
+      z-index:4;
+    }
+    #service-page .service-visual.previewing .description{opacity:1;transform:translateY(0);}
+    #service-page .description .eyebrow{
+      display:block;
+      margin-bottom:6px;
+      font-size:0.7rem;
+      font-weight:400;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color:rgba(34,34,34,0.6);
+    }
+    #service-page .description h4{margin:0;font-weight:700;color:var(--black);font-size:17px;}
+
+    @media (prefers-reduced-motion: reduce){
+      #service-page .img-layer{transition:opacity .3s ease;transform:none !important;}
+    }
+
+    /* ===== contact — big headline left, form right ===== */
+    #service-page .contact{
+      padding:70px 0 90px;
+      border-top:1px solid var(--line);
+      margin-top:20px;
+      display:grid;
+      grid-template-columns:1fr 1.1fr;
+      gap:44px;
+      opacity:0;
+      transform:translateY(24px);
+      transition:opacity .8s ease, transform .8s ease;
+    }
+    #service-page .contact.in-view{opacity:1;transform:translateY(0);}
+    @media (max-width:860px){
+      #service-page .contact{grid-template-columns:1fr;gap:36px;}
+    }
+    #service-page .contact-headline{
+      font-size:clamp(40px,5.6vw,68px);
+      line-height:1.05;
+      letter-spacing:-0.02em;
+      max-width:11ch;
+      color:var(--black);
+    }
+    #service-page .contact-headline .accent-word{color:var(--primary);}
+
+    #service-page .field{margin-bottom:14px;}
+    #service-page .field label{
+      display:block;
+      font-size:14px;
+      font-weight:500;
+      color:var(--black);
+      margin-bottom:8px;
+    }
+    #service-page .pills{display:flex;flex-wrap:wrap;gap:8px;}
+    #service-page .pill{
+      font-size:13px;
+      font-family:'Roboto',sans-serif;
+      padding:9px 14px;
+      border:none;
+      border-radius:var(--radius);
+      background:var(--light);
+      color:var(--body);
+      cursor:pointer;
+      white-space:nowrap;
+      flex:0 0 auto;
+      transition:background .2s ease, color .2s ease;
+    }
+    #service-page .pill:hover{background:#e6e5e3;}
+    #service-page .pill.active{background:var(--primary);color:#fff;}
+    @media (min-width:640px){
+      #service-page .pills{flex-wrap:nowrap;}
+    }
+
+    #service-page .name-email{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+    @media (max-width:520px){#service-page .name-email{grid-template-columns:1fr;}}
+    #service-page .text-field label{
+      display:block;
+      font-size:14px;
+      font-weight:500;
+      color:var(--black);
+      margin-bottom:8px;
+    }
+    #service-page .text-field input,
+    #service-page .text-field textarea{
+      width:100%;
+      border:none;
+      border-bottom:1px solid var(--line);
+      background:transparent;
+      padding:0 0 8px;
+      font-family:'Roboto',sans-serif;
+      font-size:15px;
+      color:var(--black);
+      outline:none;
+      transition:border-color .2s ease;
+    }
+    #service-page .text-field input:focus,
+    #service-page .text-field textarea:focus{border-color:var(--black);}
+    #service-page .text-field textarea{resize:none;min-height:58px;line-height:1.4;}
+
+    #service-page .submit-row{
+      display:flex;
+      flex-direction:row;
+      align-items:baseline;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:16px;
+      margin-top:14px;
+    }
+    #service-page .submit-link{
+      background:none;
+      border:none;
+      padding:0;
+      font-family:'Roboto',sans-serif;
+      font-size:22px;
+      font-weight:500;
+      color:var(--primary);
+      cursor:pointer;
+      transition:opacity .2s ease;
+    }
+    #service-page .submit-link:hover{opacity:.75;}
+    #service-page .submit-note{
+      font-size:12.5px;
+      color:var(--gray-dark);
+      margin:0;
+      text-align:right;
+    }
+    #service-page .submit-note a{color:var(--gray-dark);}
+
+    @media (prefers-reduced-motion: reduce){
+      #service-page .service-visual .overlay,#service-page .service-visual .description,#service-page .pill,#service-page .tag[data-project]{transition:none;}
+    }
+  </style>
+</head>
+
+<body class="bg-body" tabindex="0">
+
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <defs>
+      <symbol xmlns="http://www.w3.org/2000/svg" id="cart" viewBox="0 0 24 24">
+        <path fill="currentColor"
+          d="M8.5 19a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 8.5 19ZM19 16H7a1 1 0 0 1 0-2h8.491a3.013 3.013 0 0 0 2.885-2.176l1.585-5.55A1 1 0 0 0 19 5H6.74a3.007 3.007 0 0 0-2.82-2H3a1 1 0 0 0 0 2h.921a1.005 1.005 0 0 1 .962.725l.155.545v.005l1.641 5.742A3 3 0 0 0 7 18h12a1 1 0 0 0 0-2Zm-1.326-9l-1.22 4.274a1.005 1.005 0 0 1-.963.726H8.754l-.255-.892L7.326 7ZM16.5 19a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5Z" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="menu-btn"><span></span></a>
+
+  <div class="container-fluid">
+
+    <header id="header-nav" class="col-lg-2 position-fixed px-5 bg-white h-100">
+      <div class="header-wrap d-flex flex-column justify-content-between h-100">
+        <div class="navigation">
+          <div class="site-logo mt-5">
+            <a href=http://apiadesigner.com>
+              <img src="images/main-logo.png" alt="logo" class="img-fluid">
+            </a>
+          </div>
+
+          <nav id="one-page-menu" class="vertical-menu my-5">
+            <ul class="menu-list list-unstyled">
+              <li><a href="index.html" class="nav-link">Home</a></li>
+              <li><a href="About.html" class="nav-link">About</a></li>
+              <li>
+                <a class="nav-link btn-toggle d-flex justify-content-between align-items-center collapsed"
+                  data-bs-toggle="collapse" data-bs-target="#pages-collapse" aria-expanded="false">
+                  Projects
+                </a>
+                <div id="pages-collapse" class="collapse">
+                  <ul class="list-unstyled py-3">
+                    <li>
+                      <a href="portfolio-masonry.html" class="fw-bold">All Projects</a>
+                    </li>
+                    <li>
+                      <a href="single-project-desliz-faucet.html">Desliz Faucet<span class="badge bg-primary">HOT</span></a>
+                    </li>
+                    <li>
+                      <a href="single-project.html">LOHO Betalnut Series<span class="badge bg-primary">NEW</span></a>
+                    </li>
+                    <li>
+                      <a href="single-project.html">Search Travel System<span class="badge bg-primary">HOT</span></a>
+                    </li>
+                    <li>
+                      <a href="single-project.html">MR Shower Tray</a>
+                    </li>
+                    <li>
+                      <a href="single-project.html">MG Sliding Door</a>
+                    </li>
+                    <li>
+                      <a href="single-project.html">Gouzai Suprise Box</a>
+                    </li>
+                    <li>
+                      <a href="single-project.html">Logitech PC Mouse</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li><a href="contact.html" class="nav-link">Contact</a></li>
+              <li><a href="service.html"
+                  class="nav-link d-flex justify-content-between align-items-center fw-bold"><span id="navProLabel">Get PRO</span> <svg width="18" height="18" viewBox="0 0 24 24">
+                    <use xlink:href="#cart"></use>
+                  </svg></a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="mt-5">
+          <div class="email-links">
+            <a href="mailto:apiadesigner@gmail.com" class="py-3 my-3 border-bottom d-flex">apiadesigner@gmail.com</a>
+          </div>
+          <ul class="list-unstyled d-flex justify-content-start flex-wrap gap-3">
+           <li><a href="https://es.linkedin.com/in/apiahudesigner/en" target="_blank"><img src="images/linkedin.svg" width="22"></a></li>
+           <li><a href="https://www.behance.net/apiahudesign?locale=es_ES" target="_blank"><img src="images/behance.svg" width="28"></a></li>
+           <li><a href="https://www.instagram.com/apiadesigner"><img src="images/instagram.svg" width="24"></a></li>
+           <li><a href="https://www.dribbble.com/apiadesigner" target="_blank"><img src="images/dribbble.svg" width="24"></a></li>
+          </ul>
+          <div class="py-4 border-top">
+            <p><a href="https://apiadesigner.com" target="_blank">Apia Hu® Design Portfolio</a></p>
+            <p>All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="col-lg-10 offset-lg-2">
+      <div id="service-page">
+
+      <div class="wrap">
+
+        <section class="hero">
+          <p class="ghost">services</p>
+          <h1 class="headline">Make <span class="word-swap" tabindex="0"><span class="w-design">design</span><span class="w-sense">sense</span></span></h1>
+          <p class="hero-subtitle">See how it comes to life — <span class="subtitle-cta">explore the services&nbsp;below.</span></p>
+          <div class="hero-grid">
+            <div class="label">We do</div>
+            <div class="col">
+              <p>We help clients turn a rough idea into a product people can pick up — or open an app — and immediately understand.</p>
+              <p>That covers <span class="accent">physical products</span>, <span class="accent">packaging</span>, and the <span class="accent">interfaces</span> that sit on top of them.</p>
+            </div>
+            <div class="col">
+              <p>Every project starts with the same question: what is this person trying to do, and what's currently in their way?</p>
+              <p>From there, design becomes the answer — not decoration added at the end.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="services">
+
+          <div class="service-list">
+
+            <div class="service-block" data-cat-index="0" data-text="01">
+              <div class="service-text">
+                <h2>Product design</h2>
+                <p class="desc">From first sketch to a spec sheet a factory can actually build from — with the ergonomics tested along the way, not guessed at.</p>
+                <div class="tags">
+                  <span class="tag" data-project="Desliz Faucet" data-cat="Kitchen Fixtures" tabindex="0">Ergonomics research</span>
+                  <span class="tag" data-project="LOHO Betalnut Series" data-cat="Home Fixtures" tabindex="0">Concept sketches</span>
+                  <span class="tag" data-project="MR Shower Tray" data-cat="Bathroom Fixtures" tabindex="0">Prototyping</span>
+                  <span class="tag" data-project="MG Sliding Door" data-cat="Home Hardware" tabindex="0">Manufacturing specs</span>
+                  <span class="tag">Design rationale</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="service-block" data-cat-index="1" data-text="02">
+              <div class="service-text">
+                <h2>UI / UX design</h2>
+                <p class="desc">Screens built around the task someone's trying to finish — mapped, tested, and simplified until the shortest path is the obvious one.</p>
+                <div class="tags">
+                  <span class="tag" data-project="AvanceLED Ecommerce UI" data-cat="UI / UX Design" tabindex="0">Competitor research</span>
+                  <span class="tag" data-project="ProPipe Plumbing App" data-cat="UI / UX Design" tabindex="0">User flows</span>
+                  <span class="tag" data-project="ProPipe Plumbing App" data-cat="UI / UX Design" tabindex="0">Wireframes</span>
+                  <span class="tag">UI kit</span>
+                  <span class="tag" data-project="ProPipe Plumbing App" data-cat="UI / UX Design" tabindex="0">Usability testing</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="service-block" data-cat-index="2" data-text="03">
+              <div class="service-text">
+                <h2>Packaging &amp; branding</h2>
+                <p class="desc">The box is the first interaction a customer has with the product — it earns the same attention as the screen or the object inside it.</p>
+                <div class="tags">
+                  <span class="tag" data-project="Gouzai Surprise Box" data-cat="Branding" tabindex="0">Structural design</span>
+                  <span class="tag" data-project="Gouzai Surprise Box" data-cat="Branding" tabindex="0">Unboxing sequence</span>
+                  <span class="tag" data-project="LAOSAN Local Souvenir" data-cat="Packaging Design" tabindex="0">Print-ready files</span>
+                  <span class="tag">Brand touchpoints</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="sticky-col">
+            <div class="service-visual" id="stickyVisual">
+
+              <div class="img-layer active" data-cat-index="0">
+                <img src="images/home-gallery1.jpg" alt="Desliz Faucet — product design work">
+              </div>
+              <div class="img-layer" data-cat-index="1">
+                <img src="images/home-gallery10.jpg" alt="ProPipe Plumbing App — UI/UX design work">
+              </div>
+              <div class="img-layer" data-cat-index="2">
+                <img src="images/home-gallery7.jpg" alt="GOUZAI Surprise Box — packaging and branding work">
+              </div>
+
+              <div class="overlay"></div>
+              <div class="description">
+                <span class="eyebrow"></span>
+                <h4></h4>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <section class="contact">
+          <h2 class="contact-headline">Start with one <span class="accent-word">letter</span>.</h2>
+
+          <div class="contact-form">
+            <div class="field">
+              <label>Service</label>
+              <div class="pills" data-group="service">
+                <button class="pill" type="button">Product design</button>
+                <button class="pill" type="button">UI / UX design</button>
+                <button class="pill" type="button">Packaging &amp; branding</button>
+                <button class="pill" type="button">Something else</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Timeline</label>
+              <div class="pills" data-group="timeline">
+                <button class="pill" type="button">1–4 weeks</button>
+                <button class="pill" type="button">1–3 months</button>
+                <button class="pill" type="button">3+ months</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Budget in USD</label>
+              <div class="pills" data-group="budget">
+                <button class="pill" type="button">Under 3K</button>
+                <button class="pill" type="button">3K–10K</button>
+                <button class="pill" type="button">10K–35K</button>
+                <button class="pill" type="button">35K+</button>
+                <button class="pill" type="button">Not sure yet</button>
+              </div>
+            </div>
+
+            <div class="name-email">
+              <div class="text-field">
+                <label for="serviceName">Name</label>
+                <input id="serviceName" type="text" placeholder="">
+              </div>
+              <div class="text-field">
+                <label for="serviceEmail">Email</label>
+                <input id="serviceEmail" type="email" placeholder="">
+              </div>
+            </div>
+
+            <div class="text-field" style="margin-top:14px;">
+              <label for="serviceDetails">Tell me your situation...</label>
+              <textarea id="serviceDetails" rows="4"></textarea>
+            </div>
+
+            <div class="submit-row">
+              <button class="submit-link" type="button">submit</button>
+              <p class="submit-note">Apia reads this herself. Or just email to <a href="mailto:apiadesigner@gmail.com">apiadesigner@gmail.com</a></p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="js/jquery-1.11.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+  <script src="js/plugins.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/cursor.js"></script>
+  <script src="js/nav-label-swap.js"></script>
+  <script>
+    const stickyVisual = document.getElementById('stickyVisual');
+    const imgLayers = stickyVisual.querySelectorAll('.img-layer');
+    const eyebrow = stickyVisual.querySelector('.eyebrow');
+    const h4 = stickyVisual.querySelector('h4');
+
+    function setActiveCategory(index){
+      imgLayers.forEach(l=>l.classList.toggle('active', l.dataset.catIndex === String(index)));
+    }
+
+    const blocks = document.querySelectorAll('.service-block');
+    const TRIGGER_OFFSET = 160;
+    let ticking = false;
+
+    function updateActiveFromScroll(){
+      const triggerY = TRIGGER_OFFSET;
+      let current = blocks[0];
+      blocks.forEach(block=>{
+        const rect = block.getBoundingClientRect();
+        if(rect.top <= triggerY){
+          current = block;
+        }
+      });
+      blocks.forEach(b=>b.classList.toggle('is-active', b === current));
+      setActiveCategory(Number(current.dataset.catIndex));
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', ()=>{
+      if(!ticking){
+        requestAnimationFrame(updateActiveFromScroll);
+        ticking = true;
+      }
+    }, { passive: true });
+    updateActiveFromScroll();
+
+    document.querySelectorAll('.tag[data-project]').forEach(tag=>{
+      const show = ()=>{
+        eyebrow.textContent = tag.dataset.cat || '';
+        h4.textContent = tag.dataset.project;
+        stickyVisual.classList.add('previewing');
+        tag.classList.add('is-active-tag');
+      };
+      const hide = ()=>{
+        stickyVisual.classList.remove('previewing');
+        tag.classList.remove('is-active-tag');
+      };
+      tag.addEventListener('mouseenter', show);
+      tag.addEventListener('mouseleave', hide);
+      tag.addEventListener('focus', show);
+      tag.addEventListener('blur', hide);
+    });
+
+    document.querySelectorAll('.pills').forEach(group=>{
+      group.addEventListener('click', (e)=>{
+        const btn = e.target.closest('.pill');
+        if(!btn) return;
+        group.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+        btn.classList.add('active');
+        updateProjectSentence();
+      });
+    });
+
+    const detailsField = document.getElementById('serviceDetails');
+    let autoFillActive = true;
+
+    function getActive(groupName){
+      const group = document.querySelector(`.pills[data-group="${groupName}"]`);
+      const active = group && group.querySelector('.pill.active');
+      return active ? active.textContent.trim() : null;
+    }
+
+    function updateProjectSentence(){
+      if(!autoFillActive) return;
+      const service = getActive('service');
+      const timeline = getActive('timeline');
+      const budget = getActive('budget');
+      let sentence = '';
+      if(service){
+        sentence += `I have a project of ${service} that I would like to do in ${timeline || '[timeline]'}`;
+        if(budget) sentence += `, with a budget of ${budget}`;
+        sentence += '.';
+      }
+      detailsField.value = sentence;
+    }
+
+    detailsField.addEventListener('input', ()=>{
+      autoFillActive = false;
+    });
+
+    updateProjectSentence();
+
+    const contactSection = document.querySelector('.contact');
+    const contactObserver = new IntersectionObserver(([entry])=>{
+      if(entry.isIntersecting){
+        contactSection.classList.add('in-view');
+        contactObserver.disconnect();
+      }
+    }, { threshold: 0.25 });
+    contactObserver.observe(contactSection);
+  </script>
+</body>
+
+</html>
