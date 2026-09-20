@@ -329,7 +329,7 @@
       flex:0 0 auto;
       transition:background .2s ease, color .2s ease;
     }
-    #service-page .pill:hover{background:#e6e5e3;}
+    #service-page .pill:hover{background-color:#d50d0b !important;color:#fff !important;}
     #service-page .pill.active{background:var(--primary);color:#fff;}
     @media (min-width:640px){
       #service-page .pills{flex-wrap:nowrap;}
@@ -385,7 +385,12 @@
       cursor:pointer;
       transition:opacity .2s ease;
     }
-    #service-page .submit-link:hover{opacity:.75;}
+    #service-page .submit-link:hover{
+      opacity:.75;
+      background-color:transparent !important;
+      border-color:transparent !important;
+      color:var(--primary) !important;
+    }
     #service-page .submit-note{
       font-size:12.5px;
       color:var(--gray-dark);
