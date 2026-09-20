@@ -422,26 +422,29 @@ header {
 }
 .skill-chart li .chart-percentage {
   content: "";
-  border-bottom: 8px solid var(--bs-primary);
+  border-bottom: 8px solid #d50d0b;
   border-radius: 15px;
   position: absolute;
   bottom: -4px;
   left: -5px;
 }
 .skill-chart li .chart-percentage.seventy-percent {
-width: 70%; 
+width: 70%;
 }
 .skill-chart li .chart-percentage.seventy-five-percent {
-width: 75%; 
+width: 75%;
 }
 .skill-chart li .chart-percentage.eighty-percent {
-width: 80%; 
+width: 80%;
+}
+.skill-chart li .chart-percentage.eighty-five-percent {
+width: 85%;
 }
 .skill-chart li .chart-percentage.ninety-percent {
-width: 90%; 
+width: 90%;
 }
 .skill-chart li .chart-percentage.ninety-five-percent {
-width: 95%; 
+width: 95%;
 }
 
 
