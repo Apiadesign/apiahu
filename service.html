@@ -139,7 +139,7 @@
     #service-page .hero-subtitle .subtitle-cta{display:inline;}
     #service-page .hero-video{
       width:100%;
-      max-width:440px;
+      max-width:100%;
       aspect-ratio:16/9;
       overflow:hidden;
       background:var(--secondary);
@@ -652,6 +652,25 @@
   <script src="js/cursor.js"></script>
   <script src="js/nav-label-swap.js"></script>
   <script>
+    // Size the hero video to match the rendered width of the "Make design"
+    // headline, so it reads as a companion to the text rather than a banner.
+    (function () {
+      var headline = document.querySelector('#service-page .headline');
+      var heroVideo = document.querySelector('#service-page .hero-video');
+      if (!headline || !heroVideo) return;
+
+      function syncWidth() {
+        var width = headline.getBoundingClientRect().width;
+        if (width > 0) heroVideo.style.width = width + 'px';
+      }
+
+      syncWidth();
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(syncWidth);
+      }
+      window.addEventListener('resize', syncWidth);
+    })();
+
     const stickyVisual = document.getElementById('stickyVisual');
     const imgLayers = stickyVisual.querySelectorAll('.img-layer');
     const eyebrow = stickyVisual.querySelector('.eyebrow');
