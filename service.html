@@ -137,16 +137,19 @@
       max-width:none;
     }
     #service-page .hero-subtitle .subtitle-cta{display:inline;}
-    #service-page .hero-grid{
-      display:grid;
-      grid-template-columns:1fr 1.4fr 1.4fr;
-      gap:40px;
+    #service-page .hero-video{
+      width:100%;
+      max-width:440px;
+      aspect-ratio:16/9;
+      overflow:hidden;
+      background:var(--secondary);
     }
-    @media (max-width:860px){#service-page .hero-grid{grid-template-columns:1fr;gap:24px;}}
-    #service-page .hero-grid .label{font-size:15px;color:var(--body);padding-top:2px;}
-    #service-page .hero-grid .col p{margin:0 0 22px;font-size:15px;color:var(--body);max-width:42ch;}
-    #service-page .hero-grid .col p:last-child{margin-bottom:0;}
-    #service-page .hero-grid .accent{color:var(--primary);font-weight:500;}
+    #service-page .hero-video video{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
 
     /* ===== services — one big sticky box, images switch as you scroll ===== */
     #service-page .services{
@@ -242,8 +245,7 @@
       opacity:1;
       transform:translateY(0) scale(1);
     }
-    #service-page .img-layer img,
-    #service-page .img-layer video{
+    #service-page .img-layer img{
       width:100%;
       height:100%;
       object-fit:cover;
@@ -503,16 +505,8 @@
           <p class="ghost">services</p>
           <h1 class="headline">Make <span class="word-swap" tabindex="0"><span class="w-design">design</span><span class="w-sense">sense</span></span></h1>
           <p class="hero-subtitle">See how it comes to life — <span class="subtitle-cta">explore the services&nbsp;below.</span></p>
-          <div class="hero-grid">
-            <div class="label">We do</div>
-            <div class="col">
-              <p>We help clients turn a rough idea into a product people can pick up — or open an app — and immediately understand.</p>
-              <p>That covers <span class="accent">physical products</span>, <span class="accent">packaging</span>, and the <span class="accent">interfaces</span> that sit on top of them.</p>
-            </div>
-            <div class="col">
-              <p>Every project starts with the same question: what is this person trying to do, and what's currently in their way?</p>
-              <p>From there, design becomes the answer — not decoration added at the end.</p>
-            </div>
+          <div class="hero-video">
+            <video src="videos/intro.mp4" poster="images/intro-poster.jpg" autoplay muted loop playsinline></video>
           </div>
         </section>
 
@@ -566,10 +560,7 @@
           <div class="sticky-col">
             <div class="service-visual" id="stickyVisual">
 
-              <div class="img-layer active" data-cat-index="intro">
-                <video src="videos/intro.mp4" poster="images/intro-poster.jpg" autoplay muted loop playsinline></video>
-              </div>
-              <div class="img-layer" data-cat-index="0">
+              <div class="img-layer active" data-cat-index="0">
                 <img src="images/home-gallery1.jpg" alt="Desliz Faucet — product design work">
               </div>
               <div class="img-layer" data-cat-index="1">
@@ -676,7 +667,7 @@
 
     function updateActiveFromScroll(){
       const triggerY = TRIGGER_OFFSET;
-      let current = null; // before the first service block, keep showing the intro video
+      let current = blocks[0];
       blocks.forEach(block=>{
         const rect = block.getBoundingClientRect();
         if(rect.top <= triggerY){
@@ -684,7 +675,7 @@
         }
       });
       blocks.forEach(b=>b.classList.toggle('is-active', b === current));
-      setActiveCategory(current ? Number(current.dataset.catIndex) : 'intro');
+      setActiveCategory(Number(current.dataset.catIndex));
       ticking = false;
     }
 
