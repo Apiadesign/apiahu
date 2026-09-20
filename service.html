@@ -242,7 +242,8 @@
       opacity:1;
       transform:translateY(0) scale(1);
     }
-    #service-page .img-layer img{
+    #service-page .img-layer img,
+    #service-page .img-layer video{
       width:100%;
       height:100%;
       object-fit:cover;
@@ -565,7 +566,10 @@
           <div class="sticky-col">
             <div class="service-visual" id="stickyVisual">
 
-              <div class="img-layer active" data-cat-index="0">
+              <div class="img-layer active" data-cat-index="intro">
+                <video src="videos/intro.mp4" poster="images/intro-poster.jpg" autoplay muted loop playsinline></video>
+              </div>
+              <div class="img-layer" data-cat-index="0">
                 <img src="images/home-gallery1.jpg" alt="Desliz Faucet — product design work">
               </div>
               <div class="img-layer" data-cat-index="1">
@@ -672,7 +676,7 @@
 
     function updateActiveFromScroll(){
       const triggerY = TRIGGER_OFFSET;
-      let current = blocks[0];
+      let current = null; // before the first service block, keep showing the intro video
       blocks.forEach(block=>{
         const rect = block.getBoundingClientRect();
         if(rect.top <= triggerY){
@@ -680,7 +684,7 @@
         }
       });
       blocks.forEach(b=>b.classList.toggle('is-active', b === current));
-      setActiveCategory(Number(current.dataset.catIndex));
+      setActiveCategory(current ? Number(current.dataset.catIndex) : 'intro');
       ticking = false;
     }
 
