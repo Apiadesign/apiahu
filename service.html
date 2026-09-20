@@ -68,13 +68,75 @@
     #service-page .wrap{max-width:1320px;margin:0 auto;padding:0 6vw;}
 
     /* ===== hero ===== */
-    #service-page .hero{padding:60px 0 76px;}
-    #service-page .section-header p{
+    #service-page .hero{padding:32px 0 76px;overflow:hidden;}
+    #service-page .ghost{
+      font-weight:900;
+      font-size:clamp(70px,12.5vw,168px);
+      line-height:1;
+      letter-spacing:-0.04em;
+      color:var(--dark);
+      opacity:0.11;
+      margin:0 0 -0.2em -0.02em;
+      white-space:nowrap;
+    }
+    #service-page .headline{
+      font-size:calc(3rem + 8.5vw);
+      font-weight:700;
+      line-height:1;
+      letter-spacing:-0.06em;
+      margin:0 0 18px;
+      max-width:14ch;
+      position:relative;
+      z-index:1;
+      opacity:0;
+      transform:translateY(16px);
+      animation:heroFadeIn .9s ease forwards;
+      animation-delay:.15s;
+    }
+    @keyframes heroFadeIn{
+      to{opacity:1;transform:translateY(0);}
+    }
+    @media (prefers-reduced-motion: reduce){
+      #service-page .headline{animation:none;opacity:1;transform:none;}
+    }
+
+    #service-page .word-swap{
+      position:relative;
+      display:inline-block;
+      cursor:pointer;
+    }
+    #service-page .word-swap .w-design{
+      display:inline-block;
+      transition:opacity .55s cubic-bezier(.22,.61,.36,1), transform .55s cubic-bezier(.22,.61,.36,1);
+    }
+    #service-page .word-swap .w-sense{
+      position:absolute;
+      left:0;
+      bottom:0;
+      opacity:0;
+      transform:translateY(10px) scale(0.94);
+      transform-origin:left bottom;
+      font-size:1.12em;
+      line-height:1;
+      color:var(--primary);
+      transition:opacity .55s cubic-bezier(.22,.61,.36,1), transform .55s cubic-bezier(.22,.61,.36,1);
+      white-space:nowrap;
+    }
+    #service-page .word-swap:hover .w-design,
+    #service-page .word-swap:focus-visible .w-design{opacity:0;transform:translateY(-10px);}
+    #service-page .word-swap:hover .w-sense,
+    #service-page .word-swap:focus-visible .w-sense{opacity:1;transform:translateY(0) scale(1);}
+    @media (prefers-reduced-motion: reduce){
+      #service-page .word-swap .w-design,#service-page .word-swap .w-sense{transition:none;}
+    }
+
+    #service-page .hero-subtitle{
       font-size:16px;
       color:var(--body);
-      margin:16px auto 56px;
-      max-width:52ch;
+      margin:0 0 56px;
+      max-width:none;
     }
+    #service-page .hero-subtitle .subtitle-cta{display:inline;}
     #service-page .hero-grid{
       display:grid;
       grid-template-columns:1fr 1.4fr 1.4fr;
@@ -437,11 +499,9 @@
       <div class="wrap">
 
         <section class="hero">
-          <div class="section-header text-center" data-aos="fade-up">
-            <span class="text-muted text-uppercase">What We Offer</span>
-            <h1 class="display-1 txt-fx slide-up lh-1">Services</h1>
-            <p>See how it comes to life — explore the services below.</p>
-          </div>
+          <p class="ghost">services</p>
+          <h1 class="headline">Make <span class="word-swap" tabindex="0"><span class="w-design">design</span><span class="w-sense">sense</span></span></h1>
+          <p class="hero-subtitle">See how it comes to life — <span class="subtitle-cta">explore the services&nbsp;below.</span></p>
           <div class="hero-grid">
             <div class="label">We do</div>
             <div class="col">
