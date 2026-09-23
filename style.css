@@ -1488,73 +1488,77 @@ a.btn.btn-dark:hover {
 }
 
 /*------------------------------------------------------------------
-  Homepage marquee: three rows of project thumbnails that scroll
-  continuously on their own, alternating direction and speed per row
-  for a layered "parallax" feel. Each row's track repeats its images
-  twice back-to-back so translating by exactly -50% loops seamlessly.
+  Homepage marquee: three columns of project thumbnails that scroll
+  vertically and continuously on their own — the outer two columns
+  scroll downward, the middle scrolls upward — for a layered
+  "parallax" feel. Each column's track repeats its images twice
+  back-to-back so translating by exactly -50% loops seamlessly.
 --------------------------------------------------------------------*/
 .marquee-showcase {
     padding: 8px 0 48px;
-    overflow: hidden;
-}
-
-.marquee-row {
-    overflow: hidden;
-    margin-bottom: 20px;
-}
-
-.marquee-row:last-child {
-    margin-bottom: 0;
-}
-
-.marquee-track {
     display: flex;
-    width: max-content;
+    gap: 20px;
+    height: 640px;
+    overflow: hidden;
+}
+
+.marquee-col {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.marquee-track-v {
+    display: flex;
+    flex-direction: column;
+    height: max-content;
     gap: 20px;
     will-change: transform;
 }
 
-.marquee-track img {
-    height: 200px;
-    width: auto;
+.marquee-track-v img {
+    width: 100%;
+    height: 260px;
     max-width: none;
     display: block;
     object-fit: cover;
     flex: 0 0 auto;
 }
 
-.marquee-row--left .marquee-track {
-    animation: marquee-scroll-left 34s linear infinite;
+.marquee-col--down .marquee-track-v {
+    animation: marquee-scroll-down 34s linear infinite;
 }
 
-.marquee-row--right .marquee-track {
-    animation: marquee-scroll-right 40s linear infinite;
+.marquee-col--up .marquee-track-v {
+    animation: marquee-scroll-up 40s linear infinite;
 }
 
-.marquee-row--left-fast .marquee-track {
-    animation: marquee-scroll-left 24s linear infinite;
+.marquee-col--down-fast .marquee-track-v {
+    animation: marquee-scroll-down 24s linear infinite;
 }
 
-.marquee-row:hover .marquee-track {
+.marquee-col:hover .marquee-track-v {
     animation-play-state: paused;
 }
 
-@keyframes marquee-scroll-left {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+@keyframes marquee-scroll-down {
+    from { transform: translateY(-50%); }
+    to { transform: translateY(0); }
 }
 
-@keyframes marquee-scroll-right {
-    from { transform: translateX(-50%); }
-    to { transform: translateX(0); }
+@keyframes marquee-scroll-up {
+    from { transform: translateY(0); }
+    to { transform: translateY(-50%); }
 }
 
 @media (max-width: 768px) {
-    .marquee-track img { height: 130px; }
+    .marquee-showcase { height: 420px; gap: 12px; }
+    .marquee-track-v img { height: 160px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .marquee-track {
+    .marquee-track-v {
         animation: none !important;
     }
 }
