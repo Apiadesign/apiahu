@@ -1486,3 +1486,75 @@ a.btn.btn-dark:hover {
     display: inline-block;
     transition: opacity .25s ease;
 }
+
+/*------------------------------------------------------------------
+  Homepage marquee: three rows of project thumbnails that scroll
+  continuously on their own, alternating direction and speed per row
+  for a layered "parallax" feel. Each row's track repeats its images
+  twice back-to-back so translating by exactly -50% loops seamlessly.
+--------------------------------------------------------------------*/
+.marquee-showcase {
+    padding: 8px 0 48px;
+    overflow: hidden;
+}
+
+.marquee-row {
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.marquee-row:last-child {
+    margin-bottom: 0;
+}
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    gap: 20px;
+    will-change: transform;
+}
+
+.marquee-track img {
+    height: 200px;
+    width: auto;
+    max-width: none;
+    display: block;
+    object-fit: cover;
+    flex: 0 0 auto;
+}
+
+.marquee-row--left .marquee-track {
+    animation: marquee-scroll-left 34s linear infinite;
+}
+
+.marquee-row--right .marquee-track {
+    animation: marquee-scroll-right 40s linear infinite;
+}
+
+.marquee-row--left-fast .marquee-track {
+    animation: marquee-scroll-left 24s linear infinite;
+}
+
+.marquee-row:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+@keyframes marquee-scroll-left {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+@keyframes marquee-scroll-right {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
+}
+
+@media (max-width: 768px) {
+    .marquee-track img { height: 130px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+        animation: none !important;
+    }
+}
