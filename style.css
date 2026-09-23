@@ -1495,10 +1495,11 @@ a.btn.btn-dark:hover {
   back-to-back so translating by exactly -50% loops seamlessly.
 --------------------------------------------------------------------*/
 .marquee-showcase {
+    box-sizing: border-box;
     padding: 8px 0 48px;
     display: flex;
     gap: 20px;
-    height: 640px;
+    height: 100vh;
     overflow: hidden;
 }
 
@@ -1552,7 +1553,7 @@ a.btn.btn-dark:hover {
 }
 
 @media (max-width: 768px) {
-    .marquee-showcase { height: 420px; gap: 12px; }
+    .marquee-showcase { gap: 12px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
