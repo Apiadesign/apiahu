@@ -890,33 +890,6 @@ width: 95%;
 }
 
 /*------------------------------------------------------------------
-  Project click-through "zoom" transition
-  A clone of the clicked thumbnail animates to fill the viewport
-  while the rest of the page fades out, then the browser navigates
-  to the single project page. See js/project-zoom.js.
---------------------------------------------------------------------*/
-.zoom-clone {
-    position: fixed;
-    z-index: 2000;
-    object-fit: cover;
-    pointer-events: none;
-    will-change: top, left, width, height, border-radius;
-    box-shadow: 0 40px 90px rgba(0, 0, 0, 0.35);
-}
-
-body.is-zooming > .container-fluid,
-body.is-zooming .intro-overlay {
-    transition: opacity .35s ease;
-    opacity: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .zoom-clone {
-        transition: none !important;
-    }
-}
-
-/*------------------------------------------------------------------
   Single project page (single-project.html)
   A dark, full-bleed template for showing one project's full detail.
   Scoped to body.project-page so it never leaks into the rest of the site.
@@ -1590,4 +1563,60 @@ a.btn.btn-dark:hover {
     .marquee-track-v {
         transform: none !important;
     }
+}
+
+/*------------------------------------------------------------------
+  Project-link page transition: clicking into a project plays a
+  concentric red ripple out from the click point that covers the
+  screen, then the destination page reveals back through the same
+  rings shrinking away. See js/page-transition.js.
+
+  html.pt-incoming's ::before is a plain instant red cover so there is
+  no flash of the raw page before the JS-built rings take over.
+--------------------------------------------------------------------*/
+html.pt-incoming::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: #d50d0b;
+    z-index: 10000;
+}
+
+.page-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+.page-transition .ring {
+    position: fixed;
+    top: var(--ty, 50%);
+    left: var(--tx, 50%);
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border-radius: 50%;
+    background: #d50d0b;
+    opacity: 1;
+    transform: scale(0);
+}
+
+.page-transition.is-covered .ring {
+    transform: scale(60);
+}
+
+.page-transition.is-covering .ring:nth-child(1) { transition: transform .55s cubic-bezier(.65, 0, .35, 1) 0s; }
+.page-transition.is-covering .ring:nth-child(2) { transition: transform .55s cubic-bezier(.65, 0, .35, 1) .08s; }
+.page-transition.is-covering .ring:nth-child(3) { transition: transform .55s cubic-bezier(.65, 0, .35, 1) .16s; }
+.page-transition.is-covering .ring { transform: scale(60); }
+
+.page-transition.is-revealing .ring:nth-child(1) { transition: transform .6s cubic-bezier(.65, 0, .35, 1) .16s, opacity .45s ease .45s; }
+.page-transition.is-revealing .ring:nth-child(2) { transition: transform .6s cubic-bezier(.65, 0, .35, 1) .08s, opacity .45s ease .35s; }
+.page-transition.is-revealing .ring:nth-child(3) { transition: transform .6s cubic-bezier(.65, 0, .35, 1) 0s, opacity .45s ease .25s; }
+.page-transition.is-revealing .ring { transform: scale(0); opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+    html.pt-incoming::before { display: none; }
+    .page-transition { display: none; }
 }

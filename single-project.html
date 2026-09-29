@@ -10,6 +10,19 @@
     href on index.html (and anywhere else it's linked) to point at the new
     file so each project opens its own page.
   -->
+  <script>
+    // Runs before first paint: if arriving from a project-link click,
+    // add the class that instantly covers the page in red (see
+    // html.pt-incoming in style.css) so there's no flash of raw
+    // content before js/page-transition.js reveals through it.
+    (function () {
+      try {
+        if (sessionStorage.getItem('ptOrigin')) {
+          document.documentElement.classList.add('pt-incoming');
+        }
+      } catch (e) { /* private mode / storage blocked: no incoming transition */ }
+    })();
+  </script>
   <title>MR Shower Tray — ApiaHu Design Portfolio</title> <!-- [EDIT] project name -->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
@@ -214,8 +227,8 @@
       });
     })(jQuery);
   </script>
-  <script src="js/project-zoom.js"></script>
   <script src="js/cursor.js"></script>
+  <script src="js/page-transition.js"></script>
 </body>
 
 </html>

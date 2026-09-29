@@ -18,6 +18,19 @@
       } catch (e) { /* private mode / storage blocked: intro will just play again */ }
     })();
   </script>
+  <script>
+    // Runs before first paint: if arriving from a project-link click,
+    // add the class that instantly covers the page in red (see
+    // html.pt-incoming in style.css) so there's no flash of raw
+    // content before js/page-transition.js reveals through it.
+    (function () {
+      try {
+        if (sessionStorage.getItem('ptOrigin')) {
+          document.documentElement.classList.add('pt-incoming');
+        }
+      } catch (e) { /* private mode / storage blocked: no incoming transition */ }
+    })();
+  </script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -517,10 +530,10 @@
   <script src="js/plugins.js"></script>
   <script src="js/script.js"></script>
   <script src="js/intro.js"></script>
-  <script src="js/project-zoom.js"></script>
   <script src="js/cursor.js"></script>
   <script src="js/nav-label-swap.js"></script>
   <script src="js/marquee-parallax.js"></script>
+  <script src="js/page-transition.js"></script>
 </body>
 
 </html>

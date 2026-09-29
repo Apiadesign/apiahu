@@ -2,6 +2,19 @@
 <html lang="en">
 
 <head>
+  <script>
+    // Runs before first paint: if arriving from a project-link click,
+    // add the class that instantly covers the page in red (see
+    // html.pt-incoming in style.css) so there's no flash of raw
+    // content before js/page-transition.js reveals through it.
+    (function () {
+      try {
+        if (sessionStorage.getItem('ptOrigin')) {
+          document.documentElement.classList.add('pt-incoming');
+        }
+      } catch (e) { /* private mode / storage blocked: no incoming transition */ }
+    })();
+  </script>
   <title>ApiaHu Design Portfolio</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
@@ -383,6 +396,7 @@
   <script src="js/script.js"></script>
   <script src="js/cursor.js"></script>
   <script src="js/nav-label-swap.js"></script>
+  <script src="js/page-transition.js"></script>
 </body>
 
 </html>
