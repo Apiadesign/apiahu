@@ -1488,11 +1488,12 @@ a.btn.btn-dark:hover {
 }
 
 /*------------------------------------------------------------------
-  Homepage marquee: three columns of project thumbnails that scroll
-  vertically and continuously on their own — the outer two columns
-  scroll downward, the middle scrolls upward — for a layered
-  "parallax" feel. Each column's track repeats its images twice
-  back-to-back so translating by exactly -50% loops seamlessly.
+  Homepage marquee: three columns of project thumbnails, positioned
+  vertically by actual page scroll (not auto-playing) — the outer two
+  columns move downward and the middle moves upward as the visitor
+  scrolls, for a layered "parallax" feel. See js/marquee-parallax.js.
+  Each column's track repeats its images twice back-to-back so the
+  scroll-driven offset can wrap seamlessly.
 --------------------------------------------------------------------*/
 .marquee-showcase {
     box-sizing: border-box;
@@ -1526,38 +1527,12 @@ a.btn.btn-dark:hover {
     flex: 0 0 auto;
 }
 
-.marquee-col--down .marquee-track-v {
-    animation: marquee-scroll-down 34s linear infinite;
-}
-
-.marquee-col--up .marquee-track-v {
-    animation: marquee-scroll-up 40s linear infinite;
-}
-
-.marquee-col--down-fast .marquee-track-v {
-    animation: marquee-scroll-down 24s linear infinite;
-}
-
-.marquee-col:hover .marquee-track-v {
-    animation-play-state: paused;
-}
-
-@keyframes marquee-scroll-down {
-    from { transform: translateY(-50%); }
-    to { transform: translateY(0); }
-}
-
-@keyframes marquee-scroll-up {
-    from { transform: translateY(0); }
-    to { transform: translateY(-50%); }
-}
-
 @media (max-width: 768px) {
     .marquee-showcase { gap: 12px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .marquee-track-v {
-        animation: none !important;
+        transform: none !important;
     }
 }
