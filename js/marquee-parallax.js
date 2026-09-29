@@ -4,6 +4,9 @@
 // (outer columns downward, middle column upward) — driven purely by
 // scroll position, never auto-playing.
 (function () {
+    var mobileQuery = window.matchMedia('(max-width: 768px)');
+    if (mobileQuery.matches) return; // mobile: single stacked strip, normal scroll, no JS
+
     var wrapper = document.querySelector('.marquee-scroll-space');
     var section = document.querySelector('.marquee-showcase');
     if (!wrapper || !section) return;

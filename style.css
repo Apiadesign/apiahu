@@ -1547,7 +1547,43 @@ a.btn.btn-dark:hover {
 }
 
 @media (max-width: 768px) {
-    .marquee-showcase { gap: 12px; }
+    /* Mobile: no scroll-jacking or side-by-side columns — a single
+       stacked strip of the (non-duplicated) project photos that
+       scrolls normally with the rest of the page. */
+    .marquee-scroll-space {
+        height: auto;
+        position: static;
+    }
+
+    .marquee-showcase {
+        flex-direction: column;
+        gap: 12px;
+        height: auto;
+        overflow: visible;
+        position: static;
+        padding: 8px 0 24px;
+    }
+
+    .marquee-col {
+        width: 100%;
+        height: auto;
+        overflow: visible;
+    }
+
+    .marquee-track-v {
+        flex-direction: column;
+        height: auto;
+        gap: 12px;
+        transform: none !important;
+    }
+
+    /* Each track repeats its items twice for the desktop loop —
+       hide the second copy so mobile shows every project once. */
+    .marquee-col--down .item:nth-child(n+4),
+    .marquee-col--up .item:nth-child(n+5),
+    .marquee-col--down-fast .item:nth-child(n+4) {
+        display: none;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
