@@ -1494,7 +1494,24 @@ a.btn.btn-dark:hover {
   scrolls, for a layered "parallax" feel. See js/marquee-parallax.js.
   Each column's track repeats its images twice back-to-back so the
   scroll-driven offset can wrap seamlessly.
+
+  The section is pinned full-screen inside a taller scroll-space
+  wrapper: while the visitor scrolls through that extra height, the
+  section stays put at 100vh and the strips cycle through several
+  full loops, then normal page scrolling resumes.
 --------------------------------------------------------------------*/
+/* overflow:hidden on this ancestor turns it into the sticky containing
+   block, which breaks position:sticky for the marquee below — same
+   issue fixed on service.html. Scoped to the homepage only. */
+#home-page .container-fluid.overflow-hidden {
+    overflow: visible !important;
+}
+
+.marquee-scroll-space {
+    position: relative;
+    height: 300vh;
+}
+
 .marquee-showcase {
     box-sizing: border-box;
     padding: 8px 0 48px;
@@ -1502,6 +1519,8 @@ a.btn.btn-dark:hover {
     gap: 20px;
     height: 100vh;
     overflow: hidden;
+    position: sticky;
+    top: 0;
 }
 
 .marquee-col {
