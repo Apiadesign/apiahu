@@ -1414,8 +1414,8 @@ body.project-page {
         position: fixed;
         top: 0;
         left: 0;
-        width: 10px;
-        height: 10px;
+        width: 14px;
+        height: 14px;
         border-radius: 50%;
         background: #4a4a4a;
         pointer-events: none;
@@ -1430,7 +1430,7 @@ body.project-page {
     .cursor-dot .cursor-label {
         opacity: 0;
         color: #fff;
-        font-size: 0.62rem;
+        font-size: 0.7rem;
         font-weight: 600;
         letter-spacing: 0.1em;
         text-transform: uppercase;
@@ -1439,8 +1439,8 @@ body.project-page {
     }
 
     .cursor-dot.is-hover {
-        width: 62px;
-        height: 62px;
+        width: 74px;
+        height: 74px;
         background: rgba(20, 20, 20, 0.88);
     }
 
