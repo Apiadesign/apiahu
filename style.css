@@ -1213,10 +1213,24 @@ body.project-page {
 .overview-text .overview-video {
     display: block;
     width: 100%;
-    max-width: 60ch;
     border-radius: 8px;
     margin: 8px 0 20px;
     background: #000;
+}
+
+/* This page's overview includes a video, so give the write-up the
+   full width (meta becomes a horizontal strip below it) instead of
+   splitting into the usual narrower text/meta columns — keeps the
+   video large without touching the shared two-column layout used by
+   other case-study pages (e.g. Desliz Faucet). */
+#mr-shower-tray-page .project-overview {
+    grid-template-columns: 1fr;
+}
+
+#mr-shower-tray-page .overview-meta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 48px;
 }
 
 .overview-text .discover-link {
