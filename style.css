@@ -1210,6 +1210,15 @@ body.project-page {
     max-width: 60ch;
 }
 
+.overview-text .overview-video {
+    display: block;
+    width: 100%;
+    max-width: 60ch;
+    border-radius: 8px;
+    margin: 8px 0 20px;
+    background: #000;
+}
+
 .overview-text .discover-link {
     display: inline-block;
     margin-top: 8px;
