@@ -38,7 +38,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700;900&display=swap" rel="stylesheet">
 </head>
 
-<body class="project-page" tabindex="0">
+<body class="project-page case-study-page" tabindex="0">
 
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <defs>
@@ -46,197 +46,155 @@
         <path fill="currentColor"
           d="M17 11H9.41l3.3-3.29a1 1 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33a1 1 0 0 0 0 .76a1 1 0 0 0 .21.33l5 5a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42L9.41 13H17a1 1 0 0 0 0-2Z" />
       </symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" id="link" viewBox="0 0 24 24">
-        <path fill="currentColor"
-          d="M12 19a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0-4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm-5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm7-12h-1V2a1 1 0 0 0-2 0v1H8V2a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3Zm1 17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9h16Zm0-11H4V6a1 1 0 0 1 1-1h1v1a1 1 0 0 0 2 0V5h8v1a1 1 0 0 0 2 0V5h1a1 1 0 0 1 1 1Z" />
-      </symbol>
     </defs>
   </svg>
 
   <!-- Back to main page -->
-  <a href="index.html" class="project-back d-flex align-items-center gap-2">
+  <a href="index.html" class="project-back">
     <svg width="14" height="14" viewBox="0 0 24 24"><use xlink:href="#arrow-left"></use></svg>
     Back to main page
   </a>
 
-  <!-- Hero image / cover shot -->
-  <section class="project-hero">
-    <img src="images/mr-shower-tray-1.jpg" alt="Mercuri shower tray rendered in a modern bathroom setting" class="img-fluid">
-  </section>
+  <!-- Hero: horizontal, swipeable photo strip -->
+  <div class="project-photos">
+    <div class="photo"><img src="images/mr-shower-tray-1.jpg" alt="Mercuri shower tray rendered in a modern bathroom setting"></div>
+    <div class="photo"><img src="images/mr-shower-tray-2.jpg" alt="Mercuri shower tray in four colour finishes"></div>
+    <div class="photo"><img src="images/mr-shower-tray-3.jpg" alt="Close-up render of the graphite shower tray surface and integrated drain"></div>
+    <div class="photo"><img src="images/mr-shower-tray-4.jpg" alt="Macro detail of the shower tray edge and drain cover"></div>
+    <div class="photo"><img src="images/mr-shower-tray-5.jpg" alt="Stylised render of water splashing across the shower tray surface"></div>
+    <div class="photo"><img src="images/mr-shower-tray-6.jpg" alt="Hand-drawn storyboard sketches planning the shots, colours and lighting for the animation"></div>
+  </div>
 
-  <!-- Bottom info bar: name / summary / services / visit link -->
-  <div class="project-info-bar">
-    <div class="row align-items-start gx-4">
-      <div class="col-6 col-lg-3">
-        <p class="project-name">MR Shower Tray</p>
+  <div class="project-body">
+
+    <!-- Overview -->
+    <div class="project-overview">
+      <div class="overview-text">
+        <span class="section-label">Overview</span>
+        <h2>A CGI showcase of material, light and craftsmanship</h2>
+        <p>This project is a high-end 3D product animation created to showcase the design, material quality and
+          craftsmanship of a modern shower tray. The goal was to recreate the product as faithfully as possible
+          while presenting it with a clean, premium aesthetic that highlights its minimalist design.</p>
+        <p>Built entirely in Blender, every stage of the project focused on achieving a high level of realism —
+          from matching the original surface textures and subtle material variations to refining the lighting and
+          camera movements, with particular attention to the stone-like surfaces, soft reflections, and the
+          integrated linear drain.</p>
+        <p>The animation explores the tray from multiple angles across all four colour finishes, bringing together
+          product visualization, material creation, lighting, shading and animation in a single workflow — and a
+          chance to push further into photorealistic rendering.</p>
+        <a href="https://www.behance.net/gallery/255414795/MR-SHOWER-TRAYProduct-Design" target="_blank" class="discover-link">View the full case study on Behance</a>
       </div>
-      <div class="col-lg-5 d-none d-lg-block">
-        <p class="project-summary">A photorealistic 3D product animation for Mercuri, built entirely in Blender to
-          showcase a modern shower tray's form, material and finish before it ever reaches a camera.</p>
+      <div class="overview-meta">
+        <div class="meta-row">
+          <div>
+            <p class="meta-label">Role</p>
+            <p class="meta-value">3D Visualization &amp; Rendering</p>
+          </div>
+          <div>
+            <p class="meta-label">Year</p>
+            <p class="meta-value">2026</p>
+          </div>
+        </div>
+        <div class="meta-row">
+          <div>
+            <p class="meta-label">Category</p>
+            <p class="meta-value">Bathroom Fixtures</p>
+          </div>
+          <div>
+            <p class="meta-label">Client</p>
+            <p class="meta-value">Mercuri — Platos de Ducha</p>
+          </div>
+        </div>
       </div>
-      <div class="col-6 col-lg-2">
-        <p class="project-meta-label">Services</p>
-        <p class="project-meta-value">Product Visualization<br>3D Modeling &amp; Rendering</p>
+    </div>
+
+    <!-- Keep Exploring / More Project -->
+    <div class="more-projects">
+      <div class="more-heading">
+        <span class="eyebrow-small">Keep Exploring</span>
+        <h3>More Project</h3>
       </div>
-      <div class="col-lg-2 text-lg-end mt-3 mt-lg-0">
-        <a href="https://www.behance.net/gallery/255414795/MR-SHOWER-TRAYProduct-Design" target="_blank" class="project-visit">Visit Website</a>
+      <div class="more-track">
+        <div class="item">
+          <a href="single-project-desliz-faucet.html" title="Desliz Faucet" class="project-link" data-project="desliz-faucet">
+            <img src="images/home-gallery1.jpg" alt="Desliz Faucet">
+            <div class="overlay"></div>
+            <div class="description">
+              <span class="eyebrow">Kitchen Fixtures</span>
+              <h4>Desliz Faucet</h4>
+            </div>
+          </a>
+        </div>
+        <div class="item">
+          <a href="single-project.html" title="Logitech PC mouse" class="project-link" data-project="logitech-pc-mouse">
+            <img src="images/home-gallery2.jpg" alt="Logitech PC mouse">
+            <div class="overlay"></div>
+            <div class="description">
+              <span class="eyebrow">Computer Accessories</span>
+              <h4>Logitech PC mouse</h4>
+            </div>
+          </a>
+        </div>
+        <div class="item">
+          <a href="single-project.html" title="LAOSAN Local Souvenir" class="project-link" data-project="laosan-local-souvenir">
+            <img src="images/home-gallery3.jpg" alt="LAOSAN Local Souvenir">
+            <div class="overlay"></div>
+            <div class="description">
+              <span class="eyebrow">Packaging Design</span>
+              <h4>LAOSAN Local Souvenir</h4>
+            </div>
+          </a>
+        </div>
+        <div class="item">
+          <a href="single-project.html" title="MG Sliding Door" class="project-link" data-project="mg-sliding-door">
+            <img src="images/home-gallery6.jpg" alt="MG Sliding Door">
+            <div class="overlay"></div>
+            <div class="description">
+              <span class="eyebrow">Home Hardware</span>
+              <h4>MG Sliding Door</h4>
+            </div>
+          </a>
+        </div>
+        <div class="item">
+          <a href="single-project.html" title="GOUZAI Surprise Box" class="project-link" data-project="gouzai-surprise-box">
+            <img src="images/home-gallery7.jpg" alt="GOUZAI Surprise Box">
+            <div class="overlay"></div>
+            <div class="description">
+              <span class="eyebrow">Branding</span>
+              <h4>GOUZAI Surprise Box</h4>
+            </div>
+          </a>
+        </div>
       </div>
+      <div class="swipe-hint">&larr;&nbsp; Swipe to see more &nbsp;&rarr;</div>
     </div>
   </div>
 
-  <!-- Full project details -->
-  <section class="project-details">
-    <div class="container">
-      <div class="row mb-5">
-        <div class="col-lg-8">
-          <span class="section-label">Overview</span>
-          <h2 class="display-6">A CGI showcase of material, light and craftsmanship</h2>
-          <p>This project is a high-end 3D product animation created to showcase the design, material quality
-            and craftsmanship of a modern shower tray. The goal was to recreate the product as faithfully as
-            possible while presenting it with a clean, premium aesthetic that highlights its minimalist design.</p>
-          <p>Built entirely in Blender, every stage of the project focused on achieving a high level of realism.
-            From carefully matching the original surface textures and subtle material variations to refining the
-            lighting and camera movements, each detail was designed to emphasize the product's form, proportions
-            and finish. Particular attention was given to the stone-like surfaces, soft reflections, and the
-            integrated linear drain, ensuring the digital representation closely mirrored the physical product.</p>
-          <p>The animation explores the shower tray from multiple angles, allowing viewers to appreciate the
-            different colour finishes and the refined geometry. Smooth transitions and cinematic camera motion
-            help communicate the product's elegance while maintaining a clean, contemporary visual style suitable
-            for architectural and interior design presentations.</p>
-          <p>This project brought together product visualization, material creation, lighting, shading and
-            animation in a single workflow — and was an opportunity to further develop photorealistic rendering
-            skills, demonstrating how CGI can effectively showcase design-focused products before they're ever
-            photographed or manufactured.</p>
-        </div>
-        <div class="col-lg-4">
-          <ul class="project-meta-list">
-            <li>
-              <h5>Client</h5>
-              <p>Mercuri — Platos de Ducha</p>
-            </li>
-            <li>
-              <h5>Role</h5>
-              <p>3D Visualization &amp; Rendering</p>
-            </li>
-            <li>
-              <h5>Year</h5>
-              <p>2026</p>
-            </li>
-            <li>
-              <h5>Category</h5>
-              <p>Bathroom Fixtures</p>
-            </li>
-            <li>
-              <h5>Software</h5>
-              <p>Blender, EEVEE</p>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Full-width image gallery — duplicate the <figure> block for each extra shot -->
-      <div class="project-gallery">
-        <figure>
-          <img src="images/mr-shower-tray-2.jpg" alt="Mercuri shower tray in four colour finishes" class="img-fluid">
-          <figcaption>Available in four finishes — White, Black, Grey and Beige — each matched to the original material samples</figcaption>
-        </figure>
-        <figure>
-          <img src="images/mr-shower-tray-3.jpg" alt="Close-up render of the graphite shower tray surface and integrated drain" class="img-fluid">
-          <figcaption>Close study of the stone-like surface texture and the integrated linear drain</figcaption>
-        </figure>
-        <figure>
-          <img src="images/mr-shower-tray-4.jpg" alt="Macro detail of the shower tray edge and drain cover" class="img-fluid">
-          <figcaption>Matching the original surface texture and subtle material variation up close</figcaption>
-        </figure>
-        <figure>
-          <img src="images/mr-shower-tray-5.jpg" alt="Stylised render of water splashing across the shower tray surface" class="img-fluid">
-          <figcaption>Fluid simulation work exploring how water sits and drains across the surface</figcaption>
-        </figure>
-        <figure>
-          <img src="images/mr-shower-tray-6.jpg" alt="Hand-drawn storyboard sketches planning the shots, colours and lighting for the animation" class="img-fluid">
-          <figcaption>Early storyboard — planning the shot list, four colourways and lighting direction before animating</figcaption>
-        </figure>
-      </div>
+  <!-- Fixed bottom info bar -->
+  <div class="project-info-bar">
+    <div>
+      <p class="project-name">MR Shower Tray</p>
     </div>
-  </section>
-
-  <!-- More projects — same click-to-zoom behaviour as the homepage grid -->
-  <section class="py-5" style="background:#0d0d0d;">
-    <div class="container">
-      <div class="row justify-content-center mb-4">
-        <div class="col-lg-6 text-center">
-          <span class="section-label d-block mb-2">Keep exploring</span>
-          <h2 class="display-6 text-white">More Projects</h2>
-        </div>
-      </div>
-
-      <div class="swiper portfolio-Swiper portfolio-content py-4">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <div class="item">
-              <a href="single-project-desliz-faucet.html" title="Desliz Faucet" class="project-link" data-project="desliz-faucet">
-                <img src="images/home-gallery1.jpg" alt="Desliz Faucet" class="img-fluid">
-                <div class="overlay"></div>
-                <div class="description">
-                  <span class="eyebrow">Kitchen Fixtures</span>
-                  <h4>Desliz Faucet</h4>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="item">
-              <a href="single-project.html" title="Logitech PC mouse" class="project-link" data-project="logitech-pc-mouse">
-                <img src="images/home-gallery2.jpg" alt="Logitech PC mouse" class="img-fluid">
-                <div class="overlay"></div>
-                <div class="description">
-                  <span class="eyebrow">Computer Accessories</span>
-                  <h4>Logitech PC mouse</h4>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="item">
-              <a href="single-project.html" title="MG Sliding Door" class="project-link" data-project="mg-sliding-door">
-                <img src="images/home-gallery6.jpg" alt="MG Sliding Door" class="img-fluid">
-                <div class="overlay"></div>
-                <div class="description">
-                  <span class="eyebrow">Home Hardware</span>
-                  <h4>MG Sliding Door</h4>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="swiper-pagination mt-4"></div>
+    <div class="summary-col">
+      <p class="project-summary">A photorealistic 3D product animation for Mercuri, built entirely in Blender to
+        showcase a modern shower tray's form, material and finish.</p>
     </div>
-  </section>
+    <div>
+      <p class="project-meta-label">Services</p>
+      <p class="project-meta-value">Product Visualization<br>3D Modeling &amp; Rendering</p>
+    </div>
+    <div>
+      <a href="https://www.behance.net/gallery/255414795/MR-SHOWER-TRAYProduct-Design" target="_blank" class="project-visit">View on Behance</a>
+    </div>
+  </div>
 
-  <script src="js/jquery-1.11.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-    crossorigin="anonymous"></script>
-  <script src="js/plugins.js"></script>
-  <script>
-    // Minimal init for this page (no AOS / Chocolat needed here)
-    (function ($) {
-      "use strict";
-      $(document).ready(function () {
-        new Swiper(".portfolio-Swiper", {
-          slidesPerView: 3,
-          spaceBetween: 30,
-          pagination: { el: ".swiper-pagination", clickable: true },
-          breakpoints: {
-            300: { slidesPerView: 1 },
-            768: { slidesPerView: 2, spaceBetween: 20 },
-            1200: { slidesPerView: 3, spaceBetween: 30 },
-          },
-        });
-      });
-    })(jQuery);
-  </script>
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+    <div class="lightbox-inner" id="lightboxInner"></div>
+  </div>
+
+  <script src="js/single-project.js"></script>
   <script src="js/cursor.js"></script>
   <script src="js/page-transition.js"></script>
 </body>
