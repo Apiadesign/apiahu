@@ -52,6 +52,48 @@
     });
   }
 
+  // Homepage "Contact" jump: instead of letting the whole page fly past,
+  // cover the screen with the red ripple, jump to the closing section
+  // while hidden, then reveal it.
+  var jumping = false;
+  if (!reduceMotion) {
+    document.addEventListener('click', function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var link = e.target.closest ? e.target.closest('a[href="#outro"]') : null;
+      var target = link && document.getElementById('outro');
+      if (!target) return;
+      e.preventDefault();
+      if (jumping) return;
+      jumping = true;
+
+      var overlay = buildOverlay(e.clientX, e.clientY);
+      overlay.getBoundingClientRect();
+      overlay.classList.add('is-covering');
+
+      window.setTimeout(function () {
+        var root = document.documentElement;
+        var prev = root.style.scrollBehavior;
+        root.style.scrollBehavior = 'auto'; // jump instantly, nothing visible while hidden
+        window.scrollTo(0, target.getBoundingClientRect().top + window.pageYOffset);
+        root.style.scrollBehavior = prev;
+        try { history.replaceState(null, '', '#outro'); } catch (err) { /* ignore */ }
+
+        overlay.classList.remove('is-covering');
+        overlay.classList.add('is-covered');
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            overlay.classList.remove('is-covered');
+            overlay.classList.add('is-revealing');
+            window.setTimeout(function () {
+              overlay.remove();
+              jumping = false;
+            }, 700);
+          });
+        });
+      }, COVER_MS);
+    });
+  }
+
   if (document.documentElement.classList.contains('pt-incoming')) {
     var origin = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     try {
