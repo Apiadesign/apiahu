@@ -11,7 +11,7 @@
   "use strict";
 
   var STORAGE_KEY = 'ptOrigin';
-  var SELECTOR = 'a.project-link[href]';
+  var SELECTOR = 'a.project-link[href], a.float[href], a#gameLink[href]';
   var COVER_MS = 550;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
