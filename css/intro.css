@@ -118,6 +118,13 @@
   text-decoration: underline;
 }
 
+/* keep the plain look on hover (the site-wide red button hover is !important) */
+.intro-skip:hover {
+  background: none !important;
+  border-color: transparent !important;
+  color: var(--intro-fg) !important;
+}
+
 @keyframes introLetterIn {
   to {
     transform: translateY(0);
