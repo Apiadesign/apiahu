@@ -2,6 +2,22 @@
 <html lang="en">
 
 <head>
+  <title>Apia Hu — About</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+  <script>
+    // Runs before the overlay is even parsed, so repeat visits within this
+    // browser tab skip straight to the page with no animation flash.
+    (function () {
+      try {
+        if (sessionStorage.getItem('introPlayed') === '1') {
+          document.documentElement.classList.add('intro-seen');
+        }
+      } catch (e) { /* private mode / storage blocked: intro will just play again */ }
+    })();
+  </script>
   <script>
     // Runs before first paint: if arriving from a project-link click,
     // add the class that instantly covers the page in red (see
@@ -15,31 +31,511 @@
       } catch (e) { /* private mode / storage blocked: no incoming transition */ }
     })();
   </script>
-  <title>ApiaHu Design Portfolio</title>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="format-detection" content="telephone=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="author" content="">
   <meta name="keywords" content="">
-  <meta name="description" content="">
+  <meta name="description" content="Apia Hu — industrial and product designer based in Madrid. Sense before surface.">
   <link rel="stylesheet" type="text/css" href="css/vendor.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="css/intro.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700;900&display=swap" rel="stylesheet">
-</head>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
 
-<body class="bg-body homepage post-template" data-bs-spy="scroll" data-bs-target="#header-nav" tabindex="0">
-  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --bg:#f7f7f6;
+  --bg-alt:#f1f1ef;
+  --ink:#111;
+  --ink-soft:#9b9b98;
+  --ghost:#e9e9e7;
+  --gray:#c5c5c2;              /* ONE tone for both backdrop pieces */
+  --line:rgba(17,17,17,.12);
+  --card:#e4e3e0;
+  --side:16.6667%;   /* sidebar width = your col-lg-2 */
+  --ff:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+/* This page stays light like the rest of the site (the draft followed the
+   OS dark-mode setting, which would put dark content next to the white
+   sidebar). Add data-theme="dark" on <html> to preview the dark palette. */
+:root[data-theme="dark"]{
+  --bg:#0e0e0e;--bg-alt:#141414;--ink:#f2f0ec;--ink-soft:#6e6c68;
+  --ghost:#1b1b1b;--gray:#4e4c49;--line:rgba(242,240,236,.14);--card:#1d1d1d;
+}
+
+/* The new design's base styles are scoped to its own three wrappers, so
+   the sidebar keeps your site's Roboto / link / reset rules untouched,
+   and your site-wide heading, link and paragraph rules don't leak in. */
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+:is(.backdrop,.hero-front,.main){color:var(--ink);font-family:var(--ff);font-size:16px;line-height:normal}
+:is(.backdrop,.hero-front,.main) *,
+:is(.backdrop,.hero-front,.main) *::before,
+:is(.backdrop,.hero-front,.main) *::after{box-sizing:border-box;margin:0;padding:0}
+:is(.backdrop,.hero-front,.main) :is(h1,h2,h3,h4,h5,h6){font-family:inherit;color:inherit}
+:is(.backdrop,.hero-front,.main) a{color:inherit;text-decoration:none}
+:is(.backdrop,.hero-front,.main) img{max-width:100%;display:block}
+:is(.backdrop,.hero-front,.main) ::selection{background:var(--ink);color:var(--bg)}
+
+/* ============================================================
+   FIXED BACKDROP  — stays put, images scroll over it
+   ============================================================ */
+.backdrop{
+  position:fixed;top:0;left:var(--side);right:0;bottom:0;z-index:1;
+  pointer-events:none;user-select:none;overflow:hidden;
+  opacity:0;transition:opacity .8s ease;
+  /* lifted so the pair sits level with the upper part of the wheel render */
+  display:flex;align-items:center;justify-content:space-between;
+  gap:4vw;padding:0 4vw 26vh 2vw;
+}
+.backdrop.show{opacity:1}
+/* raised only while the text crosses the hero artwork */
+.backdrop.front{z-index:6}
+/* at the very top both the wordmark and the copy are black; they ease to
+   gray as soon as you scroll into the project canvas */
+.wordmark,.backdrop-copy{transition:color .75s cubic-bezier(.2,.8,.2,1);will-change:transform}
+.backdrop.at-top .wordmark,
+.backdrop.at-top .backdrop-copy{color:var(--ink)}
+.wordmark{
+  white-space:nowrap;flex:none;align-self:center;margin-top:2vh;
+  font-size:clamp(44px,8vw,140px);font-weight:500;line-height:.9;
+  letter-spacing:-.045em;color:var(--gray);
+}
+.backdrop-copy{
+  width:min(27%,330px);flex:none;align-self:center;
+  font-size:clamp(14px,1.4vw,20px);line-height:1.45;font-weight:500;color:var(--gray);
+}
+@media(max-width:991px){
+  /* no room for the two side by side, so they stack:
+     wordmark, then the line directly beneath it */
+  /* stacked, but centred in the viewport like the desktop pair — they
+     still ride in from the left and the right and meet in the middle */
+  .backdrop{left:0;padding:0 5vw calc(12vh + env(safe-area-inset-bottom,0px));
+    flex-direction:column;align-items:flex-start;justify-content:center;gap:16px}
+  .wordmark{align-self:flex-start;margin-top:0;font-size:clamp(38px,12vw,90px)}
+  .backdrop-copy{display:block;align-self:flex-end;text-align:right;
+    width:min(100%,30ch);font-size:clamp(13px,3.6vw,17px);line-height:1.4}
+}
+
+/* ============================================================
+   CONTENT COLUMN
+   ============================================================ */
+.main{position:relative;z-index:5;margin-left:var(--side)}
+@media(max-width:991px){.main{margin-left:0}}
+
+/* ---- FULL-WIDTH LOHO HERO: black APIA HU, cutout overlapping it ---- */
+/* the hero is a tall scroll track; its stage is pinned, so the page holds
+   still while APIA HU and the line travel in to meet in the middle. */
+.hero{position:relative;width:100%;height:300svh;background:transparent}
+.hero-inner{position:sticky;top:0;height:100svh;display:grid;place-items:center;
+  overflow:hidden}
+.hero-inner{will-change:opacity,transform}
+.scroll-hint{position:absolute;left:50%;bottom:7vh;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  pointer-events:none;z-index:2;color:var(--ink)}
+.scroll-hint span{display:block;font-size:10px;letter-spacing:.3em;text-transform:uppercase}
+.scroll-hint .rail{display:block;position:relative;width:1px;height:54px;
+  background:var(--line);overflow:hidden}
+.scroll-hint .rail::after{content:'';position:absolute;left:0;top:0;width:1px;height:18px;
+  background:var(--ink);animation:railRun 2.1s cubic-bezier(.65,0,.35,1) infinite}
+@keyframes railRun{
+  0%{transform:translateY(-20px);opacity:0}
+  25%{opacity:1}
+  75%{opacity:1}
+  100%{transform:translateY(54px);opacity:0}
+}
+@media (prefers-reduced-motion:reduce){.scroll-hint .rail::after{animation:none;opacity:.6}}
+@media(max-width:991px){.scroll-hint{bottom:5vh}.scroll-hint .rail{height:40px}}
+
+.hero-front{position:fixed;top:0;left:var(--side);right:0;height:100svh;z-index:7;
+  display:grid;place-items:center;pointer-events:none;overflow:hidden}
+@media(max-width:991px){.hero-front{left:0}}
+
+/* hero: three SEARCH renders as depth layers.
+   each is a cutout with a real alpha channel, so they overlap cleanly on
+   any ground and carry their own soft shadow. */
+.hero-stack{position:relative;z-index:3;width:min(96%,1420px);aspect-ratio:16/9;
+  transform-style:preserve-3d}
+.hero-layer{position:absolute;will-change:transform;
+  opacity:0;animation:heroIn 1.1s cubic-bezier(.19,1,.22,1) forwards;
+  filter:drop-shadow(0 26px 34px rgba(0,0,0,.10))}
+.hl-wheel{filter:drop-shadow(0 22px 30px rgba(0,0,0,.07))}
+.hero-layer img{width:100%;height:auto;display:block}
+/* the wheel render is a crop; only its left edge sits against the layers
+   behind it, so that one is feathered and the top is left as-is */
+.hl-wheel img{
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 8%);
+          mask-image:linear-gradient(to right,transparent 0,#000 8%);
+}
+.hl-full {left:2%; top:-10%; width:76%; animation-delay:.15s}
+.hl-bar  {left:58%;top:-10%; width:42%; animation-delay:.35s}
+.hl-wheel{left:46%;top:30%; width:78%; animation-delay:.55s}
+@keyframes heroIn{to{opacity:1}}
+.hero-layer .inner{display:block;animation:hoverDrift 9s ease-in-out infinite}
+.hl-bar   .inner{animation-duration:11s;animation-delay:-3s}
+.hl-wheel .inner{animation-duration:13s;animation-delay:-6s}
+@keyframes hoverDrift{0%,100%{transform:translateY(-8px)}50%{transform:translateY(8px)}}
+@media(max-width:991px){
+  .hero-stack{width:96%}
+  .hl-full{left:0;top:-6%;width:84%} .hl-bar{left:54%;top:-6%;width:48%}
+  .hl-wheel{left:34%;top:36%;width:88%}
+}
+@media (prefers-reduced-motion:reduce){.hero-layer .inner{animation:none}}
+
+
+/* ---- SCATTERED CANVAS (widths are % of the content column) ---- */
+.canvas{position:relative;height:570vh;overflow:hidden}
+.float{position:absolute;display:block;will-change:transform}
+.float .frame{position:relative;overflow:hidden;background:var(--card)}
+.float img,.float video{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.float:hover img,.float:hover video{transform:scale(1.04)}
+.float .cap{position:absolute;left:0;top:calc(100% + 12px);display:flex;flex-direction:column;gap:3px;
+  opacity:0;transform:translateY(6px);transition:.45s cubic-bezier(.2,.8,.2,1);white-space:nowrap}
+.float:hover .cap{opacity:1;transform:none}
+/* ---- hover pair (Desliz, Logitech, LAOSAN) ----
+   hovered image washes to 50% white; its partner shot reveals on the
+   opposite side of the column. .peer is inert — no hover, no caption. */
+.pair .frame::after{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:#fff;opacity:0;transition:opacity .16s linear}
+.pair:hover .frame::after{opacity:.3}
+.peer{position:absolute;z-index:4;pointer-events:none;will-change:transform}
+.peer .frame{position:relative;overflow:hidden;background:#000;
+  box-shadow:0 20px 50px rgba(0,0,0,.18);
+  opacity:0;clip-path:inset(0 0 22% 0);
+  transition:opacity .14s linear,clip-path .22s cubic-bezier(.2,.9,.25,1)}
+.peer img,.peer video{width:100%;height:100%;object-fit:cover;display:block}
+.pair:hover + .peer .frame{opacity:1;clip-path:inset(0 0 0 0)}
+.p1{left:10%;top:4%;  width:40%} .p1 .frame{aspect-ratio:16/9}
+.p2{left:46%;top:11%; width:37%} .p2 .frame{aspect-ratio:3/2}
+.p3{left:2%; top:26%; width:31%} .p3 .frame{aspect-ratio:4/3}
+.p6{left:50%;top:50%; width:38%} .p6 .frame{aspect-ratio:3/2}
+.p7{left:14%;top:58%; width:36%} .p7 .frame{aspect-ratio:16/9}
+.p4{left:42%;top:27%; width:38%} .p4 .frame{aspect-ratio:7/8}
+.p9{left:6%; top:73%; width:46%} .p9 .frame{aspect-ratio:4/3}
+.p11{left:4%; top:36%; width:50%} .p11 .frame{aspect-ratio:16/9}
+.p10{left:40%;top:82%; width:52%} .p10 .frame{aspect-ratio:3/2}
+.p8{left:44%;top:66%; width:50%} .p8 .frame{aspect-ratio:2/1}
+/* while a pair is open the other projects recede, so the two shots read
+   as one piece instead of colliding with whatever sits behind them */
+.float,.wordmark,.backdrop-copy{transition:opacity .18s linear,
+  color .75s cubic-bezier(.2,.8,.2,1)}
+.canvas:has(.pair:hover) .float:not(:hover){opacity:.12}
+body:has(.pair:hover) .wordmark,
+body:has(.pair:hover) .backdrop-copy{opacity:.35}
+@media(max-width:991px){.peer{display:none}}
+.float .cap b{font-size:15px;font-weight:500;letter-spacing:-.015em;order:2}
+.float .cap i{font-size:10px;font-style:normal;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-soft);order:1}
+
+/* composition: left / top / width. Aspect ratios match the real source files. */
+.f1{left:55%;top:2%; width:30%} .f1 .frame{aspect-ratio:2/3}
+.f2{left:9%;top:13%; width:15%} .f2 .frame{aspect-ratio:2/3}
+.f3{left:34%;top:22%; width:34%} .f3 .frame{aspect-ratio:16/9}
+.f4{left:8%;top:32%; width:21%} .f4 .frame{aspect-ratio:2/3}
+.f6{left:15%;top:48%; width:30%} .f6 .frame{aspect-ratio:2/3}
+.f7{left:68%;top:59%; width:19%} .f7 .frame{aspect-ratio:2/3}
+.f8{left:17%;top:68%; width:26%} .f8 .frame{aspect-ratio:2/3}
+.f9{left:62%;top:78%; width:20%} .f9 .frame{aspect-ratio:16/9}
+.f10{left:20%;top:85%; width:23%} .f10 .frame{aspect-ratio:2/3}
+.f11{left:62%;top:40%; width:18%} .f11 .frame{aspect-ratio:2/3}
+
+@media(max-width:991px){
+  .canvas{height:auto;padding:12vh 20px;display:flex;flex-direction:column;gap:9vh}
+  .float{position:relative!important;left:auto!important;top:auto!important;
+    width:88%!important;transform:none!important}
+  .float:nth-child(even){align-self:flex-end}
+  .float .cap{position:relative;top:auto;opacity:1;transform:none;margin-top:12px;white-space:normal}
+}
+
+/* ============================================================
+   CONTACT FORM
+   ============================================================ */
+.pills{display:flex;flex-wrap:wrap;gap:9px}
+.pill{font:inherit;font-size:14px;color:var(--ink);background:transparent;
+  border:1px solid var(--line);border-radius:100px;padding:11px 20px;
+  transition:border-color .25s,background .25s,color .25s}
+.pill:hover{border-color:var(--ink)}
+.pill.is-on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+/* site cursor rule: real buttons turn red on hover instead of getting the
+   "Open" circle. Answered pills are disabled so they don't flash red. */
+.pill:hover{background:#d50d0b!important;border-color:#d50d0b!important;color:#fff!important}
+.pill:disabled{pointer-events:none}
+.game-actions button:hover{background:none!important;border-color:#d50d0b!important;color:#d50d0b!important}
+
+/* ============================================================
+   BRIEF BUILDER  (replaces the duplicate contact form)
+   ============================================================ */
+.brief-label{margin-bottom:6vh;font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:7vh}
+.brief-line{font-size:clamp(26px,4.4vw,58px);font-weight:400;letter-spacing:-.035em;
+  line-height:1.22;max-width:19ch;margin-bottom:9vh}
+.slot{position:relative;white-space:nowrap;transition:color .3s}
+.slot.empty{color:var(--ink-soft);border-bottom:1px solid var(--line)}
+.slot.filled{color:var(--ink)}
+.slot .swap{display:inline-block;animation:slotIn .4s cubic-bezier(.2,.9,.25,1)}
+@keyframes slotIn{from{opacity:0;transform:translateY(.22em)}to{opacity:1;transform:none}}
+.brief-rows{display:grid;gap:34px;max-width:860px}
+.brief-row>span{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:13px}
+.brief-row .pills{display:flex;flex-wrap:wrap;gap:9px}
+.brief-out{margin-top:8vh;min-height:92px}
+.brief-go{display:inline-flex;align-items:baseline;gap:14px;
+  font-size:clamp(20px,2.7vw,30px);letter-spacing:-.03em;color:var(--ink);
+  border-bottom:1px solid var(--ink);padding-bottom:4px;
+  opacity:0;transform:translateY(10px);pointer-events:none;
+  transition:opacity .4s,transform .5s cubic-bezier(.2,.8,.2,1)}
+.brief-go.on{opacity:1;transform:none;pointer-events:auto}
+.brief-note{margin-top:22px;font-size:13px;line-height:1.6;color:var(--ink-soft);max-width:38ch}
+.brief-note a{color:var(--ink);border-bottom:1px solid var(--line)}
+.brief-reset{display:inline-block;margin-left:18px;font-size:12px;color:var(--ink-soft);
+  border-bottom:1px solid var(--line);background:none;border-top:0;border-left:0;border-right:0;
+  font-family:inherit;opacity:0;transition:opacity .4s}
+.brief-reset.on{opacity:1}
+
+/* ---- experiment switch + material game ---- */
+.game{display:grid;grid-template-columns:minmax(0,420px) 1fr;gap:clamp(26px,5vw,64px);
+  align-items:start;max-width:980px}
+.game-shot{position:relative;aspect-ratio:1;overflow:hidden;background:var(--card)}
+.game-shot img{width:100%;height:100%;object-fit:cover;display:block;
+  animation:matIn .5s cubic-bezier(.2,.9,.25,1)}
+@keyframes matIn{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
+.game-count{font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:16px}
+.game-q{font-size:clamp(22px,3vw,38px);font-weight:400;letter-spacing:-.03em;
+  line-height:1.15;margin-bottom:26px}
+.game-opts{display:flex;flex-direction:column;align-items:flex-start;gap:9px}
+.game-opts .pill{text-align:left}
+.pill.right{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.pill.wrong{opacity:.32;text-decoration:line-through}
+.game-reveal{margin-top:26px;opacity:0;transform:translateY(8px);
+  transition:opacity .4s,transform .5s cubic-bezier(.2,.8,.2,1)}
+.game-reveal.on{opacity:1;transform:none}
+.game-reveal .verdict{font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:9px}
+.game-reveal h4{font-size:19px;font-weight:600;letter-spacing:-.02em;margin-bottom:7px}
+.game-reveal p{font-size:14px;line-height:1.65;color:var(--ink-soft);max-width:42ch}
+.game-actions{display:flex;gap:22px;align-items:baseline;flex-wrap:wrap;margin-top:22px}
+.game-actions a,.game-actions button{font:inherit;font-size:14px;color:var(--ink);
+  background:none;border:0;border-bottom:1px solid var(--ink);padding:0 0 3px}
+.game-end{max-width:46ch}
+.game-end h3{font-size:clamp(22px,3vw,38px);font-weight:400;letter-spacing:-.03em;
+  line-height:1.2;margin-bottom:18px}
+.game-end p{font-size:15px;line-height:1.7;color:var(--ink-soft);margin-bottom:28px}
+@media(max-width:780px){.game{grid-template-columns:1fr}}
+
+
+
+
+
+/* ============================================================
+   OUTRO — the same pair, now as real content at the foot
+   ============================================================ */
+.outro{position:relative;z-index:5;background:var(--bg);
+  padding:16vh 4vw calc(12vh + env(safe-area-inset-bottom,0px)) 2vw}
+.outro-row{display:flex;align-items:center;justify-content:space-between;gap:4vw}
+.outro-mark{white-space:nowrap;flex:none;color:var(--ink);
+  font-size:clamp(30px,4.6vw,76px);font-weight:500;line-height:.9;letter-spacing:-.045em}
+.outro-copy{width:min(27%,330px);flex:none;color:var(--ink);
+  font-size:clamp(14px,1.4vw,20px);line-height:1.45;font-weight:500}
+.outro-mark,.outro-copy{opacity:0;transform:translateX(var(--from,0));
+  transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform 1s cubic-bezier(.2,.8,.2,1)}
+.outro-mark{--from:-14vw} .outro-copy{--from:14vw}
+.outro.in .outro-mark,.outro.in .outro-copy{opacity:1;transform:none}
+/* the CTA writes itself in, word by word, then the rule draws under it */
+.outro-cta{display:inline-block;position:relative;margin-top:11vh;
+  font-size:clamp(26px,5vw,66px);font-weight:400;letter-spacing:-.035em;
+  line-height:1.1;color:var(--ink);transition:color .3s ease}
+.outro-cta:hover{color:#d50d0b}
+.outro-cta .w{display:inline-block;opacity:0;transform:translateY(.5em);
+  transition:opacity .6s cubic-bezier(.19,1,.22,1),transform .7s cubic-bezier(.19,1,.22,1)}
+.outro.in .outro-cta .w{opacity:1;transform:none}
+.outro-cta .w:nth-child(1){transition-delay:.30s}
+.outro-cta .w:nth-child(2){transition-delay:.38s}
+.outro-cta .w:nth-child(3){transition-delay:.46s}
+.outro-cta .w:nth-child(4){transition-delay:.54s}
+.outro-cta .w:nth-child(5){transition-delay:.62s}
+.outro-cta .arrow{display:inline-block;margin-left:.35em;font-style:normal;
+  opacity:0;transform:translateX(-.3em);
+  transition:opacity .5s ease .78s,transform .6s cubic-bezier(.2,.8,.2,1) .78s}
+.outro.in .outro-cta .arrow{opacity:1;transform:none}
+.outro-cta .rule{position:absolute;left:0;bottom:-.12em;height:1px;width:100%;
+  background:currentColor;transform:scaleX(0);transform-origin:left;
+  transition:transform .9s cubic-bezier(.76,0,.24,1) .62s}
+.outro.in .outro-cta .rule{transform:scaleX(1)}
+.outro-cta:hover .arrow{transform:translateX(.25em)}
+.outro-cta:hover .rule{transform-origin:right;transform:scaleX(0);
+  transition:transform .45s cubic-bezier(.76,0,.24,1)}
+.outro-mail{margin-top:24px;font-size:12px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-soft);
+  opacity:0;transition:opacity .6s ease 1.05s}
+.outro.in .outro-mail{opacity:1}
+
+@media(max-width:991px){
+  .outro-row{flex-direction:column;align-items:flex-start;gap:16px}
+  .outro{padding:14vh 5vw 12vh}
+  .outro-cta{margin-top:8vh}
+  .outro-mark{font-size:clamp(38px,12vw,90px)}
+  .outro-copy{width:min(100%,30ch);align-self:flex-end;text-align:right;
+    font-size:clamp(13px,3.6vw,17px);line-height:1.4}
+}
+
+/* ============================================================
+   LOWER SECTIONS
+   ============================================================ */
+.statement{position:relative;z-index:5;padding:14vh 6vw;background:var(--bg-alt)}
+.statement .reel{position:relative;width:100%;max-width:1400px;margin:0 auto;
+  aspect-ratio:16/9;overflow:hidden;background:#000}
+.statement video{width:100%;height:100%;object-fit:cover;display:block}
+.statement .reel-mute{
+  position:absolute;right:16px;bottom:16px;z-index:2;width:40px;height:40px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.55);background:rgba(0,0,0,.35);color:#fff;
+  font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(6px);transition:background .3s}
+.statement .reel-mute:hover{background:rgba(0,0,0,.6)}
+
+.about{position:relative;z-index:5;background:var(--bg);padding:14vh 6vw;
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:start}
+.about h2{font-size:clamp(21px,2.6vw,36px);font-weight:400;letter-spacing:-.03em;line-height:1.2}
+.about .body{font-size:15px;line-height:1.75;color:var(--ink-soft);display:grid;gap:18px}
+.about-cta{color:var(--ink);margin-top:10px}
+.about-cta a{border-bottom:1px solid var(--ink);padding-bottom:2px;transition:opacity .3s}
+.about-cta a:hover{opacity:.55}
+.portrait{aspect-ratio:21/32;background:var(--card);overflow:hidden;margin-top:34px;position:relative}
+/* without this the photo stops at its natural width and the card
+   colour shows around it on wide screens */
+.portrait img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.exp{margin-top:52px}
+.exp-label{font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:6px}
+.award{padding:22px 0;border-top:1px solid var(--line)}
+.award h5{font-size:clamp(17px,1.9vw,23px);font-weight:600;letter-spacing:-.02em;line-height:1.12}
+.award p{margin-top:8px;font-size:13px;color:var(--ink-soft)}
+.award .no{font-weight:600;color:var(--ink);margin-right:10px;letter-spacing:.04em}
+@media(max-width:860px){.about{grid-template-columns:1fr}}
+
+.contact{position:relative;z-index:5;padding:14vh 6vw 16vh;background:var(--bg-alt)}
+.contact .big{font-size:clamp(22px,3.4vw,44px);font-weight:400;letter-spacing:-.03em;
+  line-height:1.18;max-width:20ch;margin:0}
+
+.ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:var(--card);color:var(--ink-soft);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;text-align:center;padding:12px}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+
+/* ---- About page: hero band, bio, values (same tokens as the homepage) ---- */
+.hero-about{position:relative;z-index:5;background:var(--bg);padding:14vh 6vw 0;overflow:hidden}
+.hero-about .intro-overlay-x{display:none}
+.about .portrait{max-width:100%;margin-left:0}
+.about-hero-row{display:flex;align-items:center;justify-content:flex-start;gap:4vw}
+.about-wordmark{white-space:nowrap;flex:none;color:var(--ink);transition:color .75s cubic-bezier(.2,.8,.2,1),opacity .3s ease;font-size:clamp(44px,8vw,140px);font-weight:500;line-height:.9;letter-spacing:-.045em}
+.about-wordmark.gray{color:var(--gray)}
+.bio{position:relative;z-index:5;background:var(--bg-alt);padding:14vh 6vw}
+.bio-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:start}
+.bio .sub{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+.bio .yr{display:block;font-size:12px;color:var(--ink-soft);margin-bottom:6px}
+.bio .tools{font-size:14px;line-height:1.7;color:var(--ink-soft);margin-top:10px}
+.values{position:relative;z-index:5;background:var(--bg);padding:14vh 6vw}
+.values h2{font-size:clamp(21px,2.6vw,36px);font-weight:400;letter-spacing:-.03em;line-height:1.2;margin-bottom:6vh;max-width:22ch}
+.value-grid{display:flex;flex-direction:column;gap:0}
+.value{position:sticky;top:calc(16vh + var(--i,0) * 26px);height:58vh;min-height:320px;margin-bottom:8vh;}
+.face{height:100%;background:var(--card);padding:36px 34px;display:flex;flex-direction:column;box-shadow:0 -18px 40px rgba(0,0,0,.06);clip-path:inset(0 0 0 100%);transition:clip-path 1s cubic-bezier(.76,0,.24,1)}
+.value.in .face{clip-path:inset(0 0 0 0)}
+.value:nth-child(2) .face{background:#dedcd8}.value:nth-child(3) .face{background:#d4d2ce}
+.value .big{font-size:clamp(90px,16vw,220px);font-weight:500;letter-spacing:-.06em;line-height:.8;color:var(--ink)}
+.value .no{font-weight:600;color:var(--ink);letter-spacing:.04em;font-size:13px}
+.value h5{margin-top:auto;padding-top:24px;font-size:clamp(17px,1.9vw,23px);font-weight:600;letter-spacing:-.02em;line-height:1.12}
+.value p{margin-top:12px;font-size:14px;line-height:1.6;color:var(--ink-soft)}
+@media(max-width:860px){
+  .bio-grid{grid-template-columns:1fr}
+  .value{height:auto;min-height:0;position:relative;top:auto}
+  .face{height:auto}
+  .about-hero-row{flex-direction:column;align-items:flex-start}
+  }
+    #home { position: relative; }
+    #intro { position: absolute; inset: 0; z-index: 5; background: #fff; overflow: hidden; cursor: pointer;
+      transition: opacity .8s ease; }
+    #intro.is-fading { opacity: 0; pointer-events: none; }
+    #intro .intro-cards { position: absolute; inset: 0; z-index: 2; }
+    #intro .intro-title { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); margin: 0; z-index: 1;
+      font-family: var(--ff); font-weight: 500; color: var(--ink); white-space: nowrap;
+      font-size: 9cqw; letter-spacing: -.045em; line-height: .9; }
+    #intro .intro-cursor { display: inline-block; width: .42em; height: .9em; margin-left: .05em; vertical-align: -.08em;
+      background: #d50d0b; animation: intro-blink .6s steps(1) infinite; }
+    @keyframes intro-blink { 50% { opacity: 0; } }
+    #intro .ic { position: absolute; left: 50%; top: 50%; height: auto; margin: 0; opacity: 0; display: block;
+      transform: translate(-50%, -50%) rotate(var(--r, 0deg)) translate(var(--x, 0), var(--y, 0)) scale(var(--s, 1));
+      animation: ic-in .18s ease-out forwards; background: #F1F1F0; object-fit: cover; }
+    #intro .ic.v { width: 30cqw; aspect-ratio: 3 / 4; }
+    #intro .ic.h { width: 46cqw; aspect-ratio: 4 / 3; }
+    #intro .ic.frame { background: #FDEEE9; }
+    #intro .ic.frame span { position: absolute; width: 22%; height: 22%; border: 0 solid #FF534A; }
+    #intro .ic.frame span:nth-child(1) { top: 0; left: 0; border-top-width: 10px; border-left-width: 10px; }
+    #intro .ic.frame span:nth-child(2) { top: 0; right: 0; border-top-width: 10px; border-right-width: 10px; }
+    #intro .ic.frame span:nth-child(3) { bottom: 0; left: 0; border-bottom-width: 10px; border-left-width: 10px; }
+    #intro .ic.frame span:nth-child(4) { bottom: 0; right: 0; border-bottom-width: 10px; border-right-width: 10px; }
+    @keyframes ic-in { from { opacity: 0; } to { opacity: 1; } }
+    
+  
+@media (prefers-reduced-motion:reduce){.face{clip-path:none}}
+
+.portrait.intro-host{container-type:inline-size}
+.portrait.intro-host #intro{position:absolute;inset:0;z-index:5;background:var(--card)}
+#portraitImg{opacity:0;transition:opacity .9s ease}
+#portraitImg.shown{opacity:1}
+.portrait #intro .intro-cards{position:absolute;inset:0 0 0 0}
+
+.portrait.intro-host{background:transparent;overflow:visible}
+.portrait.intro-host #intro{background:transparent;overflow:visible}
+.portrait.intro-host #intro .intro-cards{overflow:hidden}
+.portrait.intro-host #intro .ic.v{width:56cqw}
+.portrait.intro-host #intro .ic.h{width:84cqw}
+.about-wordmark.await{opacity:0}
+
+/* portrait: black and white, smaller on wide screens */
+#portraitImg{filter:grayscale(100%)}
+@media (min-width:1200px){ .about .portrait{max-width:72%;margin-left:auto} }
+
+
+
+/* introduction: minimal values list, and a slogan under the portrait */
+.slogan{margin-top:28px;display:flex;align-items:flex-start;gap:12px;font-size:clamp(22px,2.4vw,34px);font-weight:400;letter-spacing:-.03em;line-height:1.2;color:#7d7d7a}
+.slogan-q{width:clamp(16px,1.6vw,22px);height:auto;flex:none;margin-top:.25em;fill:#9d9d9a}
+
+/* slogan: title gray, fades in only while the portrait is on screen */
+.slogan{opacity:0;transform:translateY(16px);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1);color:var(--gray)}
+.slogan.in{opacity:1;transform:none}
+.slogan-q{fill:var(--gray)}
+
+@media (max-width:860px){ .about-wordmark .wm-name{display:block} }
+
+/* bio: on mobile the order is Education, Experience, Awards, Tools */
+.bio-grid{grid-template-areas:none}
+.bio-edu{grid-area:edu}.bio-exp{grid-area:exp}.bio-awd{grid-area:awd}.bio-tools{grid-area:tools}
+@media (max-width:860px){
+  .bio-grid{grid-template-columns:1fr;grid-template-areas:"edu" "exp" "awd" "tools"}
+  .bio-col{display:contents}
+}
+</style>
+</head>
+<body id="about-page" class="homepage">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <defs>
       <symbol xmlns="http://www.w3.org/2000/svg" id="calendar" viewBox="0 0 24 24">
         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -155,7 +651,7 @@
     </defs>
   </svg>
 
-  <a class="menu-btn"><span></span></a>
+<a class="menu-btn"><span></span></a>
 
   <div class="container-fluid overflow-hidden">
 
@@ -163,7 +659,7 @@
       <div class="header-wrap d-flex flex-column justify-content-between h-100">
         <div class="navigation">
           <div class="site-logo mt-5">
-            <a href="index.html">
+            <a href=http://apiadesigner.com>
               <img src="images/main-logo.png" alt="logo" class="img-fluid">
             </a>
           </div>
@@ -206,7 +702,7 @@
                   </ul>
                 </div>
               </li>
-              <li><a href="contact.html" class="nav-link">Contact</a></li>
+              <li><a href="#outro" class="nav-link">Contact</a></li>
               <li><a href="service.html"
                   class="nav-link d-flex justify-content-between align-items-center fw-bold"><span id="navProLabel">Get PRO</span> <svg width="18" height="18" viewBox="0 0 24 24">
                     <use xlink:href="#cart"></use>
@@ -231,246 +727,278 @@
         </div>
       </div>
     </header>
+  </div><!-- /container-fluid -->
 
 
-    <main class="col-lg-10 offset-lg-2">
-      <div class="container">
+<!-- ============ CONTENT ============ -->
+<div class="main">
 
-        <!-- content wrapper -->
-        <div class="justify-content-center px-1 mx-1 px-xl-5 mx-xl-5">
+  <section class="hero-about" id="home">
+    <div class="about-hero-row">
+      <div class="about-wordmark" id="aboutWordmark">Hi, I’m <span class="wm-name">APIA HU.</span></div>
+    </div>
+  </section>
 
-          <section id="home" class="py-5 bg-text" data-text="01">
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="banner-image text-center" data-aos="fade-right">
-                  <img src="images/Apia-image.png" alt="banner" class="img-fluid" class="img-fluid">
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="banner-content my-1 pt-1 my-lg-5 pt-lg-5" data-aos="fade-in">
-                  <span class="text-muted text-uppercase">Product / Industrial Design</span>
-                  <h2 class="banner-title display-xl lh-1 txt-fx slide-up">Apia Hu</h2>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-lg-4">
-                <div class="icon-box" data-aos="fade-up">
-                  <span>01</span>
-                  <h3 class="sub-heading">Industrial Design</h3>
-                  <p>Human-centered product designer focused on functionality, interaction, and thoughtful details. I create authentic design solutions through research, observation, and user insight. </p>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
-                  <span>02</span>
-                  <h3 class="sub-heading">User Exeprience</h3>
-                  <p>Driven by curiosity about how the way people experience products. Inspired by culture, emerging trends, and everyday interactions. Enjoy translating insights into thoughtful solutions that balance aesthetics, functionality, and brand identity.</p>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
-                  <span>03</span>
-                  <h3 class="sub-heading">Accessibility</h3>
-                  <p>Focused on inclusive and accessible design that improves everyday experiences. I aim to create solutions that are intuitive, supportive, and usable for everyone.</p>
-                </div>
-              </div>
-            </div>
-          </section>
-          
-          <section>
-            <div>
-              <div style="text-align:center; margin-top:30px;">
-                <a href="files/Apia-Hu-CV-2024.pdf" download class="btn btn-dark text-uppercase py-4 px-5" data-aos="fade-up" data-aos-delay="300">Download CV</a>
-              </div>
-            </div>
-          </section>
-
-          <section id="about" class="my-5 py-5 bg-text" data-text="02">
-            <div class="row d-flex flex-wrap" data-aos="fade-up">
-              <div class="col-lg-6 pb-5">
-                <span class="text-muted text-uppercase">BIODATA</span>
-                <h2 class="display-4 txt-fx slide-up">Education</h2>
-                <div class="data-info py-3" data-aos="fade-up">
-                  <span class="meta-date">2012 - 2016</span>
-                  <h3 class="info-title">Da-Yeh University (Taiwan)</h3>
-                  <p>B.A. Industrial Design Minor in Plastic Arts</p>
-                </div>
-                <div class="data-info" data-aos="fade-up" data-aos-delay="100">
-                  <span class="meta-date">2015 Sep - Dec</span>
-                  <h3 class="info-title">Nuova Accademia di Belle Arti (Milan, Italy)</h3>
-                  <p>Product design-international semester</p>
-                  <p>Sponsored by Education Ministry of TAIWAN</p>
-                </div>
-              </div>
-              <div class="row d-flex flex-wrap" data-aos="fade-up">
-                <div class="col-lg-6 pb-5">
-                <span class="text-muted text-uppercase">EXPERITSE</span>
-                <h2 class="display-4 txt-fx slide-up">Tools&Skills</h2>
-                <div class="data-info py-3" data-aos="fade-up">
-                  <span class="meta-date"> </span>
-                  <h3 class="info-title">Programs</h3>
-                  <p>Solidworks / Rhino / Keyshot / Blender / AutoCAD / Sketchup</p>
-                  <p>Adobe Suite / Coreldraw / Figma / DaVinci Resolve / Wordpress</p>
-                </div>
-                <div class="data-info" data-aos="fade-up" data-aos-delay="100">
-                  <span class="meta-date"> </span>
-                  <h3 class="info-title">Languages</h3>
-                  <p>Mandarin Chinese (Native) / English (Frequent) / Spanish (Conversational)</p>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section id="experience" class="my-5 py-5 bg-text" data-text="03">
-            <div class="row justify-content-center mb-5">
-            </div>
-            <div class="row d-flex flex-wrap" data-aos="fade-up">
-              <div class="col-lg-6 pb-5">
-                <h2 class="display-4 txt-fx slide-up">Experiences</h2>
-                <div class="data-info py-3" data-aos="fade-up">
-                  <span class="meta-date">2024 Nov - Now</span>
-                  <h3 class="info-title">Mamparas de Baño Kassandra S.L</h3>
-                  <p>Data sheets / Product video / Photography / </p>
-                </div>
-                <div class="data-info" data-aos="fade-up" data-aos-delay="100">
-                  <span class="meta-date">2023 Agu - 2024 Nov</span>
-                  <h3 class="info-title">Main Paper S.L</h3>
-                  <p>Stationary Products / Photography / Data Sheets</p>
-                </div>
-                <div class="data-info py-3" data-aos="fade-up" data-aos-delay="200">
-                  <span class="meta-date">2020 Jun-2023 Mar</span>
-                  <h3 class="info-title">Popp Lighting S.L</h3>
-                  <p>Lighting Product / Product Video / IFEMA Exhibition+Showroom Interior / Web UI</p>
-                </div>
-              </div>
-              <div class="col-lg-6 pb-5">
-                <h2 class="display-4 txt-fx slide-up"> </h2>
-                <div class="data-info py-3" data-aos="fade-up">
-                  <span class="meta-date">2017 Mar-2019 July</span>
-                  <h3 class="info-title">Printing Technology Search Institute</h3>
-                  <p>Government project management / Special Printing Technology Research / Industry Consulting</p>
-                </div>
-                <div class="data-info" data-aos="fade-up" data-aos-delay="100">
-                  <span class="meta-date">2015 Feb-Aug</span>
-                  <h3 class="info-title">Motor Products Design</h3>
-                  <p>Product design/3D render/ CITD government project management</p>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="info-element py-4" data-aos="fade-up">
-                  <table class="table">
-                    <tbody>
-                      <tr>
-                        <th>Birth</th>
-                        <td>October, 1993</td>
-                      </tr>
-                      <tr>
-                        <th>Nation</th>
-                        <td>Taiwan</td>
-                      </tr>
-                      <tr>
-                        <th>Residence</th>
-                        <td>Madrid, España</td>
-                      </tr>
-                      <tr>
-                        <th>E-mail</th>
-                        <td><a href="#">apiadesigner@gmail.com</a></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="skill-chart py-4" data-aos="fade-up">
-                  <ul class="skill-chart-list list-unstyled">
-                    <li>
-                      <div class="chart-header d-flex justify-content-between">
-                        <span class="skill-title">3D Programs (Solidworks+Rhino)</span>
-                        <span class="percentage">85%</span>
-                      </div>
-                      <div class="chart-border">
-                        <div class="chart-percentage eighty-five-percent"></div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="chart-header d-flex justify-content-between">
-                        <span class="skill-title">Adobe Suite, Coreldraw</span>
-                        <span class="percentage">90%</span>
-                      </div>
-                      <div class="chart-border">
-                        <div class="chart-percentage ninety-percent"></div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="chart-header d-flex justify-content-between">
-                        <span class="skill-title">Blender</span>
-                        <span class="percentage">80%</span>
-                      </div>
-                      <div class="chart-border">
-                        <div class="chart-percentage eighty-percent"></div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="chart-header d-flex justify-content-between">
-                        <span class="skill-title">Davinci Resolve</span>
-                        <span class="percentage">80%</span>
-                      </div>
-                      <div class="chart-border">
-                        <div class="chart-percentage eighty-percent"></div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="chart-header d-flex justify-content-between">
-                        <span class="skill-title">Figma</span>
-                        <span class="percentage">75%</span>
-                      </div>
-                      <div class="chart-border">
-                        <div class="chart-percentage seventy-five-percent"></div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="chart-header d-flex justify-content-between">
-                        <span class="skill-title">Photography</span>
-                        <span class="percentage">80%</span>
-                      </div>
-                      <div class="chart-border">
-                        <div class="chart-percentage eighty-percent"></div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          
-          <div>
-            <div style="text-align:center; margin-top:30px;">
-              <a href="portfolio-masonry.html" class="btn btn-dark text-uppercase py-4 px-5" data-aos="fade-up" data-aos-delay="300">View All</a>
-            </div>
-          </div>
-        </div>
-        <!-- / content wrapper -->
-
+  <section class="about" id="about">
+    <div>
+      <h2 class="rv">I am an industrial and product designer based in Madrid, focused on creating meaningful experiences.</h2>
+      <div class="body rv" style="margin-top:34px">
+        <p>Industrial Design taught me how to make things. It took longer to learn that the making is the last part. What holds my attention is what comes before: the question asked at the beginning, the constraints that shape the middle, and the reason behind every decision that follows.</p>
+        <p>That method moves across scales without changing: something you hold, something you move through, something you recognise before you can name it. The outcome shifts; the way of getting there does not.</p>
+        <p id="workPara">I work across industrial design, user experience, and accessibility. I create products through research, observation, and user insight, and I translate those insights into solutions that balance aesthetics, functionality, and brand identity. Whatever I make, the goal is the same: intuitive, supportive, and usable for everyone.</p>
+        <p class="about-cta"><a href="portfolio-masonry.html">Explore More Projects</a></p>
+        <p class="about-cta"><a href="files/Apia-Hu-CV-2024.pdf">Download CV</a></p>
       </div>
-    </main>
+    </div>
+    <div>
+      <div class="portrait intro-host"><img id="portraitImg" src="images/about/portrait.jpeg" alt="Apia Hu portrait">
+        <div id="intro" aria-hidden="true">
+          <p class="intro-title"><span class="intro-text"></span><span class="intro-cursor"></span></p>
+          <div class="intro-cards"></div>
+        </div>
+      <p class="slogan" id="slogan"><svg class="slogan-q" viewBox="0 0 448 512" aria-hidden="true"><use href="#quote"></use></svg><span>Good design is when you don't even notice.</span></p>
+      </div>
+    </div>
+  </section>
 
-  </div>
+  <section class="bio" id="bio">
+    <div class="bio-grid">
+      <div class="bio-col bio-left">
+      <div class="bio-edu">
+        <p class="exp-label">Education</p>
+        <div class="award rv"><h5>Da-Yeh University (Taiwan)</h5><span class="yr">2012 – 2016</span><p>B.A. Industrial Design, minor in Plastic Arts</p></div>
+        <div class="award rv"><h5>Nuova Accademia di Belle Arti (Milan, Italy)</h5><span class="yr">2015 Sep – Dec</span><p>Product design, international semester. Sponsored by the Education Ministry of Taiwan.</p></div>
+      </div>
+      <div class="bio-awd">
+        <p class="exp-label" style="margin-top:52px">Awards</p>
+        <div class="award rv"><h5>2023 iF Design Award</h5><p><span class="no">01</span>Final Entry / Desliz Faucet</p></div>
+        <div class="award rv"><h5>2018 Taichung World Flora Exposition</h5><p><span class="no">02</span>Honorable Mention / Betal LOHO</p></div>
+        <div class="award rv"><h5>2016 Taichung A+ Cultural Heritage Creative Festival</h5><p><span class="no">03</span>Final Entry / SEARCH Intelligent Travel System</p></div>
+        <div class="award rv"><h5>2016 Red Dot Award: Design Concept</h5><p><span class="no">04</span>Final Entry / Temper.Care Box</p></div>
+      </div>
+      </div>
+      <div class="bio-col bio-right">
+      <div class="bio-exp">
+        <p class="exp-label">Experience</p>
+        <div class="award rv"><h5>Mamparas de Baño Kassandra S.L</h5><span class="yr">2024 Nov – Now</span><p>Data sheets, product video, photography</p></div>
+        <div class="award rv"><h5>Main Paper S.L</h5><span class="yr">2023 Aug – 2024 Nov</span><p>Stationery products, photography, data sheets</p></div>
+        <div class="award rv"><h5>Popp Lighting S.L</h5><span class="yr">2020 Jun – 2023 Mar</span><p>Lighting products, product video, IFEMA exhibition and showroom interior, web UI</p></div>
+        <div class="award rv"><h5>Printing Technology Search Institute</h5><span class="yr">2017 Mar – 2019 Jul</span><p>Government project management, special printing technology research, industry consulting</p></div>
+        <div class="award rv"><h5>Motor Products Design</h5><span class="yr">2015 Feb – Aug</span><p>Product design, 3D render, CITD government project management</p></div>
+      </div>
+      <div class="bio-tools">
+        <p class="exp-label" style="margin-top:52px">Tools &amp; Languages</p>
+        <p class="tools">Solidworks, Rhino, Keyshot, Blender, AutoCAD, Sketchup, Adobe Suite, CorelDraw, Figma, DaVinci Resolve, WordPress.<br>Mandarin Chinese (native), English (frequent), Spanish (conversational).</p>
+      </div>
+      </div>
+    </div>
+  </section>
 
-  <script src="js/jquery-1.11.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-    crossorigin="anonymous"></script>
-  <script src="js/plugins.js"></script>
-  <script src="js/script.js"></script>
-  <script src="js/cursor.js"></script>
-  <script src="js/nav-label-swap.js"></script>
-  <script src="js/page-transition.js"></script>
+  
+
+  <section class="outro" id="outro" aria-label="Contact">
+    <div class="outro-row">
+      <div class="outro-mark">APIA HU</div>
+      <p class="outro-copy">Sense before surface.<br>An industrial and product designer based in Madrid.</p>
+    </div>
+    <a class="outro-cta" href="mailto:apiadesigner@gmail.com?subject=Let%27s%20make%20design%20make%20sense&body=Hello%20Apia%2C%0A%0AWhat%20I%27m%20making%3A%0A%0AWho%20it%27s%20for%3A%0A%0AWhat%20matters%20most%3A%0A%0A">
+      <span class="w">Let's</span> <span class="w">make</span> <span class="w">design</span>
+      <span class="w">make</span> <span class="w">sense</span><i class="arrow">&rarr;</i>
+      <b class="rule"></b>
+    </a>
+    <p class="outro-mail">Opens a mail to apiadesigner@gmail.com</p>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var wm=document.getElementById('aboutWordmark');
+  function onScroll(){ if (window.__aboutFlying) return; wm.classList.toggle('gray', window.scrollY > 40); }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+})();
+(function(){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15});
+  document.querySelectorAll('.rv,.outro').forEach(function(e){io.observe(e)});
+})();
+</script>
+
+<script src="js/jquery-1.11.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="js/plugins.js"></script>
+<script src="js/script.js"></script>
+<script src="js/cursor.js"></script>
+<script src="js/nav-label-swap.js"></script>
+<script src="js/page-transition.js"></script>
+<script>
+  (function () {
+    var intro = document.getElementById('intro');
+    if (!intro) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      intro.remove();
+      return;
+    }
+
+    var NAME = 'Hi, I\u2019m APIA HU.';
+    /* Named photos in slot order 1-18. FRAME = placeholder where the photo is missing.
+       Odd cards are vertical, even cards horizontal. Cards grow with their order;
+       the last card (coffee) is the biggest. */
+    var SLOTS = [
+      'images/intro/slot-01.jpg', 'images/intro/slot-02.jpg', 'FRAME', 'images/intro/slot-04.jpg', 'images/intro/slot-05.jpg', 'images/intro/slot-06.jpg',
+      'FRAME', 'images/intro/slot-08.jpg', 'images/intro/slot-09.jpg', 'FRAME', 'images/intro/slot-11.jpg', 'images/intro/slot-12.jpg',
+      'images/intro/slot-13.jpg', 'images/intro/slot-14.jpg', 'images/intro/slot-15.jpg', 'images/intro/slot-16.jpg', 'FRAME', 'images/intro/slot-18.jpg'
+    ];
+    var TYPE_MS = 110, START_DELAY = 1000, STEP_MS = 400, REMOVE_MS = 400, HOLD_MS = 600, LAST_HOLD_MS = 2600;
+
+    var textEl = intro.querySelector('.intro-text');
+    var stack = intro.querySelector('.intro-cards');
+    var timers = [];
+    var cardCount = 0;
+    var finished = false;
+
+    function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+    function rnd(min, max) { return min + Math.random() * (max - min); }
+
+    function typeName(i) {
+      if (i > NAME.length) return later(runStack, START_DELAY);
+      textEl.textContent = NAME.slice(0, i);
+      later(function () { typeName(i + 1); }, TYPE_MS);
+    }
+
+    /* Gradual scale by order: card 1 = 20%, card 18 (coffee) = 100%, each card a little bigger than the last */
+    function scaleFor(i) {
+      return +(0.2 + i * (0.8 / (SLOTS.length - 1))).toFixed(3);
+    }
+
+    function makeCard(src, index) {
+      var orient = (index % 2 === 0) ? 'v' : 'h';
+      var el;
+      if (src === 'FRAME') {
+        el = document.createElement('div');
+        el.className = 'ic frame ' + orient;
+        for (var k = 0; k < 4; k++) el.appendChild(document.createElement('span'));
+      } else {
+        el = document.createElement('img');
+        el.className = 'ic ' + orient;
+        el.alt = '';
+        el.src = src;
+      }
+      el.style.setProperty('--s', scaleFor(index));
+      el.style.setProperty('--r', rnd(-8, 8).toFixed(1) + 'deg');
+      el.style.setProperty('--x', rnd(-4, 4).toFixed(1) + '%');
+      el.style.setProperty('--y', rnd(-4, 4).toFixed(1) + '%');
+      return el;
+    }
+
+    function runStack() {
+      var i = 0;
+      (function tick() {
+        if (i >= SLOTS.length) return later(removeOneByOne, LAST_HOLD_MS);
+        cardCount++;
+        var el = makeCard(SLOTS[i], i);
+        el.style.zIndex = 10 + cardCount;
+        stack.appendChild(el);
+        i++;
+        later(tick, STEP_MS);
+      })();
+    }
+
+    /* Hide the photos one by one, newest first, until only APIA HU is left */
+    function removeOneByOne() {
+      if (finished) return;
+      var top = stack.lastElementChild;
+      if (!top) return later(revealAbout, HOLD_MS);
+      top.style.animation = 'none';
+      top.style.opacity = '1';
+      top.style.transition = 'opacity ' + REMOVE_MS + 'ms ease';
+      void top.offsetWidth;
+      top.style.opacity = '0';
+      later(function () { if (top.parentNode) top.parentNode.removeChild(top); }, REMOVE_MS);
+      later(removeOneByOne, REMOVE_MS);
+    }
+
+    /* Only the title is left: fade the overlay to show the real About page */
+    function revealAbout() {
+      if (finished) return;
+      finished = true;
+      var title = intro.querySelector('.intro-title');
+      var wm = document.getElementById('aboutWordmark');
+      if (!title || !wm) { intro.classList.add('is-fading'); later(removeIntro, 900); return; }
+
+      var cur = title.querySelector('.intro-cursor');
+      if (cur) cur.style.display = 'none';
+      window.__aboutFlying = true;
+
+      /* 1. the intro title fades out */
+      title.style.transition = 'opacity .6s ease';
+      title.style.opacity = '0';
+
+      /* 2. the page glides back to the top with an eased scroll */
+      var startY = window.scrollY, D = 1400, t0 = null;
+      function ease(p) { return p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; }
+      function glide(ts) {
+        if (t0 === null) t0 = ts;
+        var p = Math.min(1, (ts - t0) / D);
+        window.scrollTo({ top: startY * (1 - ease(p)), behavior: 'instant' });
+        if (p < 1) return requestAnimationFrame(glide);
+        arrived();
+      }
+      requestAnimationFrame(glide);
+
+      /* 3. at the top, the About title and the portrait fade in gently */
+      function arrived() {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        window.__aboutFlying = false;
+        wm.classList.remove('gray');
+        wm.style.transition = 'color .75s cubic-bezier(.2,.8,.2,1), opacity 1s ease .15s';
+        wm.classList.remove('await');
+        var photo = document.getElementById('portraitImg');
+        if (photo) photo.classList.add('shown');
+        later(removeIntro, 1100);
+      }
+    }
+
+    function removeIntro() {
+      timers.forEach(clearTimeout);
+      var photo = document.getElementById('portraitImg');
+      if (photo) photo.classList.add('shown');
+      var wm = document.getElementById('aboutWordmark');
+      if (wm) wm.classList.remove('await');
+      intro.remove();
+    }
+
+    intro.addEventListener('click', function () {
+      if (finished) return;
+      finished = true;
+      timers.forEach(clearTimeout);
+      removeIntro();
+    });
+
+    /* start the animation when the portrait comes into view */
+    var wmEl = document.getElementById('aboutWordmark');
+    if (wmEl) wmEl.classList.add('await');
+    var host = intro.parentElement;
+    var io = new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting) { io.disconnect(); typeName(0); }
+    }, { threshold: 0.5 });
+    io.observe(host);
+  })();
+  </script>
+
+
+
+<script>
+(function () {
+  var slogan = document.getElementById('slogan');
+  var para = document.getElementById('workPara');
+  if (!slogan || !para) return;
+  function update() {
+    slogan.classList.toggle('in', para.getBoundingClientRect().top <= 120);
+  }
+  window.addEventListener('scroll', function () { requestAnimationFrame(update); }, { passive: true });
+  update();
+})();
+</script>
 </body>
-
 </html>
-
