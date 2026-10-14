@@ -1263,6 +1263,10 @@ body.project-page {
     border-radius: 8px;
 }
 
+.project-video img + img {
+    margin-top: 24px;
+}
+
 .project-video video {
     display: block;
     width: 100%;
