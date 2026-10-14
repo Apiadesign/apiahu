@@ -1255,6 +1255,14 @@ body.project-page {
     padding: 0 6vw 64px;
 }
 
+.project-video img {
+    display: block;
+    width: 100%;
+    max-width: 1112px;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
 .project-video video {
     display: block;
     width: 100%;
