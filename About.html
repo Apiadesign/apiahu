@@ -349,7 +349,7 @@ body:has(.pair:hover) .backdrop-copy{opacity:.35}
   padding:16vh 4vw calc(12vh + env(safe-area-inset-bottom,0px)) 2vw}
 .outro-row{display:flex;align-items:center;justify-content:space-between;gap:4vw}
 .outro-mark{white-space:nowrap;flex:none;color:var(--ink);
-  font-size:clamp(30px,4.6vw,76px);font-weight:500;line-height:.9;letter-spacing:-.045em}
+  font-size:clamp(44px,8vw,140px);font-weight:500;line-height:.9;letter-spacing:-.045em}
 .outro-copy{width:min(27%,330px);flex:none;color:var(--ink);
   font-size:clamp(14px,1.4vw,20px);line-height:1.45;font-weight:500}
 .outro-mark,.outro-copy{opacity:0;transform:translateX(var(--from,0));
@@ -820,7 +820,9 @@ body:has(.pair:hover) .backdrop-copy{opacity:.35}
 (function(){
   var io=new IntersectionObserver(function(es){es.forEach(function(e){
     if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15});
-  document.querySelectorAll('.rv,.outro').forEach(function(e){io.observe(e)});
+  document.querySelectorAll('.rv').forEach(function(e){io.observe(e)});
+  var os=document.getElementById('outro');
+  if(os)new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)os.classList.add('in')})},{threshold:.35}).observe(os);
 })();
 </script>
 
