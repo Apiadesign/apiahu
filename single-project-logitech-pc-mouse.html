@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script>
+    // Runs before first paint: if arriving from a project-link click,
+    // add the class that instantly covers the page in red (see
+    // html.pt-incoming in style.css) so there's no flash of raw
+    // content before js/page-transition.js reveals through it.
+    (function () {
+      try {
+        if (sessionStorage.getItem('ptOrigin')) {
+          document.documentElement.classList.add('pt-incoming');
+        }
+      } catch (e) { /* private mode / storage blocked: no incoming transition */ }
+    })();
+  </script>
+  <title>Logitech PC Mouse — ApiaHu Design Portfolio</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="A Logitech PC mouse concept shaped around an ergonomic line, with an anti-slip textured rear and a one-click Home button.">
+  <link rel="stylesheet" type="text/css" href="css/vendor.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body class="project-page case-study-page" tabindex="0">
+
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <defs>
+      <symbol xmlns="http://www.w3.org/2000/svg" id="arrow-left" viewBox="0 0 24 24">
+        <path fill="currentColor"
+          d="M17 11H9.41l3.3-3.29a1 1 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33a1 1 0 0 0 0 .76a1 1 0 0 0 .21.33l5 5a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42L9.41 13H17a1 1 0 0 0 0-2Z" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- Back to main page -->
+  <a href="index.html" class="project-back">
+    <svg width="14" height="14" viewBox="0 0 24 24"><use xlink:href="#arrow-left"></use></svg>
+    Back to main page
+  </a>
+
+  <!-- Hero: horizontal, swipeable photo strip -->
+  <div class="project-photos">
+    <div class="photo"><img src="images/logitech-pc-mouse-1.jpg" alt="Logitech PC mouse concept in sand on a desk beside a keyboard and glasses"></div>
+    <div class="photo"><img src="images/logitech-pc-mouse-2.jpg" alt="Sand-coloured Logitech mouse floating in warm window light"></div>
+    <div class="photo"><img src="images/logitech-pc-mouse-3.jpg" alt="Sage-green Logitech mouse floating above a pale surface"></div>
+    <div class="photo"><img src="images/logitech-pc-mouse-4.jpg" alt="Mint Logitech mouse resting against a laptop keyboard"></div>
+    <div class="photo"><img src="images/logitech-pc-mouse-5.jpg" alt="Sage-green Logitech mouse on a grey background"></div>
+    <div class="photo"><img src="images/logitech-pc-mouse-6.jpg" alt="Top, side and underside views of the sand-coloured mouse"></div>
+    <div class="photo"><img src="images/logitech-pc-mouse-7.jpg" alt="Close-up of the sage-green mouse, its logo and the wave-textured shell"></div>
+  </div>
+
+  <div class="project-body">
+
+    <!-- Overview -->
+    <div class="project-overview">
+      <div class="overview-text">
+        <span class="section-label">Overview</span>
+        <h2>A mouse shaped around the hand, built for long hours</h2>
+        <p>This Logitech PC mouse is a product design concept about comfort over time. Hours at a desk keep the
+          palm and finger joints in constant contact with the mouse, so the design starts from the hand: an
+          ergonomic line drawn along the side profile lets the palm settle naturally instead of gripping.</p>
+        <p>The back of the shell carries a special anti-slip texture of fine, flowing ridges. It gives the palm a
+          comfortable support and helps reduce the discomfort caused by long-term use, while keeping the surface
+          simple, soft and quiet to look at.</p>
+        <p>A dedicated Home button sits under the thumb: on Windows one click takes you back to the desktop, and on
+          Mac it works as &#8984;D. The concept was modelled and rendered in sage green, mint and sand, colours
+          chosen to sit calmly on a desk beside a keyboard and a notebook.</p>
+        <a href="https://www.behance.net/gallery/148942635/Logitech-PC-mouseProduct-Design-Concept" target="_blank" class="discover-link">View the full case study on Behance</a>
+      </div>
+      <div class="overview-meta">
+        <div class="meta-row">
+          <div>
+            <p class="meta-label">Role</p>
+            <p class="meta-value">Product Designer &amp; 3D Modeler</p>
+          </div>
+          <div>
+            <p class="meta-label">Year</p>
+            <p class="meta-value">2022</p>
+          </div>
+        </div>
+        <div class="meta-row">
+          <div>
+            <p class="meta-label">Category</p>
+            <p class="meta-value">Computer Accessories</p>
+          </div>
+          <div>
+            <p class="meta-label">Focus</p>
+            <p class="meta-value">Ergonomics &amp; Interaction</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Keep Exploring / More Project -->
+    <div class="more-projects">
+      <div class="more-heading">
+        <span class="eyebrow-small">Keep Exploring</span>
+        <h3>More Project</h3>
+      </div>
+      <div class="more-track">
+        <div class="item">
+          <a href="single-project-desliz-faucet.html" title="Desliz Faucet" class="project-link" data-project="desliz-faucet">
+            <img src="images/home-gallery1.jpg" alt="Desliz Faucet">
+            <div class="overlay"></div>
+            <div class="description">
+              <span class="eyebrow">Kitchen Fixtures</span>
+              <h4>Desliz Faucet</h4>
+            </div>
+          </a>
+        </div>
+        <div class="item">
+          <a href="single-project.html" title="LAOSAN Local Souvenir" class="project-link" data-project="laosan-local-souvenir">
+            <img src="images/home-gallery3.jpg" alt="LAOSAN Local Souvenir">
+            <div class="overlay"></div>
+            <div class="description">
+              <span class="eyebrow">Packaging Design</span>
+              <h4>LAOSAN Local Souvenir</h4>
+            </div>
+          </a>
+        </div>
+        <div class="item">
+          <a href="single-project-mr-shower-tray.html" title="MR Shower tray" class="project-link" data-project="mr-shower-tray">
+            <img src="images/home-gallery5.jpg" alt="MR Shower tray">
+            <div class="overlay"></div>
+            <div class="description">
+              <span class="eyebrow">Bathroom Fixtures</span>
+              <h4>MR Shower tray</h4>
+            </div>
+          </a>
+        </div>
+        <div class="item">
+          <a href="single-project.html" title="MG Sliding Door" class="project-link" data-project="mg-sliding-door">
+            <img src="images/home-gallery6.jpg" alt="MG Sliding Door">
+            <div class="overlay"></div>
+            <div class="description">
+              <span class="eyebrow">Home Hardware</span>
+              <h4>MG Sliding Door</h4>
+            </div>
+          </a>
+        </div>
+        <div class="item">
+          <a href="single-project.html" title="GOUZAI Surprise Box" class="project-link" data-project="gouzai-surprise-box">
+            <img src="images/home-gallery7.jpg" alt="GOUZAI Surprise Box">
+            <div class="overlay"></div>
+            <div class="description">
+              <span class="eyebrow">Branding</span>
+              <h4>GOUZAI Surprise Box</h4>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="swipe-hint">&larr;&nbsp; Swipe to see more &nbsp;&rarr;</div>
+    </div>
+  </div>
+
+  <!-- Fixed bottom info bar -->
+  <div class="project-info-bar">
+    <div>
+      <p class="project-name">Logitech PC Mouse</p>
+    </div>
+    <div class="summary-col">
+      <p class="project-summary">An ergonomic mouse concept with an anti-slip textured shell and a one-click
+        Home button.</p>
+    </div>
+    <div>
+      <p class="project-meta-label">Services</p>
+      <p class="project-meta-value">Product Design<br>3D Modeling &amp; Rendering</p>
+    </div>
+    <div>
+      <a href="https://www.behance.net/gallery/148942635/Logitech-PC-mouseProduct-Design-Concept" target="_blank" class="project-visit">View on Behance</a>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+    <div class="lightbox-inner" id="lightboxInner"></div>
+  </div>
+
+  <script src="js/single-project.js"></script>
+  <script src="js/cursor.js"></script>
+  <script src="js/page-transition.js"></script>
+</body>
+
+</html>
