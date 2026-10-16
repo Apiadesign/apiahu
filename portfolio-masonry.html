@@ -489,7 +489,7 @@ body{background:#fff}
               <li><a href="index.html" class="nav-link">Home</a></li>
               <li><a href="About.html" class="nav-link">About</a></li>
               <li>
-				<a class="nav-link btn-toggle d-flex justify-content-between align-items-center collapsed"
+				<a class="nav-link btn-toggle d-flex justify-content-between align-items-center fw-bold collapsed"
 				  data-bs-toggle="collapse" data-bs-target="#pages-collapse" aria-expanded="false">
 				  Projects
 				</a>
@@ -523,10 +523,6 @@ body{background:#fff}
                 </div>
               </li>
               <li><a href="index.html#outro" class="nav-link">Contact</a></li>
-              <li><a href="service.html"
-                  class="nav-link d-flex justify-content-between align-items-center fw-bold"><span id="navProLabel">Get PRO</span> <svg width="18" height="18" viewBox="0 0 24 24">
-                    <use xlink:href="#cart"></use>
-                  </svg></a></li>
             </ul>
           </nav>
         </div>
@@ -668,7 +664,7 @@ body{background:#fff}
       </div>
 
       <div class="brief-out">
-        <a class="brief-go" id="briefGo" href="service.html">Take this to the brief <span>&rarr;</span></a>
+        <a class="brief-go" id="briefGo" href="mailto:apiadesigner@gmail.com">Take this to the brief <span>&rarr;</span></a>
         <button class="brief-reset" id="briefReset" type="button">start over</button>
       </div>
     </div>
@@ -681,11 +677,10 @@ body{background:#fff}
 <script src="js/plugins.js"></script>
 <script src="js/script.js"></script>
 <script src="js/cursor.js"></script>
-<script src="js/nav-label-swap.js"></script>
 <script src="js/page-transition.js"></script>
 <script>
 // BRIEF BUILDER: three taps assemble a sentence, the page answers with the
-  // closest projects, then carries the choices into service.html as query params.
+  // closest projects, then carries the choices into an email to Apia.
   (function(){
     var line = document.getElementById('briefLine');
     if(!line) return;
@@ -774,7 +769,9 @@ body{background:#fff}
         go.classList.toggle('on', !!done);
         reset.classList.toggle('on', !!done);
         if(done){
-          go.href = 'service.html?service=' + pick.what + '&client=' + pick.who + '&focus=' + pick.why;
+          var sentence = line.textContent.replace(/\s+/g, ' ').trim();
+          go.href = 'mailto:apiadesigner@gmail.com?subject=' + encodeURIComponent('A brief: ' + sentence) +
+            '&body=' + encodeURIComponent('Hello Apia,\n\n' + sentence + '\n\nSome more detail:\n');
           match();
         }
       });
