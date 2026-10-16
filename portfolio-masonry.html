@@ -2,6 +2,22 @@
 <html lang="en">
 
 <head>
+  <title>Projects — ApiaHu Design Portfolio</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+  <script>
+    // Runs before the overlay is even parsed, so repeat visits within this
+    // browser tab skip straight to the page with no animation flash.
+    (function () {
+      try {
+        if (sessionStorage.getItem('introPlayed') === '1') {
+          document.documentElement.classList.add('intro-seen');
+        }
+      } catch (e) { /* private mode / storage blocked: intro will just play again */ }
+    })();
+  </script>
   <script>
     // Runs before first paint: if arriving from a project-link click,
     // add the class that instantly covers the page in red (see
@@ -15,31 +31,331 @@
       } catch (e) { /* private mode / storage blocked: no incoming transition */ }
     })();
   </script>
-  <title>ApiaHu Design Portfolio</title>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="format-detection" content="telephone=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="author" content="">
   <meta name="keywords" content="">
-  <meta name="description" content="">
+  <meta name="description" content="Selected industrial, product, packaging and UI design projects by Apia Hu.">
   <link rel="stylesheet" type="text/css" href="css/vendor.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="css/intro.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700;900&display=swap" rel="stylesheet">
-</head>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @keyframes slotIn{from{opacity:0;transform:translateY(.22em)}to{opacity:1;transform:none}}
+  @keyframes matchIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+:root {--primary:#d50d0b;
+    --primary-dark:#a80a09;
+    --secondary:#FBE4E3;
+    --black:#111111;
+    --white:#FFFFFF;
+    --dark:#212529;
+    --gray:#949494;
+    --gray-dark:#51565b;
+    --body:#333333;
+    --line:#e6e6e5;
+    --radius:0;}
+/*dark*/ :root[data-theme="dark"] {--white:#111111; --black:#f1f1f0; --dark:#f1f1f0; --body:#cfcfcd;
+    --line:#2a2a29; --secondary:#3a1f1e;}
+/* ===== contact — brief builder: sentence left, taps right ===== */
+  .contact {padding:70px 0 90px;
+    border-top:1px solid var(--line);
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:1fr 1.1fr;
+    gap:44px;
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .8s ease, transform .8s ease;}
+.contact.in-view {opacity:1;transform:translateY(0);}
+.contact {grid-template-columns:1fr;gap:36px;}
+.brief-label {font-size:0.7rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--gray-dark);
+    margin:0 0 18px;}
+.brief-line {font-size:clamp(30px,4vw,56px);
+    line-height:1.12;
+    letter-spacing:-0.02em;
+    color:var(--black);
+    margin:0;}
+.slot {transition:color .3s ease;}
+.slot.empty {color:var(--gray);border-bottom:1px solid var(--line);}
+.slot.filled {color:var(--primary);}
+.slot .swap {display:inline-block;animation:slotIn .4s cubic-bezier(.2,.9,.25,1);}
+.field {margin-bottom:14px;}
+.field label {display:block;
+    font-size:14px;
+    font-weight:500;
+    color:var(--black);
+    margin-bottom:8px;}
+.pills {display:flex;flex-wrap:wrap;gap:8px;}
+.pill {font-size:13px;
+    font-family:'Roboto',sans-serif;
+    padding:9px 14px;
+    border:none;
+    border-radius:var(--radius);
+    background:#f1f1f0;
+    color:var(--body);
+    cursor:pointer;
+    white-space:nowrap;
+    flex:0 0 auto;
+    transition:background .2s ease, color .2s ease;}
+.pill:hover {background:#e6e5e3;}
+.pill.active {background:var(--primary);color:#fff;}
+/* closest work, answered after the third tap */
+  .brief-match {margin-top:22px;
+    opacity:0;
+    transform:translateY(14px);
+    pointer-events:none;
+    height:0;
+    overflow:hidden;
+    transition:opacity .5s ease, transform .6s cubic-bezier(.2,.8,.2,1);}
+.brief-match.on {opacity:1;transform:none;pointer-events:auto;height:auto;overflow:visible;}
+.brief-match h4 {font-size:0.7rem;
+    font-weight:400;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--gray-dark);
+    margin:0 0 12px;}
+.match-row {display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+    gap:14px;}
+.match-card {display:block;
+    text-decoration:none;
+    color:inherit;
+    opacity:0;
+    transform:translateY(12px);
+    animation:matchIn .55s cubic-bezier(.2,.8,.2,1) forwards;}
+.match-card:nth-child(2) {animation-delay:.07s;}
+.match-card:nth-child(3) {animation-delay:.14s;}
+.match-card .shot {display:block;
+    position:relative;
+    aspect-ratio:4/5;
+    overflow:hidden;
+    border:1px solid var(--line);}
+.match-card .shot img,
+  .match-card .shot .shot-color {width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+    transition:transform .8s cubic-bezier(.2,.8,.2,1);}
+.match-card:hover .shot img,
+  .match-card:hover .shot .shot-color {transform:scale(1.05);}
+.match-card i {display:block;
+    margin-top:8px;
+    font-size:0.7rem;
+    font-style:normal;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:rgba(34,34,34,0.6);}
+.match-card b {display:block;
+    margin-top:2px;
+    font-size:14px;
+    font-weight:500;
+    color:var(--black);}
+.brief-out {margin-top:20px;}
+.brief-go {display:inline-flex;
+    align-items:baseline;
+    gap:12px;
+    font-size:22px;
+    font-weight:500;
+    color:var(--primary);
+    text-decoration:none;
+    opacity:0;
+    transform:translateY(10px);
+    pointer-events:none;
+    transition:opacity .4s ease, transform .5s cubic-bezier(.2,.8,.2,1);}
+.brief-go.on {opacity:1;transform:none;pointer-events:auto;}
+.brief-go:hover {opacity:.75;}
+.brief-reset {margin-left:18px;
+    font-family:'Roboto',sans-serif;
+    font-size:12.5px;
+    color:var(--gray-dark);
+    background:none;
+    border:0;
+    border-bottom:1px solid var(--line);
+    padding:0;
+    cursor:pointer;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .4s ease;}
+.brief-reset.on {opacity:1;pointer-events:auto;}
+.brief-note {margin:10px 0 0;
+    font-size:12.5px;
+    color:var(--gray-dark);}
+.brief-note a {color:var(--gray-dark);}
+.service-visual .overlay,.service-visual .description,.pill,.tag[data-project],
+    .match-card .shot img,.match-card .shot .shot-color {transition:none;}
+.slot .swap,.match-card {animation:none;opacity:1;transform:none;}
 
-<body class="bg-body homepage post-template" data-bs-spy="scroll" data-bs-target="#header-nav" tabindex="0">
-  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+/* ---------- page layout: sits beside the site's fixed sidebar (col-lg-2) ---------- */
+body{background:#fff}
+.main{margin-left:16.6667%;min-width:0;padding:0 10vw;
+  color:#333;font-family:'Roboto',Verdana,sans-serif;font-size:16px;line-height:normal}
+.main{padding-top:64px !important}
+@media(max-width:991px){.main{margin-left:0;padding:72px 7vw 0}}
+/* the site's global heading / link / paragraph rules shouldn't reshape this page */
+.main :is(h1,h2,h3,h4,h5,h6){font-family:inherit;font-weight:400;color:inherit}
+.main a{text-decoration:none}
+.main p{margin:0}
+.main img{max-width:none}
+  /* ---------- contact form (below the brief) ---------- */
+  .cf{max-width:1000px;margin:0 auto 120px;padding-top:10px}
+  .cf-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px 36px}
+  .cf-field label{display:block;font-size:14px;font-weight:500;color:#111;margin-bottom:10px}
+  .cf-field input{width:100%;border:0;border-bottom:1px solid #e6e6e5;background:transparent;
+    font:inherit;font-size:15px;color:#111;padding:8px 0 14px;outline:none;transition:border-color .3s}
+  .cf-field input:focus,.cf-field textarea:focus{border-bottom-color:#111}
+  .cf-full{grid-column:1 / -1}
+  .cf-field textarea{width:100%;min-height:150px;border:0;border-bottom:1px solid #e6e6e5;background:transparent;
+    font:inherit;font-size:15px;color:#111;padding:8px 0 14px;outline:none;resize:vertical;transition:border-color .3s}
+  .cf-out{display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap;margin-top:28px}
+  .cf-submit{font:inherit;font-size:22px;font-weight:500;color:#d50d0b;background:none;border:0;padding:0;cursor:pointer}
+  .cf-submit:hover{opacity:.75}
+  .cf-note{margin:0;font-size:12.5px;color:#51565b}
+  .cf-note a{color:#51565b}
+  .cf-msg{font-size:13px;color:#51565b;margin-top:14px;min-height:18px}
+  @media (max-width:820px){ .cf-grid{grid-template-columns:1fr} }
+  /* compact presentation: tighter vertical rhythm for the brief + form */
+  .contact{padding:40px 0 20px !important;margin-top:0 !important;gap:20px !important;max-width:1000px !important}
+  .brief-label{margin:0 0 12px !important}
+  .brief-line{font-size:clamp(26px,3.2vw,44px) !important;line-height:1.14 !important}
+  .field{margin-bottom:10px !important}
+  .field label{margin-bottom:6px !important;font-size:13px !important}
+  .pills{gap:6px !important}
+  .pill{padding:7px 12px !important;font-size:12.5px !important}
+  .brief-match{margin-top:14px !important}
+  .brief-match h4{margin-bottom:8px !important}
+  .match-row{gap:10px !important}
+  .match-card .shot{aspect-ratio:4/3 !important}
+  .brief-out{margin-top:12px !important}
+  .brief-go{font-size:19px !important}
+  .cf{margin:0 auto 60px !important;padding-top:0 !important}
+  .cf-grid{gap:20px 28px !important}
+  .cf-field input{padding:6px 0 10px !important}
+  .cf-field textarea{min-height:96px !important;padding:6px 0 10px !important}
+  .cf-out{margin-top:18px !important}
+  .cf-submit{font-size:19px !important}
+  .main{padding:0 8vw !important}
+  .demo-note{padding-top:16px !important}
+
+  /* two columns: title + form on the left, the three questions on the right */
+  #brief{display:grid !important;grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;gap:56px !important;align-items:start !important}
+  #brief .brief-form{margin-top:30px}
+  #brief .cf-grid{grid-template-columns:1fr 1fr !important}
+  #brief .cf-full{grid-column:1 / -1}
+  @media (max-width:900px){ #brief{grid-template-columns:1fr !important;gap:40px !important} }
+
+  /* right column: a little more air between the option rows, cards and the action */
+  #brief .contact-form .field{margin-bottom:22px !important}
+  #brief .contact-form .field:last-of-type{margin-bottom:0 !important}
+  #brief .contact-form .field label{margin-bottom:10px !important}
+  #brief .contact-form .pills{gap:9px !important}
+  #brief .contact-form .brief-match{margin-top:30px !important}
+  #brief .contact-form .brief-match h4{margin-bottom:12px !important}
+  #brief .contact-form .match-row{gap:14px !important}
+  #brief .contact-form .brief-out{margin-top:26px !important}
+
+  /* bottoms of both columns line up: the brief link sits level with the form note */
+  #brief{align-items:stretch !important}
+  #brief .brief-left{display:flex !important;flex-direction:column !important}
+  #brief .brief-form{flex:1 !important;display:flex !important;flex-direction:column !important;position:relative}
+  #brief .brief-form form{flex:1 !important;display:flex !important;flex-direction:column !important}
+  #brief .cf-out{margin-top:auto !important}
+  #brief .cf-msg{position:absolute;left:0;right:0;top:100%;margin:6px 0 0 !important;min-height:0 !important}
+  #brief .contact-form{display:flex !important;flex-direction:column !important}
+  #brief .contact-form .brief-out{margin-top:auto !important;padding-top:0 !important;align-items:flex-end !important}
+  /* a little more space between the right-column elements */
+  #brief .contact-form .field{margin-bottom:30px !important}
+  #brief .contact-form .brief-match{margin-top:12px !important}
+  #brief .contact-form .brief-match h4{margin-bottom:14px !important}
+  #brief .contact-form .match-row{margin-bottom:0 !important}
+
+  /* brief section: reduce the left margin, let it use the available width */
+  .main{padding-left:3vw !important;padding-right:6vw !important}
+  #brief{max-width:none !important;margin:0 !important}
+  .demo-note{padding-left:0 !important}
+
+  /* selected projects: same photo strip as the single project pages */
+  .works{margin:0 0 90px}
+  .works-label{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#949494;margin:0 0 28px}
+  .work-row{margin-bottom:56px}
+  .work-meta{display:flex;align-items:baseline;gap:12px;margin-bottom:12px;font-size:13px;color:#111}
+  .work-meta b{font-weight:700}
+  .work-meta span{color:#949494}
+  .project-photos{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;background:#fff}
+  .project-photos::-webkit-scrollbar{display:none}
+  .project-photos .photo{flex:0 0 44%;height:300px;flex-shrink:0}
+  .project-photos .photo:nth-child(4n+2){flex-basis:62%}
+  .project-photos .photo:nth-child(4n+3){flex-basis:26%}
+  .project-photos .photo:nth-child(4n+4){flex-basis:50%}
+  @media (max-width:900px){
+    .project-photos .photo,.project-photos .photo:nth-child(n){flex-basis:82%;height:240px}
+  }
+
+  /* bigger project titles above each strip */
+  .work-meta{font-size:15px !important;margin-bottom:16px !important;gap:16px !important}
+  .work-meta b{font-size:clamp(22px,2.4vw,32px) !important;font-weight:700 !important;letter-spacing:-.01em;line-height:1.1}
+  .work-meta span{font-size:14px !important}
+
+  /* strips: hover + wheel scrolls sideways, drag works too, click opens the project */
+  .project-photos{cursor:grab;user-select:none;-webkit-user-select:none}
+  .project-photos:active{cursor:grabbing}
+  .work-meta{text-decoration:none;color:inherit;cursor:pointer}
+  .work-meta:hover b{color:#FF534A}
+  .work-meta b{transition:color .25s}
+  /* bigger project photo strips */
+  .project-photos .photo, .project-photos .photo:nth-child(4n+2), .project-photos .photo:nth-child(4n+3), .project-photos .photo:nth-child(4n+4){height:420px !important}
+  @media (max-width:900px){ .project-photos .photo, .project-photos .photo:nth-child(n){height:300px !important} }
+
+  /* more space between the closest-work cards and the brief link */
+  #brief .contact-form .brief-match{margin-bottom:44px !important}
+  #brief .contact-form .brief-out{margin-top:auto !important}
+
+  /* leave the third photo partly visible so the strip reads as scrollable */
+  .project-photos .photo{flex-basis:34% !important}
+  .project-photos .photo:nth-child(4n+2){flex-basis:40% !important}
+  .project-photos .photo:nth-child(4n+3){flex-basis:34% !important}
+  .project-photos .photo:nth-child(4n+4){flex-basis:50% !important}
+  @media (max-width:900px){ .project-photos .photo,.project-photos .photo:nth-child(n){flex-basis:82% !important} }
+
+  /* scenario filters on the same line as "Selected projects" */
+  .works-head{display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap;margin:0 0 28px}
+  .works-head .works-label{margin:0 !important}
+  .scenes{display:flex;gap:20px;flex-wrap:wrap}
+  .scenes button{background:none !important;border:0;border-bottom:1px solid transparent;padding:0 0 3px;
+    font:inherit;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#949494 !important;cursor:pointer;
+    transition:color .25s,border-color .25s}
+  .scenes button:hover{color:#111 !important}
+  .scenes button.on{color:#111 !important;border-bottom-color:#FF534A}
+  .work-row{transition:opacity .35s ease}
+  .work-row.is-hidden{display:none}
+
+  /* more white space at the bottom of the page */
+  .main{padding-bottom:200px !important}
+  #brief{margin-bottom:0 !important}
+
+/* strips are links: no native image ghost-drag, fill the photo like the project pages */
+.project-photos{display:flex;text-decoration:none;color:inherit}
+.project-photos .photo img{-webkit-user-drag:none}
+/* text-style buttons keep their look on hover (the site-wide red hover is for real buttons) */
+.scenes button:hover{border-bottom-color:transparent !important}
+.scenes button.on:hover{border-bottom-color:#FF534A !important}
+.cf-submit:hover{background:none !important;border-color:transparent !important;color:#d50d0b !important}
+.brief-reset:hover{background:none !important;color:var(--gray-dark) !important;border-color:var(--line) !important}
+</style>
+</head>
+<body id="projects-page" class="homepage">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <defs>
       <symbol xmlns="http://www.w3.org/2000/svg" id="calendar" viewBox="0 0 24 24">
         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -155,7 +471,7 @@
     </defs>
   </svg>
 
-  <a class="menu-btn"><span></span></a>
+<a class="menu-btn"><span></span></a>
 
   <div class="container-fluid overflow-hidden">
 
@@ -163,7 +479,7 @@
       <div class="header-wrap d-flex flex-column justify-content-between h-100">
         <div class="navigation">
           <div class="site-logo mt-5">
-            <a href="index.html">
+            <a href=http://apiadesigner.com>
               <img src="images/main-logo.png" alt="logo" class="img-fluid">
             </a>
           </div>
@@ -173,10 +489,10 @@
               <li><a href="index.html" class="nav-link">Home</a></li>
               <li><a href="About.html" class="nav-link">About</a></li>
               <li>
-				        <a class="nav-link btn-toggle d-flex justify-content-between align-items-center collapsed"
-				          data-bs-toggle="collapse" data-bs-target="#pages-collapse" aria-expanded="false">
-				          Projects
-				        </a>
+				<a class="nav-link btn-toggle d-flex justify-content-between align-items-center collapsed"
+				  data-bs-toggle="collapse" data-bs-target="#pages-collapse" aria-expanded="false">
+				  Projects
+				</a>
                 <div id="pages-collapse" class="collapse">
                   <ul class="list-unstyled py-3">
                     <li>
@@ -206,7 +522,7 @@
                   </ul>
                 </div>
               </li>
-              <li><a href="contact.html" class="nav-link">Contact</a></li>
+              <li><a href="index.html#outro" class="nav-link">Contact</a></li>
               <li><a href="service.html"
                   class="nav-link d-flex justify-content-between align-items-center fw-bold"><span id="navProLabel">Get PRO</span> <svg width="18" height="18" viewBox="0 0 24 24">
                     <use xlink:href="#cart"></use>
@@ -231,174 +547,329 @@
         </div>
       </div>
     </header>
-
-
-
-    <main class="col-lg-10 offset-lg-2">
-      <div class="container">
-        <div class="justify-content-center p-1 m-1 p-md-5 m-md-5">
-
-          <div class="row justify-content-center">
-
-            <div class="col-lg-6 mt-5 pt-5" data-aos="fade-up">
-              <div class="section-header text-center">
-                <span class="text-muted text-uppercase">Recent Works</span>
-                <h1 class="display-1 txt-fx slide-up">Projects</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit commodi hic facere
-                  excepturi amet velit nobis, optio dolore at distinctio molestias tempore error est animi vel
-                  culpa!</p>
-              </div><!--section-header-->
-            </div>
-
-            <div id="filters" class="button-group d-flex gap-4 justify-content-center py-5" data-aos="fade-up">
-              <a href="#" class="text-decoration-none text-uppercase is-checked" data-filter=".fashion">Product</a>
-              <a href="#" class="text-decoration-none text-uppercase" data-filter=".portrait">Graphic</a>
-              <a href="#" class="text-decoration-none text-uppercase" data-filter=".urban">UXUI</a>
-              <a href="#" class="text-decoration-none text-uppercase" data-filter=".events">Accessibility</a>
-            </div>
-
-          </div>
-
-          <div class="grid p-0 clearfix row row-cols-2 row-cols-lg-3 row-cols-xl-4" data-aos="fade-up">
-            <div class="col mb-4 portfolio-item fashion urban">
-              <a href="images/portfolio-large-1.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 1."><img src="images/portfolio-thumbnail-1.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item fashion portrait events">
-              <a href="images/portfolio-large-2.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 2."><img src="images/portfolio-thumbnail-2.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item portrait fashion">
-              <a href="images/portfolio-large-3.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 3."><img src="images/portfolio-thumbnail-3.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item fashion">
-              <a href="images/portfolio-large-4.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 4."><img src="images/portfolio-thumbnail-4.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item urban events">
-              <a href="images/portfolio-large-5.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 5."><img src="images/portfolio-thumbnail-5.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item urban">
-              <a href="images/portfolio-large-6.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 6."><img src="images/portfolio-thumbnail-6.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item urban portrait">
-              <a href="images/portfolio-large-7.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 7."><img src="images/portfolio-thumbnail-7.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item portrait events">
-              <a href="images/portfolio-large-8.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 8."><img src="images/portfolio-thumbnail-8.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item events urban fashion">
-              <a href="images/portfolio-large-9.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 9."><img src="images/portfolio-thumbnail-9.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item events portrait fashion">
-              <a href="images/portfolio-large-10.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item1 0."><img src="images/portfolio-thumbnail-10.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item fashion">
-              <a href="images/portfolio-large-11.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item1 1."><img src="images/portfolio-thumbnail-11.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item portrait events">
-              <a href="images/portfolio-large-12.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item1 2."><img src="images/portfolio-thumbnail-12.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item fashion urban">
-              <a href="images/portfolio-large-1.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 1."><img src="images/portfolio-thumbnail-1.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item fashion portrait events">
-              <a href="images/portfolio-large-2.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 2."><img src="images/portfolio-thumbnail-2.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item portrait fashion">
-              <a href="images/portfolio-large-3.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 3."><img src="images/portfolio-thumbnail-3.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item fashion">
-              <a href="images/portfolio-large-4.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 4."><img src="images/portfolio-thumbnail-4.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item urban events">
-              <a href="images/portfolio-large-5.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 5."><img src="images/portfolio-thumbnail-5.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item urban">
-              <a href="images/portfolio-large-6.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 6."><img src="images/portfolio-thumbnail-6.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item urban portrait">
-              <a href="images/portfolio-large-7.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 7."><img src="images/portfolio-thumbnail-7.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item portrait events">
-              <a href="images/portfolio-large-8.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 8."><img src="images/portfolio-thumbnail-8.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item events urban fashion">
-              <a href="images/portfolio-large-9.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item 9."><img src="images/portfolio-thumbnail-9.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item events portrait fashion">
-              <a href="images/portfolio-large-10.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item1 0."><img src="images/portfolio-thumbnail-10.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item fashion">
-              <a href="images/portfolio-large-11.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item1 1."><img src="images/portfolio-thumbnail-11.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-            <div class="col mb-4 portfolio-item portrait events">
-              <a href="images/portfolio-large-12.jpg" class="image-link"
-                title="Sample Caption goes here for Portfolio Item1 2."><img src="images/portfolio-thumbnail-12.jpg"
-                  class="img-fluid" alt="portfolio"></a>
-            </div>
-          </div>
-
+  </div><!-- /container-fluid -->
+<main class="main"><section class="works" id="works">
+  <div class="works-head">
+    <p class="works-label">Selected projects</p>
+    <nav class="scenes" id="scenes" aria-label="Filter by scenario">
+      <button class="on" data-filter="all">All</button>
+      <button data-filter="home">Home</button>
+      <button data-filter="food">Food &amp; Gift</button>
+      <button data-filter="screen">Screen</button>
+      <button data-filter="travel">Travel</button>
+    </nav>
+  </div>
+    <article class="work-row" data-featured="1" data-scenario="home">
+      <a class="work-meta project-link" href="single-project-desliz-faucet.html"><b>Desliz Faucet</b><span>Kitchen fixtures</span></a>
+      <a class="project-photos project-link" href="single-project-desliz-faucet.html" aria-label="Desliz Faucet"><div class="photo" style="background:#EFEDE8"><img src="images/desliz-faucet-1.jpg" alt="Desliz Faucet" loading="lazy" draggable="false"></div><div class="photo" style="background:#D9D7D0"><img src="images/desliz-faucet-2.jpg" alt="Desliz Faucet" loading="lazy" draggable="false"></div><div class="photo" style="background:#C9D6D9"><img src="images/desliz-faucet-3.jpg" alt="Desliz Faucet" loading="lazy" draggable="false"></div><div class="photo" style="background:#E4DCCF"><img src="images/desliz-faucet-4.jpg" alt="Desliz Faucet" loading="lazy" draggable="false"></div><div class="photo" style="background:#F3F1EC"><img src="images/desliz-faucet-5.jpg" alt="Desliz Faucet" loading="lazy" draggable="false"></div><div class="photo" style="background:#CFCBC2"><img src="images/desliz-faucet-6.jpg" alt="Desliz Faucet" loading="lazy" draggable="false"></div></a>
+    </article>
+    <article class="work-row" data-scenario="home">
+      <a class="work-meta project-link" href="single-project-mr-shower-tray.html"><b>MR Shower Tray</b><span>Bathroom fixtures</span></a>
+      <a class="project-photos project-link" href="single-project-mr-shower-tray.html" aria-label="MR Shower Tray"><div class="photo" style="background:#EFEDE8"><img src="images/mr-shower-tray-1.jpg" alt="MR Shower Tray" loading="lazy" draggable="false"></div><div class="photo" style="background:#D9D7D0"><img src="images/mr-shower-tray-2.jpg" alt="MR Shower Tray" loading="lazy" draggable="false"></div><div class="photo" style="background:#C9D6D9"><img src="images/mr-shower-tray-3.jpg" alt="MR Shower Tray" loading="lazy" draggable="false"></div><div class="photo" style="background:#E4DCCF"><img src="images/mr-shower-tray-4.jpg" alt="MR Shower Tray" loading="lazy" draggable="false"></div><div class="photo" style="background:#F3F1EC"><img src="images/mr-shower-tray-5.jpg" alt="MR Shower Tray" loading="lazy" draggable="false"></div></a>
+    </article>
+    <article class="work-row" data-featured="1" data-scenario="home">
+      <a class="work-meta project-link" href="single-project.html"><b>LOHO Betalnut Series</b><span>Home fixtures</span></a>
+      <a class="project-photos project-link" href="single-project.html" aria-label="LOHO Betalnut Series"><div class="photo" style="background:#EFEDE8"><img src="images/home/loho-betalnut-series-01.jpeg" alt="LOHO Betalnut Series" loading="lazy" draggable="false"></div><div class="photo" style="background:#D9D7D0"><img src="images/home/loho-betalnut-series-02.jpeg" alt="LOHO Betalnut Series" loading="lazy" draggable="false"></div></a>
+    </article>
+    <article class="work-row" data-scenario="home">
+      <a class="work-meta project-link" href="single-project.html"><b>MG Sliding Door</b><span>Home hardware</span></a>
+      <a class="project-photos project-link" href="single-project.html" aria-label="MG Sliding Door"><div class="photo" style="background:#EFEDE8"><img src="images/home/mg-sliding-door-01.jpeg" alt="MG Sliding Door" loading="lazy" draggable="false"></div><div class="photo" style="background:#D9D7D0"><img src="images/home/mg-sliding-door-02.jpeg" alt="MG Sliding Door" loading="lazy" draggable="false"></div></a>
+    </article>
+    <article class="work-row" data-scenario="food">
+      <a class="work-meta project-link" href="single-project.html"><b>LAOSAN Local Souvenir</b><span>Packaging design</span></a>
+      <a class="project-photos project-link" href="single-project.html" aria-label="LAOSAN Local Souvenir"><div class="photo" style="background:#EFEDE8"><img src="images/home/laosan-local-souvenir-01.jpeg" alt="LAOSAN Local Souvenir" loading="lazy" draggable="false"></div><div class="photo" style="background:#D9D7D0"><img src="images/home/laosan-local-souvenir-02.jpeg" alt="LAOSAN Local Souvenir" loading="lazy" draggable="false"></div></a>
+    </article>
+    <article class="work-row" data-scenario="food">
+      <a class="work-meta project-link" href="single-project.html"><b>Gouzai Surprise Box</b><span>Gift box branding</span></a>
+      <a class="project-photos project-link" href="single-project.html" aria-label="Gouzai Surprise Box"><div class="photo" style="background:#EFEDE8"><img src="images/home/gouzai-surprise-box-01.jpeg" alt="Gouzai Surprise Box" loading="lazy" draggable="false"></div><div class="photo" style="background:#D9D7D0"><img src="images/home/gouzai-surprise-box-02.gif" alt="Gouzai Surprise Box" loading="lazy" draggable="false"></div></a>
+    </article>
+    <article class="work-row" data-scenario="screen">
+      <a class="work-meta project-link" href="single-project-logitech-pc-mouse.html"><b>Logitech PC Mouse</b><span>Computer accessories</span></a>
+      <a class="project-photos project-link" href="single-project-logitech-pc-mouse.html" aria-label="Logitech PC Mouse"><div class="photo" style="background:#EFEDE8"><img src="images/logitech-pc-mouse-1.jpg" alt="Logitech PC Mouse" loading="lazy" draggable="false"></div><div class="photo" style="background:#D9D7D0"><img src="images/logitech-pc-mouse-2.jpg" alt="Logitech PC Mouse" loading="lazy" draggable="false"></div><div class="photo" style="background:#C9D6D9"><img src="images/logitech-pc-mouse-3.jpg" alt="Logitech PC Mouse" loading="lazy" draggable="false"></div><div class="photo" style="background:#E4DCCF"><img src="images/logitech-pc-mouse-4.jpg" alt="Logitech PC Mouse" loading="lazy" draggable="false"></div><div class="photo" style="background:#F3F1EC"><img src="images/logitech-pc-mouse-5.jpg" alt="Logitech PC Mouse" loading="lazy" draggable="false"></div><div class="photo" style="background:#CFCBC2"><img src="images/logitech-pc-mouse-6.jpg" alt="Logitech PC Mouse" loading="lazy" draggable="false"></div><div class="photo" style="background:#B9C8CE"><img src="images/logitech-pc-mouse-7.jpg" alt="Logitech PC Mouse" loading="lazy" draggable="false"></div><div class="photo" style="background:#EEF2F3"><img src="images/logitech-pc-mouse-9.jpg" alt="Logitech PC Mouse" loading="lazy" draggable="false"></div></a>
+    </article>
+    <article class="work-row" data-scenario="screen">
+      <a class="work-meta project-link" href="single-project.html"><b>PROPIPE Plumbing App</b><span>UI / UX app</span></a>
+      <a class="project-photos project-link" href="single-project.html" aria-label="PROPIPE Plumbing App"><div class="photo" style="background:#EFEDE8"><img src="images/home/propipe-plumbing-app-02.jpeg" alt="PROPIPE Plumbing App" loading="lazy" draggable="false"></div></a>
+    </article>
+    <article class="work-row" data-featured="1" data-scenario="screen">
+      <a class="work-meta project-link" href="single-project.html"><b>AVANCELED Ecommerce UI</b><span>UI / UX ecommerce</span></a>
+      <a class="project-photos project-link" href="single-project.html" aria-label="AVANCELED Ecommerce UI"><div class="photo" style="background:#EFEDE8"><img src="images/home/avanceled-ecommerce-ui-01.jpeg" alt="AVANCELED Ecommerce UI" loading="lazy" draggable="false"></div><div class="photo" style="background:#D9D7D0"><img src="images/home/avanceled-ecommerce-ui-02.jpeg" alt="AVANCELED Ecommerce UI" loading="lazy" draggable="false"></div></a>
+    </article>
+    <article class="work-row" data-featured="1" data-scenario="travel">
+      <a class="work-meta project-link" href="single-project.html"><b>Search Travel System</b><span>Travel systems</span></a>
+      <a class="project-photos project-link" href="single-project.html" aria-label="Search Travel System"><div class="photo" style="background:#EFEDE8"><img src="images/home/search-travel-system-01.jpeg" alt="Search Travel System" loading="lazy" draggable="false"></div><div class="photo" style="background:#D9D7D0"><img src="images/home/search-travel-system-02.jpeg" alt="Search Travel System" loading="lazy" draggable="false"></div></a>
+    </article>
+</section>
+<section class="contact" id="brief">
+<div class="brief-left">
+      <p class="brief-label">Start a brief — three taps</p>
+      <h2 class="brief-line" id="briefLine">
+        <span class="slot empty" data-slot="what">something</span>
+        for <span class="slot empty" data-slot="who">someone</span>,
+        where <span class="slot empty" data-slot="why">something</span> matters most.
+      </h2>
+      <div class="brief-form">
+<form id="cfForm" novalidate>
+      <div class="cf-grid">
+        <div class="cf-field">
+          <label for="cfName">Name</label>
+          <input id="cfName" name="name" type="text" autocomplete="name">
+        </div>
+        <div class="cf-field">
+          <label for="cfEmail">Email</label>
+          <input id="cfEmail" name="email" type="email" autocomplete="email">
+        </div>
+        <div class="cf-field cf-full">
+          <label for="cfMsg">Tell me your situation...</label>
+          <textarea id="cfMsg" name="message"></textarea>
         </div>
       </div>
-		
-    </main>
+      <div class="cf-out">
+        <button class="cf-submit" type="submit">submit</button>
+        <p class="cf-note">Apia reads this herself. Or just email <a href="mailto:apiadesigner@gmail.com">apiadesigner@gmail.com</a></p>
+      </div>
+      <p class="cf-msg" id="cfMsgOut" aria-live="polite"></p>
+    </form>
+      </div>
+    </div>
+    <div class="contact-form">
+      <div class="field">
+        <label>What are you making?</label>
+        <div class="pills" data-fills="what">
+          <button class="pill" type="button" data-v="A product" data-k="product">A product</button>
+          <button class="pill" type="button" data-v="An interface" data-k="ui">An interface</button>
+          <button class="pill" type="button" data-v="A package" data-k="packaging">A package</button>
+          <button class="pill" type="button" data-v="Something else" data-k="other">Something else</button>
+        </div>
+      </div>
 
-  </div>
+      <div class="field">
+        <label>Who is it for?</label>
+        <div class="pills" data-fills="who">
+          <button class="pill" type="button" data-v="a new venture" data-k="startup">A new venture</button>
+          <button class="pill" type="button" data-v="a growing brand" data-k="growing">A growing brand</button>
+          <button class="pill" type="button" data-v="an established company" data-k="established">An established company</button>
+        </div>
+      </div>
 
-  <script src="js/jquery-1.11.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-    crossorigin="anonymous"></script>
-  <script src="js/plugins.js"></script>
-  <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
-  <script src="js/script.js"></script>
-  <script src="js/cursor.js"></script>
-  <script src="js/nav-label-swap.js"></script>
-  <script src="js/page-transition.js"></script>
+      <div class="field">
+        <label>What matters most?</label>
+        <div class="pills" data-fills="why">
+          <button class="pill" type="button" data-v="the materials" data-k="materials">The materials</button>
+          <button class="pill" type="button" data-v="how it is used" data-k="usability">How it's used</button>
+          <button class="pill" type="button" data-v="the identity" data-k="identity">The identity</button>
+          <button class="pill" type="button" data-v="getting it made fast" data-k="speed">Speed</button>
+        </div>
+      </div>
+
+      <div class="brief-match" id="briefMatch">
+        <h4 id="matchLabel">Closest work</h4>
+        <div class="match-row" id="matchRow"></div>
+      </div>
+
+      <div class="brief-out">
+        <a class="brief-go" id="briefGo" href="service.html">Take this to the brief <span>&rarr;</span></a>
+        <button class="brief-reset" id="briefReset" type="button">start over</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="js/jquery-1.11.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="js/plugins.js"></script>
+<script src="js/script.js"></script>
+<script src="js/cursor.js"></script>
+<script src="js/nav-label-swap.js"></script>
+<script src="js/page-transition.js"></script>
+<script>
+// BRIEF BUILDER: three taps assemble a sentence, the page answers with the
+  // closest projects, then carries the choices into service.html as query params.
+  (function(){
+    var line = document.getElementById('briefLine');
+    if(!line) return;
+    var go = document.getElementById('briefGo'),
+        reset = document.getElementById('briefReset'),
+        wrap = document.getElementById('briefMatch'),
+        row = document.getElementById('matchRow'),
+        label = document.getElementById('matchLabel'),
+        pick = {};
+
+    // EDIT ME: one entry per project. kind = product | ui | packaging,
+    // foci = what it is strongest at (materials | usability | identity | speed).
+    // img = start of the <img alt> already on the page (so no image data is
+    // duplicated); projects without one show a colour block instead.
+    var PROJECTS = [
+      {name:'Desliz Faucet',         cat:'Kitchen Fixtures',  kind:'product',   foci:['usability','materials'], src:'images/desliz-faucet-1.jpg',                    color:'#d9d3c4', href:'single-project-desliz-faucet.html'},
+      {name:'LOHO Betalnut Series',  cat:'Home Fixtures',     kind:'product',   foci:['materials','identity'],  src:'images/home/loho-betalnut-series-01.jpeg',      color:'#e0c8b0', href:'single-project.html'},
+      {name:'MR Shower Tray',        cat:'Bathroom Fixtures', kind:'product',   foci:['materials','usability'], src:'images/mr-shower-tray-1.jpg',                   color:'#8a9199', href:'single-project-mr-shower-tray.html'},
+      {name:'MG Sliding Door',       cat:'Home Hardware',     kind:'product',   foci:['usability','speed'],     src:'images/home/mg-sliding-door-01.jpeg',           color:'#4a5560', href:'single-project.html'},
+      {name:'AvanceLED Ecommerce UI',cat:'UI / UX Design',    kind:'ui',        foci:['identity','speed'],      src:'images/home/avanceled-ecommerce-ui-01.jpeg',    color:'#e8c4bd', href:'single-project.html'},
+      {name:'ProPipe Plumbing App',  cat:'UI / UX Design',    kind:'ui',        foci:['usability','speed'],     src:'images/home/propipe-plumbing-app-02.jpeg',      color:'#c4a998', href:'single-project.html'},
+      {name:'Gouzai Surprise Box',   cat:'Branding',          kind:'packaging', foci:['identity'],              src:'images/home/gouzai-surprise-box-01.jpeg',       color:'#f0dede', href:'single-project.html'},
+      {name:'LAOSAN Local Souvenir', cat:'Packaging Design',  kind:'packaging', foci:['materials','identity'],  src:'images/home/laosan-local-souvenir-01.jpeg',     color:'#c9b8a8', href:'single-project.html'}
+    ];
+
+    function fill(slot, text){
+      var el = line.querySelector('[data-slot="' + slot + '"]');
+      el.textContent = '';
+      var s = document.createElement('span');
+      s.className = 'swap';
+      s.textContent = text;
+      el.appendChild(s);
+      el.classList.remove('empty');
+      el.classList.add('filled');
+    }
+
+    function match(){
+      var scored = [];
+      PROJECTS.forEach(function(p){
+        var s = 0;
+        if(pick.what === p.kind) s += 3; else if(pick.what === 'other') s += 1;
+        if(p.foci.indexOf(pick.why) > -1) s += 2;
+        if(s > 0) scored.push({p:p, s:s});
+      });
+      scored.sort(function(a,b){ return b.s - a.s; });
+      scored = scored.slice(0, 3);
+
+      row.textContent = '';
+      scored.forEach(function(o){
+        var p = o.p, a = document.createElement('a'), shot = document.createElement('span');
+        a.className = 'match-card';
+        a.href = p.href;
+        shot.className = 'shot';
+        if(p.src){
+          var im = document.createElement('img');
+          im.src = p.src;
+          im.alt = '';
+          shot.appendChild(im);
+        } else {
+          var c = document.createElement('span');
+          c.className = 'shot-color';
+          c.style.background = p.color;
+          shot.appendChild(c);
+        }
+        var i = document.createElement('i'); i.textContent = p.cat;
+        var b = document.createElement('b'); b.textContent = p.name;
+        a.appendChild(shot); a.appendChild(i); a.appendChild(b);
+        row.appendChild(a);
+      });
+      label.textContent = scored.length
+        ? 'Closest work \u2014 ' + scored.length + ' project' + (scored.length > 1 ? 's' : '')
+        : 'Closest work';
+      wrap.classList.add('on');
+    }
+
+    document.querySelectorAll('[data-fills]').forEach(function(g){
+      var slot = g.dataset.fills;
+      g.addEventListener('click', function(e){
+        var b = e.target.closest('.pill');
+        if(!b) return;
+        g.querySelectorAll('.pill').forEach(function(x){ x.classList.remove('active'); });
+        b.classList.add('active');
+        pick[slot] = b.dataset.k;
+        fill(slot, b.dataset.v);
+        var done = pick.what && pick.who && pick.why;
+        go.classList.toggle('on', !!done);
+        reset.classList.toggle('on', !!done);
+        if(done){
+          go.href = 'service.html?service=' + pick.what + '&client=' + pick.who + '&focus=' + pick.why;
+          match();
+        }
+      });
+    });
+
+    reset.addEventListener('click', function(){
+      pick = {};
+      go.classList.remove('on');
+      reset.classList.remove('on');
+      wrap.classList.remove('on');
+      row.textContent = '';
+      document.querySelectorAll('[data-fills] .pill').forEach(function(x){ x.classList.remove('active'); });
+      [['what','something'],['who','someone'],['why','something']].forEach(function(d){
+        var el = line.querySelector('[data-slot="' + d[0] + '"]');
+        el.textContent = d[1];
+        el.classList.add('empty');
+        el.classList.remove('filled');
+      });
+    });
+  })();
+
+// Fade the whole brief section in once it actually scrolls into view.
+(function () {
+  var contactSection = document.querySelector('.contact');
+  if (!contactSection) return;
+  var contactObserver = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) {
+      contactSection.classList.add('in-view');
+      contactObserver.disconnect();
+    }
+  }, { threshold: 0.25 });
+  contactObserver.observe(contactSection);
+})();
+
+// Contact form: no backend on this static site, so submitting opens the visitor's
+// email app with the message (and their brief choices) already written.
+document.getElementById('cfForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var name = document.getElementById('cfName').value.trim();
+  var email = document.getElementById('cfEmail').value.trim();
+  var msg = document.getElementById('cfMsg').value.trim();
+  var out = document.getElementById('cfMsgOut');
+  if (!name || !email) { out.textContent = 'Please add your name and email.'; return; }
+  var brief = document.getElementById('briefLine').textContent.replace(/\s+/g, ' ').trim();
+  var body = 'Hello Apia,\n\n' + msg + '\n\n' + brief + '\n\n' + name + ' <' + email + '>';
+  out.textContent = 'Opening your email app…';
+  window.location.href = 'mailto:apiadesigner@gmail.com?subject=' +
+    encodeURIComponent('Hello from ' + name) + '&body=' + encodeURIComponent(body);
+});
+
+// Project strips: hover + wheel scrolls sideways, drag works too, a click (not a drag) opens the project.
+(function () {
+  var moved = false, down = false, startX = 0, startSL = 0, active = null;
+  document.querySelectorAll('.project-photos').forEach(function (s) {
+    s.addEventListener('wheel', function (e) {
+      var max = s.scrollWidth - s.clientWidth;
+      if (max <= 0) return;
+      var delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      var canMove = (delta > 0 && s.scrollLeft < max - 1) || (delta < 0 && s.scrollLeft > 0);
+      if (canMove) { e.preventDefault(); s.scrollLeft += delta; }
+    }, { passive: false });
+    s.addEventListener('mousedown', function (e) { down = true; moved = false; active = s; startX = e.pageX; startSL = s.scrollLeft; });
+    s.addEventListener('dragstart', function (e) { e.preventDefault(); });
+    // runs before the site's page-transition click handler, so a drag never opens the project
+    s.addEventListener('click', function (e) {
+      if (moved) { moved = false; e.preventDefault(); }
+    });
+  });
+  document.addEventListener('mousemove', function (e) {
+    if (!down || !active) return;
+    var dx = e.pageX - startX;
+    if (Math.abs(dx) > 5) moved = true;
+    active.scrollLeft = startSL - dx;
+  });
+  window.addEventListener('mouseup', function () { down = false; active = null; });
+})();
+
+// Scenario filters. "All" shows one featured project per scenario, so the brief stays in reach.
+(function () {
+  var buttons = document.querySelectorAll('#scenes button');
+  var rows = document.querySelectorAll('.work-row');
+  function show(f) {
+    rows.forEach(function (r) {
+      var visible = f === 'all' ? r.dataset.featured === '1' : r.dataset.scenario === f;
+      r.classList.toggle('is-hidden', !visible);
+    });
+  }
+  buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      buttons.forEach(function (b) { b.classList.toggle('on', b === btn); });
+      show(btn.dataset.filter);
+    });
+  });
+  show('all');
+})();
+</script>
 </body>
-
 </html>
