@@ -919,6 +919,37 @@ body.project-page {
     color: #fff;
 }
 
+/* breadcrumb version of the back link: ← Home / Projects / Current */
+.project-crumbs {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+    max-width: calc(100vw - 64px);
+}
+
+.project-crumbs .crumb-link {
+    color: rgba(255, 255, 255, 0.75);
+    transition: color .2s ease;
+}
+
+.project-crumbs .crumb-link:hover {
+    color: #fff;
+}
+
+.project-crumbs .crumb-arrow {
+    margin-right: 2px;
+}
+
+.project-crumbs .crumb-sep {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.project-crumbs .crumb-current {
+    color: #fff;
+    font-weight: 500;
+}
+
 .project-hero {
     display: flex;
     align-items: center;

@@ -13,7 +13,7 @@
   var STORAGE_KEY = 'ptOrigin';
   var RETURN_KEY = 'ptReturn';   // { url, y } of the page a project was opened from
   var RESTORE_KEY = 'ptRestore'; // set by the back link so that page restores its scroll
-  var SELECTOR = 'a.project-link[href], a.float[href], a#gameLink[href], a.match-card[href], a.project-back[href]';
+  var SELECTOR = 'a.project-link[href], a.float[href], a#gameLink[href], a.match-card[href], a.crumb-link[href]';
   var COVER_MS = 550;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -41,7 +41,7 @@
       e.preventDefault();
 
       try {
-        if (link.classList.contains('project-back')) {
+        if (link.classList.contains('crumb-link')) {
           sessionStorage.setItem(RESTORE_KEY, '1'); // the page we return to scrolls back to where they left
         } else {
           sessionStorage.setItem(RETURN_KEY, JSON.stringify({ url: location.pathname + location.search, y: window.pageYOffset }));
@@ -153,10 +153,10 @@
   });
 
   /*------------------------------------------------------------
-    Back link on project pages: names the page it returns to
-    ("Back to Home", "Back to Projects"…) and goes there, instead of
-    always "main page". The page it returns to scrolls back to where
-    the visitor left it (see the restore block below).
+    Breadcrumb on project pages ("← Home / Projects / Desliz Faucet"):
+    replaces the old "Back to main page" link. The arrow and the crumb
+    for the page the visitor came from return there, and that page
+    scrolls back to where they left it (see the restore block below).
   ------------------------------------------------------------*/
   var LABELS = {
     'index.html': 'Home', '': 'Home',
@@ -172,18 +172,45 @@
   if (backLink) {
     var ret = null;
     try { ret = JSON.parse(sessionStorage.getItem(RETURN_KEY)); } catch (err) { /* none */ }
-    var label = 'Home';
-    if (ret && ret.url && fileOf(ret.url) !== fileOf(location.pathname)) {
-      backLink.setAttribute('href', ret.url);
-      label = LABELS[fileOf(ret.url)] || 'previous page';
+    var here = fileOf(location.pathname);
+    var origin = ret && ret.url && fileOf(ret.url) !== here ? ret.url : null;
+    var originFile = origin ? fileOf(origin) : 'index.html';
+    var current = ((document.querySelector('.project-name') || {}).textContent || document.title.split(' — ')[0]).trim();
+
+    // trail: Home [/ Projects | About | another project] / this project
+    var trail = [['Home', 'index.html']];
+    if (originFile === 'about.html') trail.push(['About', 'About.html']);
+    else if (originFile !== 'index.html') trail.push(['Projects', 'portfolio-masonry.html']);
+    if (originFile.indexOf('single-project') === 0) trail.push([LABELS[originFile] || 'Previous project', origin]);
+    // the crumb for the page they came from keeps its saved scroll position
+    trail.forEach(function (c) { if (origin && fileOf(c[1]) === originFile) c[1] = origin; });
+
+    var nav = document.createElement('nav');
+    nav.className = 'project-back project-crumbs';
+    nav.setAttribute('aria-label', 'Breadcrumb');
+    function crumb(text, href, cls) {
+      var a = document.createElement('a');
+      a.className = 'crumb-link' + (cls ? ' ' + cls : '');
+      a.href = href;
+      a.textContent = text;
+      return a;
     }
-    var nodes = backLink.childNodes;
-    for (var n = nodes.length - 1; n >= 0; n--) {
-      if (nodes[n].nodeType === 3 && nodes[n].nodeValue.trim()) {
-        nodes[n].nodeValue = ' Back to ' + label + ' ';
-        break;
-      }
-    }
+    var arrow = crumb('←', origin || 'index.html', 'crumb-arrow');
+    arrow.setAttribute('aria-label', 'Back to ' + (LABELS[originFile] || 'previous page'));
+    nav.appendChild(arrow);
+    trail.forEach(function (c) {
+      nav.appendChild(crumb(c[0], c[1]));
+      var sep = document.createElement('span');
+      sep.className = 'crumb-sep';
+      sep.textContent = '/';
+      nav.appendChild(sep);
+    });
+    var cur = document.createElement('span');
+    cur.className = 'crumb-current';
+    cur.textContent = current;
+    cur.setAttribute('aria-current', 'page');
+    nav.appendChild(cur);
+    backLink.parentNode.replaceChild(nav, backLink);
   }
 
   // Arriving via a back link: put the page back exactly where it was left.
