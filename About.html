@@ -427,6 +427,8 @@ body:has(.pair:hover) .backdrop-copy{opacity:.35}
 .award p{margin-top:8px;font-size:13px;color:var(--ink-soft)}
 .award .no{font-weight:600;color:var(--ink);margin-right:10px;letter-spacing:.04em}
 @media(max-width:860px){.about{grid-template-columns:1fr}}
+/* mobile: the photo intro + portrait comes first, the text follows */
+@media(max-width:860px){.about>div:nth-child(2){order:-1}.about .portrait{margin-top:0}.about>div:nth-child(1){margin-top:8px}}
 
 .contact{position:relative;z-index:5;padding:14vh 6vw 16vh;background:var(--bg-alt)}
 .contact .big{font-size:clamp(22px,3.4vw,44px);font-weight:400;letter-spacing:-.03em;
