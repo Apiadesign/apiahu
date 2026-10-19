@@ -427,8 +427,6 @@ body:has(.pair:hover) .backdrop-copy{opacity:.35}
 .award p{margin-top:8px;font-size:13px;color:var(--ink-soft)}
 .award .no{font-weight:600;color:var(--ink);margin-right:10px;letter-spacing:.04em}
 @media(max-width:860px){.about{grid-template-columns:1fr}}
-/* mobile: the photo intro + portrait comes first, the text follows */
-@media(max-width:860px){.about>div:nth-child(2){order:-1}.about .portrait{margin-top:0}.about>div:nth-child(1){margin-top:8px}}
 
 .contact{position:relative;z-index:5;padding:14vh 6vw 16vh;background:var(--bg-alt)}
 .contact .big{font-size:clamp(22px,3.4vw,44px);font-weight:400;letter-spacing:-.03em;
@@ -533,6 +531,17 @@ body:has(.pair:hover) .backdrop-copy{opacity:.35}
 @media (max-width:860px){
   .bio-grid{grid-template-columns:1fr;grid-template-areas:"edu" "exp" "awd" "tools"}
   .bio-col{display:contents}
+}
+/* mobile order: portrait + photo intro first, then "Hi, I'm APIA HU.", then the text */
+@media(max-width:860px){
+  .main{display:flex;flex-direction:column}
+  .about{display:contents}
+  .about>div:nth-child(2){order:1;position:relative;z-index:5;background:var(--bg);padding:84px 6vw 0}
+  .about .portrait{margin-top:0}
+  .hero-about{order:2;padding:24px 6vw 0}
+  .about>div:nth-child(1){order:3;position:relative;z-index:5;background:var(--bg);padding:28px 6vw 14vh}
+  .bio{order:4}
+  .outro{order:5}
 }
 </style>
 </head>
