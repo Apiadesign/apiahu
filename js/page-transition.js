@@ -11,7 +11,9 @@
   "use strict";
 
   var STORAGE_KEY = 'ptOrigin';
-  var SELECTOR = 'a.project-link[href], a.float[href], a#gameLink[href], a.match-card[href]';
+  var RETURN_KEY = 'ptReturn';   // { url, y } of the page a project was opened from
+  var RESTORE_KEY = 'ptRestore'; // set by the back link so that page restores its scroll
+  var SELECTOR = 'a.project-link[href], a.float[href], a#gameLink[href], a.match-card[href], a.project-back[href]';
   var COVER_MS = 550;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -37,6 +39,14 @@
       if (!href || href.charAt(0) === '#' || link.target === '_blank') return;
 
       e.preventDefault();
+
+      try {
+        if (link.classList.contains('project-back')) {
+          sessionStorage.setItem(RESTORE_KEY, '1'); // the page we return to scrolls back to where they left
+        } else {
+          sessionStorage.setItem(RETURN_KEY, JSON.stringify({ url: location.pathname + location.search, y: window.pageYOffset }));
+        }
+      } catch (err) { /* storage blocked: back link just opens its default page */ }
 
       try {
         sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ x: e.clientX, y: e.clientY }));
@@ -141,4 +151,60 @@
       }
     }
   });
+
+  /*------------------------------------------------------------
+    Back link on project pages: names the page it returns to
+    ("Back to Home", "Back to Projects"…) and goes there, instead of
+    always "main page". The page it returns to scrolls back to where
+    the visitor left it (see the restore block below).
+  ------------------------------------------------------------*/
+  var LABELS = {
+    'index.html': 'Home', '': 'Home',
+    'portfolio-masonry.html': 'Projects',
+    'about.html': 'About',
+    'single-project-desliz-faucet.html': 'Desliz Faucet',
+    'single-project-mr-shower-tray.html': 'MR Shower Tray',
+    'single-project-logitech-pc-mouse.html': 'Logitech PC Mouse'
+  };
+  function fileOf(url) { return (url.split('?')[0].split('#')[0].split('/').pop() || '').toLowerCase(); }
+
+  var backLink = document.querySelector('.project-back');
+  if (backLink) {
+    var ret = null;
+    try { ret = JSON.parse(sessionStorage.getItem(RETURN_KEY)); } catch (err) { /* none */ }
+    var label = 'Home';
+    if (ret && ret.url && fileOf(ret.url) !== fileOf(location.pathname)) {
+      backLink.setAttribute('href', ret.url);
+      label = LABELS[fileOf(ret.url)] || 'previous page';
+    }
+    var nodes = backLink.childNodes;
+    for (var n = nodes.length - 1; n >= 0; n--) {
+      if (nodes[n].nodeType === 3 && nodes[n].nodeValue.trim()) {
+        nodes[n].nodeValue = ' Back to ' + label + ' ';
+        break;
+      }
+    }
+  }
+
+  // Arriving via a back link: put the page back exactly where it was left.
+  var restoreY = null;
+  try {
+    if (sessionStorage.getItem(RESTORE_KEY) === '1') {
+      sessionStorage.removeItem(RESTORE_KEY);
+      var saved = JSON.parse(sessionStorage.getItem(RETURN_KEY));
+      if (saved && saved.url && fileOf(saved.url) === fileOf(location.pathname)) restoreY = saved.y;
+    }
+  } catch (err) { /* ignore */ }
+  if (restoreY !== null) {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    var jump = function () {
+      var root = document.documentElement, prev = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'auto'; // no smooth glide back
+      window.scrollTo(0, restoreY);
+      root.style.scrollBehavior = prev;
+    };
+    jump();
+    document.addEventListener('DOMContentLoaded', jump);
+    window.addEventListener('load', jump);
+  }
 })();
