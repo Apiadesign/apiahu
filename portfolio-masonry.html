@@ -353,6 +353,16 @@ body{background:#fff}
 .scenes button.on:hover{border-bottom-color:#FF534A !important}
 .cf-submit:hover{background:none !important;border-color:transparent !important;color:#d50d0b !important}
 .brief-reset:hover{background:none !important;color:var(--gray-dark) !important;border-color:var(--line) !important}
+
+/* mobile order inside the brief: sentence, then the tags, then the form */
+@media (max-width:900px){
+  #brief{display:flex !important;flex-direction:column !important;gap:0 !important}
+  #brief .brief-left{display:contents !important}
+  #brief .brief-label{order:1}
+  #brief .brief-line{order:2}
+  #brief .contact-form{order:3;margin-top:28px}
+  #brief .brief-form{order:4;margin-top:36px !important}
+}
 </style>
 </head>
 <body id="projects-page" class="homepage">
