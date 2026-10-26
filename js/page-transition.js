@@ -62,6 +62,13 @@
     });
   }
 
+  // On phones the sidebar is an off-canvas menu: choosing an in-page link
+  // (Contact) closes it, so the section it points to is actually visible.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('#header-nav a[href^="#"]') : null;
+    if (a && a.getAttribute('href').length > 1) document.body.classList.remove('nav-active');
+  });
+
   // Homepage "Contact" jump: instead of letting the whole page fly past,
   // cover the screen with the red ripple, jump to the closing section
   // while hidden, then reveal it.
