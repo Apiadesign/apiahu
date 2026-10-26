@@ -13,7 +13,7 @@
   var STORAGE_KEY = 'ptOrigin';
   var RETURN_KEY = 'ptReturn';   // { url, y } of the page a project was opened from
   var RESTORE_KEY = 'ptRestore'; // set by the back link so that page restores its scroll
-  var SELECTOR = 'a.project-link[href], a.float[href], a#gameLink[href], a.match-card[href], a.crumb-link[href]';
+  var SELECTOR = 'a.project-link[href], a.float[href], a#gameLink[href], a.match-card[href], a.crumb-link[href], #header-nav a[href$="index.html#outro"]';
   var COVER_MS = 550;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -240,5 +240,22 @@
     jump();
     document.addEventListener('DOMContentLoaded', jump);
     window.addEventListener('load', jump);
+  }
+
+  // Arriving at a page with #outro (the menu's Contact link from another page):
+  // land on the closing section, instantly, while the red cover is still up.
+  if (location.hash === '#outro') {
+    var landOutro = function () {
+      var target = document.getElementById('outro');
+      if (!target) return;
+      var root = document.documentElement, prev = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'auto';
+      window.scrollTo(0, target.getBoundingClientRect().top + window.pageYOffset);
+      root.style.scrollBehavior = prev;
+    };
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    landOutro();
+    document.addEventListener('DOMContentLoaded', landOutro);
+    window.addEventListener('load', landOutro);
   }
 })();
